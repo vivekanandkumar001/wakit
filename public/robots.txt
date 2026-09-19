@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Absolute Sitemap Location
+Sitemap: https://wakit.app/sitemap.xml
