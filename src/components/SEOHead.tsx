@@ -10,14 +10,15 @@ interface SEOHeadProps {
   description: string;
   canonicalUrl?: string;
   ogImage?: string;
+  keywords?: string;
   faqs?: FAQItem[];
 }
 
 export const SEOHead: React.FC<SEOHeadProps> = ({
   title,
   description,
-  canonicalUrl = 'https://wakit.app',
-  ogImage = 'https://wakit.app/og-image.png',
+  canonicalUrl = 'https://whatsswift.app',
+  ogImage = 'https://whatsswift.app/og-image.png',
   faqs = [],
 }) => {
   useEffect(() => {
@@ -58,7 +59,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
     canonicalElement.setAttribute('href', canonicalUrl);
 
     // 5. Inject JSON-LD Schema (WebApplication & FAQPage)
-    const jsonLdId = 'wakit-jsonld-schema';
+    const jsonLdId = 'whatsswift-jsonld-schema';
     let scriptElement = document.getElementById(jsonLdId) as HTMLScriptElement | null;
     if (!scriptElement) {
       scriptElement = document.createElement('script');
@@ -71,7 +72,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       {
         '@context': 'https://schema.org',
         '@type': 'WebApplication',
-        name: 'WaKit - WhatsApp Web Toolkit',
+        name: 'WhatsSwift - WhatsApp Utility Toolkit',
         url: canonicalUrl,
         applicationCategory: 'UtilityApplication',
         operatingSystem: 'All',
