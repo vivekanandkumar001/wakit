@@ -19,9 +19,9 @@ export const ContactPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <SEOHead
-        title="Contact Us & Developer Support | WaKit"
-        description="Have questions or feedback about WaKit? Contact our engineering team directly for support and feature requests."
-        canonicalUrl="https://wakit.app/#/contact"
+        title="Contact Us & Developer Support | WhatsSwift"
+        description="Have questions or feedback about WhatsSwift? Contact our engineering team directly for support and feature requests."
+        canonicalPath="/contact"
       />
 
       <div className="text-center space-y-3">

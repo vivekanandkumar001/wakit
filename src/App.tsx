@@ -23,14 +23,20 @@ export const App: React.FC = () => {
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          
+
+          {/* Canonical SEO landing routes (one per search intent) */}
+          <Route path="/whatsapp-status-splitter" element={<StatusSplitterPage />} />
+          <Route path="/direct-chat-without-saving-number" element={<DirectMessagePage />} />
+          <Route path="/whatsapp-qr-code-generator" element={<QRGeneratorPage />} />
+          <Route path="/whatsapp-audio-compressor" element={<AudioCompressorPage />} />
+
+          {/* Legacy aliases (kept for backlinks; canonicals point to the routes above) */}
           <Route path="/split-video-for-whatsapp-status" element={<StatusSplitterPage />} />
           <Route path="/status-splitter" element={<StatusSplitterPage />} />
-          
+
           <Route path="/send-whatsapp-without-saving-number" element={<DirectMessagePage />} />
           <Route path="/direct-chat" element={<DirectMessagePage />} />
 
-          <Route path="/whatsapp-qr-code-generator" element={<QRGeneratorPage />} />
           <Route path="/qr-generator" element={<QRGeneratorPage />} />
 
           <Route path="/compress-audio-for-whatsapp" element={<AudioCompressorPage />} />
@@ -40,7 +46,7 @@ export const App: React.FC = () => {
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/contact" element={<ContactPage />} />
-          
+
           <Route path="*" element={<HomePage />} />
         </Routes>
       </main>

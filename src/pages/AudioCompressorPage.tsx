@@ -4,6 +4,7 @@ import { checkBrowserCapabilities } from '../utils/browserCapabilities';
 import { COOPCheckBanner } from '../components/COOPCheckBanner';
 import { AdBanner } from '../components/AdBanner';
 import { SEOHead, type FAQItem } from '../components/SEOHead';
+import { ToolSeoContent } from '../components/ToolSeoContent';
 import { FAQAccordion } from '../components/FAQAccordion';
 import { 
   Mic, 
@@ -156,10 +157,17 @@ export const AudioCompressorPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <SEOHead
-        title="Compress Audio for WhatsApp | Reduce Voice Note Size Online - WaKit"
-        description="Compress heavy MP3, WAV, M4A audio files to WhatsApp voice note sizes online. Choose 64k, 96k, or 128k bitrates with 100% browser-based WebAssembly."
-        canonicalUrl="https://wakit.app/#/compress-audio-for-whatsapp"
+        title="Compress Audio for WhatsApp 16MB – Free Voice Note Compressor | WhatsSwift"
+        description="Compress MP3, WAV and M4A under WhatsApp's 16MB limit. 64k voice mode cuts size by 70% locally. Free, private, no uploads needed."
+        canonicalPath="/whatsapp-audio-compressor"
+        keywords="compress audio for whatsapp 16mb, reduce voice note size, mp3 to 64kbps online, whatsapp audio compressor"
         faqs={audioCompressorFaqs}
+        howToName="How to compress audio for WhatsApp"
+        howToSteps={[
+          { name: 'Drop in your audio', text: 'Upload any MP3, WAV, M4A, AAC, or OGG file. Everything stays in your browser memory — nothing is uploaded.' },
+          { name: 'Pick bitrate and format', text: 'Choose 64k for voice notes, 96k for balanced quality, or 128k for music, in MP3 or WhatsApp-native OPUS/OGG.' },
+          { name: 'Compress and download', text: 'Transcode locally with FFmpeg WebAssembly and download the smaller file, ready to send under the 16MB cap.' },
+        ]}
       />
 
       {/* Title Header */}
@@ -432,6 +440,17 @@ export const AudioCompressorPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* SEO How-To + WASM explainer */}
+      <ToolSeoContent
+        toolName="Audio Compressor for WhatsApp"
+        intro="Shrink lectures, podcasts, and voice notes under WhatsApp's strict 16MB attachment cap — transcoded privately on your device in three steps."
+        steps={[
+          { name: 'Drop In Your Audio', text: 'Upload MP3, WAV, M4A, AAC, or OGG. Files stay in local browser memory and are never sent to any server.' },
+          { name: 'Pick Bitrate & Format', text: 'Choose 64k for speech, 96k for balanced audio, or 128k for music — in universal MP3 or native OPUS/OGG.' },
+          { name: 'Compress & Send', text: 'Transcode with FFmpeg WebAssembly, compare before/after, and download the file ready for instant WhatsApp sharing.' },
+        ]}
+      />
 
       {/* Programmatic FAQ Section */}
       <FAQAccordion items={audioCompressorFaqs} title="WhatsApp Audio Compressor FAQ" />

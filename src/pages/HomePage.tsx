@@ -8,9 +8,10 @@ export const HomePage: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="WhatsSwift — Split WhatsApp Status Video (30s) & Direct Chat Without Saving"
-        description="Free browser toolkit for WhatsApp. Split videos into 30-second status clips, message unsaved numbers directly, and generate instant QR codes. 100% private, zero app installation."
-        canonicalUrl="https://whatsswift.app"
+        title="WhatsSwift – Free Private WhatsApp Utilities (Status Splitter, Direct Chat, QR, Audio)"
+        description="Free private WhatsApp tools in your browser: split 30s status videos, direct chat, QR codes & 16MB audio compression. Zero uploads, instant results."
+        canonicalPath="/"
+        keywords="whatsapp status video splitter online, send whatsapp message without saving number, whatsapp qr code generator, compress audio for whatsapp 16mb"
         faqs={exactWhatsSwiftFaqs}
       />
 

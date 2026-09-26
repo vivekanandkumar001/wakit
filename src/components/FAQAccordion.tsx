@@ -76,13 +76,16 @@ export const FAQAccordion: React.FC<FAQAccordionProps> = ({
               <button
                 type="button"
                 onClick={() => toggleItem(index)}
+                aria-expanded={isOpen}
+                aria-controls={`faq-panel-${index}`}
                 className="w-full p-4 sm:p-4.5 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base text-slate-200 hover:text-emerald-400 transition-colors"
               >
                 <span className="flex items-center gap-2.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
+                  <span aria-hidden="true" className="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
                   {item.question}
                 </span>
                 <ChevronDown
+                  aria-hidden="true"
                   className={`w-4 h-4 text-slate-400 shrink-0 transition-transform duration-300 ${
                     isOpen ? 'rotate-180 text-emerald-400' : ''
                   }`}
@@ -90,7 +93,10 @@ export const FAQAccordion: React.FC<FAQAccordionProps> = ({
               </button>
 
               {isOpen && (
-                <div className="px-4 pb-4.5 pt-1 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-slate-800/60 pl-8">
+                <div
+                  id={`faq-panel-${index}`}
+                  className="px-4 pb-4.5 pt-1 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-slate-800/60 pl-8"
+                >
                   {item.answer}
                 </div>
               )}

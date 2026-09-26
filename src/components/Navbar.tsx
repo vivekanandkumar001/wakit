@@ -11,26 +11,30 @@ export const Navbar: React.FC = () => {
       icon: LayoutGrid,
     },
     {
-      to: '/split-video-for-whatsapp-status',
-      label: '30s Status Splitter',
+      to: '/whatsapp-status-splitter',
+      label: 'Status Splitter',
+      fullLabel: 'WhatsApp Status Video Splitter Online — 30s clips',
       badge: 'Lossless 30s',
       icon: Scissors,
     },
     {
-      to: '/send-whatsapp-without-saving-number',
+      to: '/direct-chat-without-saving-number',
       label: 'Direct Chat',
+      fullLabel: 'Send WhatsApp Message Without Saving Number',
       badge: 'Zero Contact',
       icon: Send,
     },
     {
       to: '/whatsapp-qr-code-generator',
       label: 'QR Builder',
+      fullLabel: 'WhatsApp Link and QR Code Generator',
       badge: 'Vector/PNG',
       icon: QrCode,
     },
     {
-      to: '/compress-audio-for-whatsapp',
+      to: '/whatsapp-audio-compressor',
       label: 'Audio Compressor',
+      fullLabel: 'Compress Audio for WhatsApp (16MB)',
       badge: '< 16MB Target',
       icon: Mic,
     },
@@ -40,7 +44,7 @@ export const Navbar: React.FC = () => {
     <div className="w-full border-b border-slate-800 bg-slate-900/60 backdrop-blur-md overflow-x-auto no-scrollbar">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-4 py-2.5 min-w-max">
-          <nav className="flex items-center gap-1.5 sm:gap-2">
+          <nav aria-label="WhatsApp tools" className="flex items-center gap-1.5 sm:gap-2">
             {tools.map((tool) => {
               const Icon = tool.icon;
               return (
@@ -48,6 +52,7 @@ export const Navbar: React.FC = () => {
                   key={tool.to}
                   to={tool.to}
                   end={tool.to === '/'}
+                  aria-label={'fullLabel' in tool && tool.fullLabel ? (tool.fullLabel as string) : tool.label}
                   className={({ isActive }) =>
                     `flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 border ${
                       isActive
@@ -58,7 +63,7 @@ export const Navbar: React.FC = () => {
                 >
                   {({ isActive }) => (
                     <>
-                      <Icon className={`w-4 h-4 ${isActive ? 'text-slate-950' : 'text-emerald-400'}`} />
+                      <Icon aria-hidden="true" className={`w-4 h-4 ${isActive ? 'text-slate-950' : 'text-emerald-400'}`} />
                       <span>{tool.label}</span>
                       <span
                         className={`hidden lg:inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full ${

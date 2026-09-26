@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Shield, Lock, Cpu, Heart, MessageSquare, Code } from 'lucide-react';
+import { FooterLinks } from './FooterLinks';
 
 export const Footer: React.FC = () => {
   return (
@@ -33,40 +34,14 @@ export const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* Core Tools Links */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">
-              Toolkit Suite
-            </h4>
-            <ul className="space-y-2.5 text-xs">
-              <li>
-                <Link to="/split-video-for-whatsapp-status" className="hover:text-emerald-400 transition-colors">
-                  30s Status Splitter
-                </Link>
-              </li>
-              <li>
-                <Link to="/send-whatsapp-without-saving-number" className="hover:text-emerald-400 transition-colors">
-                  Direct Chat (Zero Contact)
-                </Link>
-              </li>
-              <li>
-                <Link to="/whatsapp-qr-code-generator" className="hover:text-emerald-400 transition-colors">
-                  WhatsApp QR Builder
-                </Link>
-              </li>
-              <li>
-                <Link to="/compress-audio-for-whatsapp" className="hover:text-emerald-400 transition-colors">
-                  Audio Compressor (&lt; 16MB)
-                </Link>
-              </li>
-            </ul>
-          </div>
+          {/* Keyword-rich internal cross-linking (all 4 tool landing routes) */}
+          <FooterLinks />
 
           {/* Legal & GitHub */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-200">
               Legal & Open Source
-            </h4>
+            </h2>
             <ul className="space-y-2.5 text-xs">
               <li>
                 <Link to="/privacy-policy" className="hover:text-emerald-400 transition-colors">

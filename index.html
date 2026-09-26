@@ -2,34 +2,263 @@
 <html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💬</text></svg>" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    <title>WhatsSwift — Split WhatsApp Status Video (30s) & Direct Chat Without Saving</title>
-    <meta name="description" content="Free browser toolkit for WhatsApp. Split videos into 30-second status clips, message unsaved numbers directly, and generate instant QR codes. 100% private, zero app installation." />
-    <meta name="keywords" content="WhatsSwift, WhatsApp Status Splitter 30s, Send WhatsApp without saving number, WhatsApp QR code generator free, Compress audio for whatsapp, WebAssembly FFmpeg" />
-    <link rel="canonical" href="https://whatsswift.app" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#020617" />
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>WhatsSwift – Free Private WhatsApp Utilities (Status Splitter, Direct Chat, QR, Audio)</title>
+    <meta
+      name="description"
+      content="Free private WhatsApp tools in your browser: split 30s status videos, direct chat, QR codes & 16MB audio compression. Zero uploads, instant results."
+    />
+    <meta
+      name="keywords"
+      content="whatsapp status video splitter online, send whatsapp message without saving number, whatsapp link and qr code generator, compress audio for whatsapp 16mb, whatsswift, wakit"
+    />
+    <meta name="author" content="WhatsSwift" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 
-    <!-- Open Graph / Facebook -->
+    <!-- Canonical: live production URL. Self-heals to the served origin on load. -->
+    <link rel="canonical" href="https://wakit.vercel.app/" />
+    <script>
+      (function () {
+        try {
+          var link = document.querySelector('link[rel="canonical"]');
+          if (link && location.protocol.indexOf('http') === 0) {
+            link.setAttribute('href', location.origin + location.pathname);
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Core Web Vitals: font loading optimized (preconnect + display=swap, non-blocking) -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://whatsswift.app" />
-    <meta property="og:title" content="WhatsSwift — Split WhatsApp Status Video (30s) & Direct Chat Without Saving" />
-    <meta property="og:description" content="Free browser toolkit for WhatsApp. Split videos into 30-second status clips, message unsaved numbers directly, and generate instant QR codes. 100% private, zero app installation." />
-    <meta property="og:image" content="https://whatsswift.app/og-image.png" />
+    <meta property="og:site_name" content="WhatsSwift" />
+    <meta property="og:url" content="https://wakit.vercel.app/" />
+    <meta property="og:title" content="WhatsSwift – Free Private WhatsApp Utilities (Status Splitter, Direct Chat, QR, Audio)" />
+    <meta
+      property="og:description"
+      content="Split 30s status videos, chat without saving numbers, generate QR codes & compress audio to 16MB — free, private, 100% in-browser. No uploads."
+    />
+    <meta property="og:image" content="https://wakit.vercel.app/favicon.svg" />
+    <meta property="og:image:alt" content="WhatsSwift — free private WhatsApp utilities in your browser" />
+    <meta property="og:locale" content="en_US" />
 
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content="https://whatsswift.app" />
-    <meta name="twitter:title" content="WhatsSwift — Split WhatsApp Status Video (30s) & Direct Chat Without Saving" />
-    <meta name="twitter:description" content="Free browser toolkit for WhatsApp. Split videos into 30-second status clips, message unsaved numbers directly, and generate instant QR codes. 100% private, zero app installation." />
-    <meta name="twitter:image" content="https://whatsswift.app/og-image.png" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:url" content="https://wakit.vercel.app/" />
+    <meta name="twitter:title" content="WhatsSwift – Free Private WhatsApp Utilities (Status Splitter, Direct Chat, QR, Audio)" />
+    <meta
+      name="twitter:description"
+      content="Free in-browser WhatsApp toolkit: 30s status splitter, direct chat, QR generator & 16MB audio compressor. Zero uploads, instant results."
+    />
+    <meta name="twitter:image" content="https://wakit.vercel.app/favicon.svg" />
+
+    <!-- Structured data: WebApplication -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "WhatsSwift",
+        "alternateName": "WaKit",
+        "url": "https://wakit.vercel.app/",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript. Requires HTML5 and WebAssembly.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "description": "Free client-side WhatsApp utilities: status video splitter (30s clips), direct chat without saving numbers, QR code generator, and audio compressor (16MB target). All processing runs locally via WebAssembly — files never leave your device.",
+        "featureList": [
+          "WhatsApp Status Video Splitter — cut videos into exact 30-second clips online",
+          "Direct Chat Without Saving Number — message any WhatsApp number via wa.me links",
+          "WhatsApp Link and QR Code Generator — scan-to-chat, Wi-Fi and payment QR codes",
+          "Audio Compressor for WhatsApp — shrink MP3/WAV/M4A under the 16MB attachment limit"
+        ],
+        "privacyPolicy": "https://wakit.vercel.app/privacy-policy"
+      }
+    </script>
+
+    <!-- Structured data: FAQPage (4 core queries) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Are my videos and audio files uploaded to a server? Is WebAssembly processing secure?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. WhatsSwift runs FFmpeg as WebAssembly entirely inside your browser sandbox. Your videos and audio never leave your device — unlike cloud-upload converters that store your files on remote servers."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does WhatsApp limit status videos to 30 seconds, and how does the splitter help?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "WhatsApp caps each status clip at 30 seconds. The Status Splitter cuts longer videos into exact 30-second segments using lossless stream copy, so every part uploads to status without errors or re-trimming."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I compress audio under WhatsApp's 16MB limit?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "WhatsApp rejects media attachments over 16MB. Upload your MP3, WAV or M4A to the Audio Compressor, pick 64k (voice), 96k or 128k, and download a smaller file that sends instantly — all processed locally."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is it safe to send a WhatsApp message without saving the number?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Direct Chat only builds WhatsApp's official wa.me link from the number you type and opens it in WhatsApp. No contact is saved, nothing is stored, and the number never touches our servers."
+            }
+          }
+        ]
+      }
+    </script>
   </head>
   <body class="bg-slate-dark text-slate-100 antialiased">
-    <div id="root"></div>
+    <!-- Static crawl fallback: raw-HTML content for crawlers / no-JS.
+         React replaces this on hydration for interactive users. -->
+    <div id="root">
+      <main style="max-width: 800px; margin: 0 auto; padding: 40px 20px; font-family: system-ui, sans-serif; color: #e2e8f0; background: #020617;">
+        <h1>WhatsSwift – Free Private WhatsApp Utilities in Your Browser</h1>
+        <p>
+          WhatsSwift is a free toolkit that runs 100% client-side: split status videos into
+          30-second clips, send WhatsApp messages without saving numbers, generate WhatsApp
+          link and QR codes, and compress audio under the 16MB limit. No uploads, no signup.
+          Enable JavaScript at
+          <a href="https://wakit.vercel.app/" style="color: #34d399;">https://wakit.vercel.app/</a>
+          for the full interactive app.
+        </p>
+        <nav aria-label="WhatsSwift tools">
+          <ul>
+            <li><a href="https://wakit.vercel.app/whatsapp-status-splitter" style="color: #34d399;">WhatsApp Status Video Splitter Online — cut videos into 30s clips</a></li>
+            <li><a href="https://wakit.vercel.app/direct-chat-without-saving-number" style="color: #34d399;">Send WhatsApp Message Without Saving Number — direct chat</a></li>
+            <li><a href="https://wakit.vercel.app/whatsapp-qr-code-generator" style="color: #34d399;">WhatsApp Link and QR Code Generator — scan-to-chat codes</a></li>
+            <li><a href="https://wakit.vercel.app/whatsapp-audio-compressor" style="color: #34d399;">Compress Audio for WhatsApp 16MB — shrink MP3/WAV/M4A</a></li>
+          </ul>
+        </nav>
+
+        <h2>WhatsApp Status Video Splitter Online (30-Second Clips)</h2>
+        <p>
+          Upload any MP4, MOV or WebM video and split it into exact 30-second segments for
+          WhatsApp Status using lossless FFmpeg stream copy in WebAssembly — no re-encoding,
+          no quality loss, no upload.
+        </p>
+        <h3>How to use</h3>
+        <ol>
+          <li>Step 1: Drop your video into the splitter.</li>
+          <li>Step 2: Click “Split into 30s Status Clips”.</li>
+          <li>Step 3: Preview each part or download all as a ZIP, then post to status.</li>
+        </ol>
+
+        <h2>Send WhatsApp Message Without Saving Number (Direct Chat)</h2>
+        <p>
+          Pick a country code, type the number and an optional message, then open the chat
+          instantly through WhatsApp's official wa.me link. Nothing is saved or stored —
+          ideal for deliveries, marketplace sellers, and one-time business replies.
+        </p>
+        <h3>How to use</h3>
+        <ol>
+          <li>Step 1: Select country code and enter the phone number.</li>
+          <li>Step 2: Optionally type a pre-filled message.</li>
+          <li>Step 3: Click “Open Chat Now” to launch WhatsApp directly.</li>
+        </ol>
+
+        <h2>WhatsApp Link and QR Code Generator</h2>
+        <p>
+          Create scan-to-chat wa.me links plus Wi-Fi, payment, and custom URL QR codes with
+          brand colors, downloadable as high-resolution PNG or vector SVG — generated
+          on-device, never expiring.
+        </p>
+        <h3>How to use</h3>
+        <ol>
+          <li>Step 1: Choose a preset (WhatsApp chat, Wi-Fi, payment, custom).</li>
+          <li>Step 2: Fill in the number or content and style your colors.</li>
+          <li>Step 3: Download the PNG or SVG for print, packaging, or store banners.</li>
+        </ol>
+
+        <h2>Compress Audio for WhatsApp (16MB Limit)</h2>
+        <p>
+          WhatsApp rejects attachments over 16MB. Transcode heavy MP3, WAV, M4A, or AAC
+          recordings to 64k (voice), 96k, or 128k MP3/OPUS locally — cutting size by up to
+          70% while keeping speech clear.
+        </p>
+        <h3>How to use</h3>
+        <ol>
+          <li>Step 1: Drop your audio file into the compressor.</li>
+          <li>Step 2: Choose bitrate (64k for voice) and MP3 or OPUS output.</li>
+          <li>Step 3: Compress and download the file, ready to send on WhatsApp.</li>
+        </ol>
+
+        <h2>Why client-side WebAssembly is safer than cloud-upload converters</h2>
+        <p>
+          Cloud converters require uploading personal videos, voice notes, and phone numbers
+          to remote servers where they may be stored, scanned, or leaked. WhatsSwift instead
+          runs FFmpeg compiled to WebAssembly inside your browser's sandbox: bytes are
+          processed in local memory and never transmitted. No accounts, no logs, no retention.
+        </p>
+
+        <h2>Frequently asked questions</h2>
+        <details>
+          <summary><strong>Are my files uploaded to a server?</strong></summary>
+          <p>No. All processing runs as WebAssembly inside your browser. Files never leave your device.</p>
+        </details>
+        <details>
+          <summary><strong>Why 30 seconds per status clip?</strong></summary>
+          <p>WhatsApp enforces a 30-second cap per status story. The splitter cuts exact 30s segments so each uploads cleanly.</p>
+        </details>
+        <details>
+          <summary><strong>How do I stay under the 16MB audio limit?</strong></summary>
+          <p>Compress to 64 kbps for voice notes. A 50MB lecture shrinks to roughly 10–14MB and sends instantly.</p>
+        </details>
+        <details>
+          <summary><strong>Is direct chat without saving a number safe?</strong></summary>
+          <p>Yes. It only opens WhatsApp's official wa.me link. No contact is saved and nothing is stored anywhere.</p>
+        </details>
+      </main>
+    </div>
+
+    <noscript>
+      <div style="max-width:800px;margin:0 auto;padding:40px 20px;font-family:system-ui,sans-serif;">
+        <h1>WhatsSwift – Free Private WhatsApp Utilities</h1>
+        <p>
+          WhatsSwift needs JavaScript for the interactive tools: (1) Status Splitter,
+          (2) Direct Chat without saving numbers, (3) QR Code Generator,
+          (4) Audio Compressor for the 16MB limit. All free and private at
+          <a href="https://wakit.vercel.app/">https://wakit.vercel.app/</a>.
+          Please enable JavaScript to use the full app.
+        </p>
+      </div>
+    </noscript>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

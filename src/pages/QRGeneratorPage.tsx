@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { QRCodeCanvas, QRCodeSVG } from 'qrcode.react';
 import { AdBanner } from '../components/AdBanner';
 import { SEOHead, type FAQItem } from '../components/SEOHead';
+import { ToolSeoContent } from '../components/ToolSeoContent';
 import { FAQAccordion } from '../components/FAQAccordion';
 import { 
   QrCode, 
@@ -121,10 +122,17 @@ export const QRGeneratorPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <SEOHead
-        title="WhatsApp QR Code Generator Free | Create Action Links - WaKit"
-        description="Create customized WhatsApp Business QR codes, WiFi share links, and payment prompts for free. Download high-res PNG and vector SVG formats."
-        canonicalUrl="https://wakit.app/#/whatsapp-qr-code-generator"
+        title="WhatsApp Link & QR Code Generator – Free Scan-to-Chat QR | WhatsSwift"
+        description="Generate WhatsApp chat links, Wi-Fi and payment QR codes free. Custom colors, PNG and SVG export. Private, in-browser, never expires."
+        canonicalPath="/whatsapp-qr-code-generator"
+        keywords="whatsapp link and qr code generator, whatsapp qr code generator free, scan to chat qr, wa.me qr builder"
         faqs={qrGeneratorFaqs}
+        howToName="How to generate a WhatsApp QR code"
+        howToSteps={[
+          { name: 'Pick a preset', text: 'Choose WhatsApp direct chat, Wi-Fi access, payment prompt, or custom text/URL — each builds the correct QR payload format.' },
+          { name: 'Fill in content and style', text: 'Enter the number or content, set brand colors, and toggle the WhatsApp center badge for a branded code.' },
+          { name: 'Download and print', text: 'Export high-resolution PNG for sharing or vector SVG for business cards, banners, and packaging.' },
+        ]}
       />
 
       {/* Title Header */}
@@ -522,6 +530,17 @@ export const QRGeneratorPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* SEO How-To + WASM explainer */}
+      <ToolSeoContent
+        toolName="WhatsApp Link & QR Code Generator"
+        intro="Build scan-to-chat wa.me links plus Wi-Fi, payment, and custom QR codes — styled, exported, and printed in three steps."
+        steps={[
+          { name: 'Pick a Preset', text: 'Choose WhatsApp chat, Wi-Fi share, payment prompt, or custom text/URL to get the correct QR payload format instantly.' },
+          { name: 'Customize & Brand', text: 'Enter your content, set foreground and background colors, and embed the WhatsApp center badge.' },
+          { name: 'Download & Deploy', text: 'Export print-ready PNG or scalable SVG for store banners, packaging, business cards, and flyers.' },
+        ]}
+      />
 
       {/* Programmatic FAQ Section */}
       <FAQAccordion items={qrGeneratorFaqs} title="WhatsApp QR Code Generator FAQ" />

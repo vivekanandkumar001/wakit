@@ -11,6 +11,8 @@ export const Header: React.FC = () => {
           <Link to="/" className="flex items-center gap-3 group">
             <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 via-emerald-500 to-teal-600 flex items-center justify-center text-slate-950 shadow-lg shadow-emerald-500/20 group-hover:scale-105 group-hover:shadow-emerald-500/35 transition-all duration-300">
               <svg
+                aria-hidden="true"
+                focusable="false"
                 className="w-6 h-6 fill-slate-950"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"

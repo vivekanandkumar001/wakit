@@ -3,6 +3,7 @@ import { QRCodeCanvas } from 'qrcode.react';
 import { COUNTRIES, type Country } from '../data/countries';
 import { AdBanner } from '../components/AdBanner';
 import { SEOHead, type FAQItem } from '../components/SEOHead';
+import { ToolSeoContent } from '../components/ToolSeoContent';
 import { FAQAccordion } from '../components/FAQAccordion';
 import { 
   Send, 
@@ -103,10 +104,17 @@ export const DirectMessagePage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <SEOHead
-        title="Send WhatsApp Message Without Saving Contact | WaKit"
-        description="Send direct WhatsApp messages online to any phone number without saving them in your contacts. Instant Click-to-Chat for India, Nigeria, Kenya, USA & worldwide."
-        canonicalUrl="https://wakit.app/#/send-whatsapp-without-saving-number"
+        title="Send WhatsApp Message Without Saving Number – Direct Chat | WhatsSwift"
+        description="Chat on WhatsApp without saving numbers. Enter any phone number, add a message and open instantly via wa.me. Free, private, no signup needed."
+        canonicalPath="/direct-chat-without-saving-number"
+        keywords="send whatsapp message without saving number, whatsapp direct chat, wa.me link generator, chat without saving contact"
         faqs={directMessageFaqs}
+        howToName="How to send a WhatsApp message without saving the number"
+        howToSteps={[
+          { name: 'Enter country code and number', text: 'Select the country dial code and type the phone number. It is formatted to E.164 automatically, entirely in your browser.' },
+          { name: 'Add an optional message', text: 'Type a pre-filled message or pick a quick template so the chat opens with your text ready to send.' },
+          { name: 'Open chat now', text: 'Click "Open Chat Now" to launch the official wa.me link in WhatsApp mobile, Web, or Desktop — no contact saved.' },
+        ]}
       />
 
       {/* Title Header */}
@@ -355,6 +363,17 @@ export const DirectMessagePage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* SEO How-To + WASM explainer */}
+      <ToolSeoContent
+        toolName="Direct Chat Without Saving Number"
+        intro="Message any WhatsApp number without cluttering your contacts — official wa.me links, built locally in your browser, in three steps."
+        steps={[
+          { name: 'Enter Country Code & Number', text: 'Select the country dial code, type the number, and watch it format to E.164 automatically — all client-side.' },
+          { name: 'Add an Optional Message', text: 'Type your text or tap a quick template so the conversation opens pre-filled and ready to send.' },
+          { name: 'Open Chat Instantly', text: 'Hit "Open Chat Now" to launch the official wa.me link in WhatsApp. No contact saved, nothing stored.' },
+        ]}
+      />
 
       {/* Programmatic FAQ Section */}
       <FAQAccordion items={directMessageFaqs} title="WhatsApp Direct Message FAQ" />

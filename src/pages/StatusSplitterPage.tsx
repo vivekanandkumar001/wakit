@@ -5,6 +5,7 @@ import { checkBrowserCapabilities } from '../utils/browserCapabilities';
 import { COOPCheckBanner } from '../components/COOPCheckBanner';
 import { AdBanner } from '../components/AdBanner';
 import { SEOHead, type FAQItem } from '../components/SEOHead';
+import { ToolSeoContent } from '../components/ToolSeoContent';
 import { FAQAccordion } from '../components/FAQAccordion';
 import { 
   Scissors, 
@@ -203,10 +204,17 @@ export const StatusSplitterPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <SEOHead
-        title="Split Video for WhatsApp Status 30 Seconds Online | WaKit"
-        description="Split long MP4, MOV, WebM videos into exact 30-second clips for WhatsApp Status online. 100% Lossless, zero quality degradation, zero server uploads."
-        canonicalUrl="https://wakit.app/#/split-video-for-whatsapp-status"
+        title="WhatsApp Status Video Splitter Online – 30s Clips | WhatsSwift"
+        description="Split videos into exact 30-second WhatsApp status clips online. Free, lossless, 100% private WebAssembly cutting. No uploads, instant ZIP download."
+        canonicalPath="/whatsapp-status-splitter"
+        keywords="whatsapp status video splitter online, split video for whatsapp status 30 seconds, cut video into 30s clips"
         faqs={statusSplitterFaqs}
+        howToName="How to split a video for WhatsApp Status"
+        howToSteps={[
+          { name: 'Upload your video', text: 'Drag and drop any MP4, MOV, or WebM video. WaKit reads its metadata and estimates the number of 30-second clips.' },
+          { name: 'Split into 30s clips', text: 'Click "Split into 30s Status Clips". FFmpeg WebAssembly cuts exact segments with lossless stream copy in a background worker.' },
+          { name: 'Download and post', text: 'Preview each part or download all as a ZIP archive, then upload each clip to WhatsApp Status.' },
+        ]}
       />
 
       {/* Title Header */}
@@ -461,44 +469,16 @@ export const StatusSplitterPage: React.FC = () => {
         )}
       </div>
 
-      {/* Programmatic SEO Visual Guide Section */}
-      <section className="space-y-6 my-10">
-        <h2 className="text-xl font-bold text-slate-900 dark:text-white text-center">
-          How to Split Video for WhatsApp Status in 3 Simple Steps
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="glass-card p-6 space-y-3 text-center">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto font-bold text-lg">
-              1
-            </div>
-            <h3 className="font-bold text-base text-slate-900 dark:text-white">Upload Your Video</h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-              Drag and drop any long MP4, MOV, or WebM video file. WaKit automatically reads file metadata and estimates total 30-second clips.
-            </p>
-          </div>
-
-          <div className="glass-card p-6 space-y-3 text-center">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto font-bold text-lg">
-              2
-            </div>
-            <h3 className="font-bold text-base text-slate-900 dark:text-white">Lossless WASM Stream Copy</h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-              Click "Split into 30s Status Clips". FFmpeg WebAssembly runs stream copying (`-c copy`) in a dedicated Web Worker thread without re-encoding.
-            </p>
-          </div>
-
-          <div className="glass-card p-6 space-y-3 text-center">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto font-bold text-lg">
-              3
-            </div>
-            <h3 className="font-bold text-base text-slate-900 dark:text-white">Download & Upload</h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-              Preview each clip individually or download all parts sequentially in a ZIP archive. Post to WhatsApp Status effortlessly!
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* SEO How-To + WASM explainer (single h2 How-To per route) */}
+      <ToolSeoContent
+        toolName="WhatsApp Status Video Splitter"
+        intro="Split long videos into exact 30-second clips for WhatsApp Status online — lossless stream copy, 100% in-browser, ready to post in three steps."
+        steps={[
+          { name: 'Upload Your Video', text: 'Drag and drop any long MP4, MOV, or WebM video file. WaKit automatically reads file metadata and estimates total 30-second clips.' },
+          { name: 'Lossless WASM Stream Copy', text: 'Click "Split into 30s Status Clips". FFmpeg WebAssembly runs stream copying (-c copy) in a dedicated Web Worker thread without re-encoding.' },
+          { name: 'Download & Upload', text: 'Preview each clip individually or download all parts sequentially in a ZIP archive. Post to WhatsApp Status effortlessly!' },
+        ]}
+      />
 
       {/* Feature Highlights Grid */}
       <section className="glass-card p-6 sm:p-8 space-y-4">
