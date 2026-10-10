@@ -1,0 +1,35 @@
+# WaKit (WhatsSwift) — Free Private WhatsApp Utilities in Your Browser
+
+> WaKit (https://wakit.progeni.live) is a fast, 100% client-side web utility suite for WhatsApp tasks. All processing runs locally inside the user's web browser using HTML5 Canvas, Web Cryptography, and WebAssembly (FFmpeg compiled to Wasm). Zero files, videos, or audio recordings are uploaded to external servers.
+
+## Core Values & Privacy Guarantee
+- 100% Client-Side Processing: FFmpeg and WebAssembly process media locally in memory (RAM).
+- Zero Server Uploads: Sensitive videos, voice notes, and phone numbers never leave your device.
+- Free & Unlimited: No accounts, no signups, no watermarks, and no usage limits.
+
+## Primary Tools & Key Capabilities
+
+### 1. WhatsApp Status Video Splitter Online
+- URL: https://wakit.progeni.live/whatsapp-status-splitter
+- Features: Cut MP4, MOV, or WebM videos into exact 30-second segments for WhatsApp status stories.
+- Tech: Uses FFmpeg WebAssembly for lossless stream copy — zero re-encoding, zero quality loss, zero server upload.
+
+### 2. Send WhatsApp Message Without Saving Number (Direct Chat)
+- URL: https://wakit.progeni.live/direct-chat-without-saving-number
+- Features: Message any international phone number directly via WhatsApp wa.me links without saving the contact to your phonebook.
+- Use Cases: Delivery tracking, marketplace sellers, customer support, and one-time messages.
+
+### 3. WhatsApp Link and QR Code Generator
+- URL: https://wakit.progeni.live/whatsapp-qr-code-generator
+- Features: Create scan-to-chat QR codes, wa.me links, Wi-Fi passwords, and payment QR codes with custom brand colors.
+- Exports: Download high-resolution PNG or vector SVG graphics generated on-device.
+
+### 4. Compress Audio for WhatsApp (16MB Attachment Limit)
+- URL: https://wakit.progeni.live/whatsapp-audio-compressor
+- Features: Compress MP3, WAV, M4A, and AAC audio recordings under WhatsApp's 16MB attachment cap.
+- Presets: 64 kbps (optimized for speech & voice notes), 96 kbps, and 128 kbps output.
+
+## Publisher Information
+- Brand: WaKit (A Progeni project)
+- Publisher URL: https://progeni.live
+- App Domain: https://wakit.progeni.live

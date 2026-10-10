@@ -23,7 +23,8 @@ interface SEOHeadProps {
   howToSteps?: HowToStep[];
 }
 
-export const SITE_ORIGIN = 'https://wakit.vercel.app';
+export const SITE_ORIGIN = 'https://wakit.progeni.live';
+
 const DEFAULT_OG_IMAGE = `${SITE_ORIGIN}/favicon.svg`;
 
 function setMeta(selector: string, attrName: string, attrValue: string, content: string) {
