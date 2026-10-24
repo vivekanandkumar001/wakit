@@ -9,28 +9,17 @@ export const Header: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo & Branding */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 via-emerald-500 to-teal-600 flex items-center justify-center text-slate-950 shadow-lg shadow-emerald-500/20 group-hover:scale-105 group-hover:shadow-emerald-500/35 transition-all duration-300">
-              <svg
-                aria-hidden="true"
-                focusable="false"
-                className="w-6 h-6 fill-slate-950"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
-                <path
-                  d="M13 5L8.5 12H12l-1 6 5.5-7H13l1-6z"
-                  fill="#25D366"
-                />
-              </svg>
-              <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-emerald-400 animate-ping opacity-75"></div>
-              <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-emerald-400 border-2 border-slate-950"></div>
-            </div>
+            <img
+              src="/favicon.svg"
+              alt=""
+              aria-hidden="true"
+              className="w-10 h-10 rounded-xl shadow-lg transition-transform duration-300 group-hover:scale-105"
+            />
 
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-extrabold text-xl tracking-tight text-white group-hover:text-emerald-400 transition-colors">
-                  Whats<span className="text-emerald-400">Swift</span>
+                  Wa<span className="text-emerald-400">Kit</span>
                 </span>
                 <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                   v2.0 Client

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Shield, Lock, Cpu, Heart, MessageSquare, Code } from 'lucide-react';
+import { Shield, Lock, Cpu, Heart, Code } from 'lucide-react';
 import { FooterLinks } from './FooterLinks';
 
 export const Footer: React.FC = () => {
@@ -11,11 +11,9 @@ export const Footer: React.FC = () => {
           {/* Brand Column */}
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center text-slate-950 font-bold shadow-md shadow-emerald-500/20">
-                <MessageSquare className="w-5 h-5 fill-slate-950 stroke-none" />
-              </div>
+              <img src="/favicon.svg" alt="" aria-hidden="true" className="w-9 h-9 rounded-xl" />
               <span className="font-extrabold text-xl text-white">
-                Whats<span className="text-emerald-400">Swift</span>
+                Wa<span className="text-emerald-400">Kit</span>
               </span>
             </div>
             <p className="text-xs text-slate-400 leading-relaxed max-w-md">
