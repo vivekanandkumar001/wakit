@@ -113,6 +113,17 @@ export const QRGeneratorPage: React.FC = () => {
     URL.revokeObjectURL(svgUrl);
   };
 
+  React.useEffect(() => {
+    // qrcode.react may inject a hidden preview <img>; ensure it has accessible text.
+    const timer = window.setTimeout(() => {
+      const imgs = document.querySelectorAll('img[src*="whatsapp-logo.svg"], img[src*="upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"]');
+      imgs.forEach((img) => {
+        if (!img.getAttribute('alt')) img.setAttribute('alt', 'WhatsApp logo');
+      });
+    }, 100);
+    return () => window.clearTimeout(timer);
+  }, []);
+
   const handleCopyPayload = () => {
     navigator.clipboard.writeText(finalQrPayload);
     setCopied(true);
@@ -122,8 +133,8 @@ export const QRGeneratorPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <SEOHead
-        title="WhatsApp Link & QR Code Generator – Free Scan-to-Chat QR | WhatsSwift"
-        description="Generate WhatsApp chat links, Wi-Fi and payment QR codes free. Custom colors, PNG and SVG export. Private, in-browser, never expires."
+        title="WhatsApp QR Code & Chat Link Generator | WaKit"
+        description="Generate WhatsApp chat links, Wi-Fi and payment QR codes. Custom colours, PNG and SVG export, generated in your browser with no signup."
         canonicalPath="/whatsapp-qr-code-generator"
         keywords="whatsapp link and qr code generator, whatsapp qr code generator free, scan to chat qr, wa.me qr builder"
         faqs={qrGeneratorFaqs}
@@ -432,7 +443,7 @@ export const QRGeneratorPage: React.FC = () => {
               imageSettings={
                 includeLogo
                   ? {
-                      src: 'https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg',
+                      src: '/whatsapp-logo.svg',
                       x: undefined,
                       y: undefined,
                       height: 36,

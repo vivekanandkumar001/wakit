@@ -3,8 +3,10 @@ import { Mail, Send, CheckCircle2, MessageSquare, ShieldCheck, Heart } from 'luc
 import { AdBanner } from '../components/AdBanner';
 import { SEOHead } from '../components/SEOHead';
 
+const SUPPORT_EMAIL = 'support@progeni.live';
+
 export const ContactPage: React.FC = () => {
-  const [submitted, setSubmitted] = useState(false);
+  const [prepared, setPrepared] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('Feedback');
@@ -13,14 +15,29 @@ export const ContactPage: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !message) return;
-    setSubmitted(true);
+
+    // There is no backend: nothing is transmitted by this page. We hand the
+    // message to the visitor's own email client, so the words on screen stay
+    // true — no server receives the form contents.
+    const body = [
+      `From: ${name || 'Not provided'}`,
+      `Reply to: ${email}`,
+      '',
+      message,
+    ].join('\r\n');
+    const mailto = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(
+      `[WaKit] ${subject}`,
+    )}&body=${encodeURIComponent(body)}`;
+
+    window.location.href = mailto;
+    setPrepared(true);
   };
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <SEOHead
-        title="Contact Us & Developer Support | WhatsSwift"
-        description="Have questions or feedback about WhatsSwift? Contact our engineering team directly for support and feature requests."
+        title="Contact WaKit Support | WaKit"
+        description="Report a bug, request a feature, or ask a question about WaKit. Messages open in your own email app and go to support@progeni.live."
         canonicalPath="/contact"
       />
 
@@ -42,17 +59,26 @@ export const ContactPage: React.FC = () => {
         <div className="lg:col-span-7 glass-card p-6 sm:p-8 space-y-6">
           <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
             <MessageSquare className="w-5 h-5 text-emerald-500" />
-            <span>Send a Direct Message</span>
+            <span>Write Your Message</span>
           </h2>
 
-          {submitted ? (
+          <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+            WaKit has no contact database. This form only fills in an email draft and opens it in
+            your own email app, so nothing is sent to us until you press send there.
+          </p>
+
+          {prepared ? (
             <div className="p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center space-y-3">
               <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto" />
               <h3 className="font-bold text-base text-slate-900 dark:text-white">
-                Thank You for Contacting Us!
+                Your Email Draft Is Ready
               </h3>
               <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Your message has been received. Our team will review your inquiry shortly.
+                If nothing opened, email{' '}
+                <a href={`mailto:${SUPPORT_EMAIL}`} className="font-semibold text-emerald-600 dark:text-emerald-400 underline">
+                  {SUPPORT_EMAIL}
+                </a>{' '}
+                directly. Nothing was transmitted by this page.
               </p>
             </div>
           ) : (
@@ -120,7 +146,7 @@ export const ContactPage: React.FC = () => {
                 className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-sm shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Send className="w-4 h-4" />
-                <span>Submit Message</span>
+                <span>Open Email Draft</span>
               </button>
             </form>
           )}
@@ -134,7 +160,8 @@ export const ContactPage: React.FC = () => {
               <span>Direct Support Contact</span>
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-              Prefer emailing us directly? Our open-source team monitors support requests daily.
+              Prefer emailing us directly? Write to the shared Progeni support inbox. Include your
+              browser and operating system if you are reporting a bug.
             </p>
 
             <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-y-2">
@@ -142,10 +169,10 @@ export const ContactPage: React.FC = () => {
                 Support Email:
               </span>
               <a
-                href="mailto:support@wakit.app"
+                href={`mailto:${SUPPORT_EMAIL}`}
                 className="block text-sm font-mono font-bold text-emerald-600 dark:text-emerald-400 hover:underline"
               >
-                support@wakit.app
+                {SUPPORT_EMAIL}
               </a>
             </div>
           </div>

@@ -1,10 +1,16 @@
 import React from 'react';
 import { ShieldCheck, Cpu, Lock, Zap, ServerOff, Code2 } from 'lucide-react';
 import { AdBanner } from '../components/AdBanner';
+import { SEOHead } from '../components/SEOHead';
 
 export const AboutPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
+      <SEOHead
+        title="About WaKit — How Our Browser-Based WhatsApp Tools Work"
+        description="How WaKit runs WhatsApp video splitting, QR generation and audio compression entirely in your browser with FFmpeg WebAssembly, plus what the tools cannot do."
+        canonicalPath="/about"
+      />
       <div className="text-center space-y-3">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-semibold border border-emerald-500/20">
           <Cpu className="w-3.5 h-3.5" />
@@ -61,7 +67,8 @@ export const AboutPage: React.FC = () => {
             </div>
             <h3 className="font-bold text-sm text-slate-900 dark:text-white">Strict Memory Safety</h3>
             <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-              Automatic Blob object URL revocation (`URL.revokeObjectURL`) guarantees zero memory leaks or browser slowdowns.
+              Blob URLs are revoked after use and files are dropped when you clear the tool, so a
+              long session does not keep old media in memory.
             </p>
           </div>
 
@@ -71,14 +78,16 @@ export const AboutPage: React.FC = () => {
             </div>
             <h3 className="font-bold text-sm text-slate-900 dark:text-white">Static Export Architecture</h3>
             <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-              Hosted on static global edge networks (Cloudflare Pages / Vercel) with full COOP and COEP cross-origin security headers.
+              Built as a static site and deployed on Vercel, with COOP and COEP headers so the
+              WebAssembly worker can run safely.
             </p>
           </div>
         </div>
 
         {/* Disclaimer */}
         <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-900 dark:text-emerald-300 leading-relaxed">
-          <strong>Open Web Utility:</strong> WaKit is free to use forever with zero login or subscription. We believe privacy is a fundamental human right.
+          <strong>Open Web Utility:</strong> WaKit is free to use with no account and no
+          subscription. Files you open are never sent to us or sold to anyone.
         </div>
       </div>
 

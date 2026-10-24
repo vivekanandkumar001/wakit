@@ -204,8 +204,8 @@ export const StatusSplitterPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <SEOHead
-        title="WhatsApp Status Video Splitter Online – 30s Clips | WhatsSwift"
-        description="Split videos into exact 30-second WhatsApp status clips online. Free, lossless, 100% private WebAssembly cutting. No uploads, instant ZIP download."
+        title="WhatsApp Status Video Splitter (30s Clips) | WaKit"
+        description="Split a video into exact 30-second WhatsApp status clips in your browser. Lossless WebAssembly cutting, no uploads, and a ZIP download of every part."
         canonicalPath="/whatsapp-status-splitter"
         keywords="whatsapp status video splitter online, split video for whatsapp status 30 seconds, cut video into 30s clips"
         faqs={statusSplitterFaqs}

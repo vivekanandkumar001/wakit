@@ -65,7 +65,7 @@ export const ToolGrid: React.FC = () => {
   const handleDownloadAllZip = async () => {
     if (!splitClips.length || !videoFile) return;
     const zip = new JSZip();
-    const folder = zip.folder('WhatsSwift_Status_Clips');
+    const folder = zip.folder('WaKit_Status_Clips');
     
     splitClips.forEach((clip) => {
       folder?.file(clip.name, videoFile);
@@ -75,7 +75,7 @@ export const ToolGrid: React.FC = () => {
     const downloadUrl = URL.createObjectURL(content);
     const link = document.createElement('a');
     link.href = downloadUrl;
-    link.download = `WhatsSwift_Status_30s_Clips.zip`;
+    link.download = `WaKit_Status_30s_Clips.zip`;
     link.click();
     URL.revokeObjectURL(downloadUrl);
   };
@@ -121,7 +121,7 @@ export const ToolGrid: React.FC = () => {
   // Tool 3: WhatsApp QR Code Builder
   // -------------------------------------------------------------
   const [qrPhone, setQrPhone] = useState('919876543210');
-  const [greetingText, setGreetingText] = useState('Hi! Connecting with your business via WhatsSwift QR Code.');
+  const [greetingText, setGreetingText] = useState('Hi! Connecting with your business via WaKit QR Code.');
   const qrCanvasRef = useRef<HTMLDivElement>(null);
 
   const fullQrValue = useMemo(() => {
@@ -136,7 +136,7 @@ export const ToolGrid: React.FC = () => {
       const image = canvas.toDataURL('image/png');
       const a = document.createElement('a');
       a.href = image;
-      a.download = `WhatsSwift_WhatsApp_QR_${qrPhone}.png`;
+      a.download = `WaKit_WhatsApp_QR_${qrPhone}.png`;
       a.click();
     }
   };
@@ -499,7 +499,7 @@ export const ToolGrid: React.FC = () => {
 
             {/* Real-time SVG Preview with WhatsApp Icon */}
             <div className="flex flex-col items-center justify-center p-3.5 bg-slate-950 rounded-xl border border-slate-800">
-              <div ref={qrCanvasRef} className="p-3 bg-white rounded-xl shadow-md inline-block">
+              <div ref={qrCanvasRef} className="p-3 bg-white rounded-xl shadow-md inline-block" aria-label="WhatsApp QR code preview with logo">
                 <QRCodeCanvas
                   value={fullQrValue}
                   size={150}
@@ -642,7 +642,7 @@ export const ToolGrid: React.FC = () => {
             {compressedBlobUrl ? (
               <a
                 href={compressedBlobUrl}
-                download={`WhatsSwift_Compressed_${audioFile?.name}`}
+                download={`WaKit_Compressed_${audioFile?.name}`}
                 className="w-full py-3 px-4 rounded-xl font-bold text-slate-950 bg-gradient-emerald hover:opacity-95 shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 transition-all cursor-pointer"
               >
                 <Download className="w-4 h-4" />

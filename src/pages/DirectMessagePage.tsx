@@ -104,8 +104,8 @@ export const DirectMessagePage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <SEOHead
-        title="Send WhatsApp Message Without Saving Number – Direct Chat | WhatsSwift"
-        description="Chat on WhatsApp without saving numbers. Enter any phone number, add a message and open instantly via wa.me. Free, private, no signup needed."
+        title="Send WhatsApp Message Without Saving a Number | WaKit"
+        description="Chat on WhatsApp without saving numbers. Enter any phone number, add a message and open instantly via wa.me. Free, private, no signup."
         canonicalPath="/direct-chat-without-saving-number"
         keywords="send whatsapp message without saving number, whatsapp direct chat, wa.me link generator, chat without saving contact"
         faqs={directMessageFaqs}

@@ -1,10 +1,16 @@
 import React from 'react';
 import { Shield, Lock, EyeOff } from 'lucide-react';
 import { AdBanner } from '../components/AdBanner';
+import { SEOHead } from '../components/SEOHead';
 
 export const PrivacyPolicyPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
+      <SEOHead
+        title="Privacy Policy — No File Uploads | WaKit"
+        description="What WaKit stores and what it does not: media stays in browser memory, no account is required, and only a local theme preference is saved."
+        canonicalPath="/privacy-policy"
+      />
       <div className="text-center space-y-3">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-semibold border border-emerald-500/20">
           <Shield className="w-3.5 h-3.5" />

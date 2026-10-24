@@ -157,8 +157,8 @@ export const AudioCompressorPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <SEOHead
-        title="Compress Audio for WhatsApp 16MB – Free Voice Note Compressor | WhatsSwift"
-        description="Compress MP3, WAV and M4A under WhatsApp's 16MB limit. 64k voice mode cuts size by 70% locally. Free, private, no uploads needed."
+        title="Compress Audio for WhatsApp (16MB Limit) | WaKit"
+        description="Compress MP3, WAV and M4A under WhatsApp's 16MB limit. The 64 kbps voice mode shrinks files locally in your browser, with no uploads or signup."
         canonicalPath="/whatsapp-audio-compressor"
         keywords="compress audio for whatsapp 16mb, reduce voice note size, mp3 to 64kbps online, whatsapp audio compressor"
         faqs={audioCompressorFaqs}

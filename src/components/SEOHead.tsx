@@ -10,7 +10,7 @@ export interface HowToStep {
   text: string;
 }
 
-interface SEOHeadProps {
+export interface SEOHeadProps {
   title: string;
   description: string;
   /** Path only, e.g. "/whatsapp-status-splitter". Canonical is built as SITE_ORIGIN + path. */
@@ -24,6 +24,13 @@ interface SEOHeadProps {
 }
 
 export const SITE_ORIGIN = 'https://wakit.progeni.live';
+
+let ssrSeo: SEOHeadProps | null = null;
+export function getSsrSeo(): SEOHeadProps | null {
+  const value = ssrSeo;
+  ssrSeo = null;
+  return value;
+}
 
 const DEFAULT_OG_IMAGE = `${SITE_ORIGIN}/favicon.svg`;
 
@@ -53,6 +60,9 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   howToName,
   howToSteps = [],
 }) => {
+  if (typeof document === 'undefined') {
+    ssrSeo = { title, description, canonicalPath, ogImage, keywords, faqs, howToName, howToSteps };
+  }
   useEffect(() => {
     const canonicalUrl = `${SITE_ORIGIN}${canonicalPath}`;
 
@@ -103,7 +113,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
     injectSchema('ws-jsonld-webapp', {
       '@context': 'https://schema.org',
       '@type': 'WebApplication',
-      name: 'WhatsSwift - WhatsApp Utility Toolkit',
+      name: 'WaKit - WhatsApp Utility Toolkit',
       url: canonicalUrl,
       applicationCategory: 'UtilitiesApplication',
       operatingSystem: 'Any',
