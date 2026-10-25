@@ -1,7 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Header } from './components/Header';
-import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 
 import { HomePage } from './pages/HomePage';
@@ -17,11 +16,31 @@ import { NotFoundPage } from './pages/NotFoundPage';
 
 export const App: React.FC = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-slate-dark text-slate-100 bg-glow-emerald selection:bg-emerald-500 selection:text-slate-950">
-      <Header />
-      <Navbar />
+    <div className="relative flex min-h-screen flex-col overflow-x-clip bg-canvas text-slate-900 selection:bg-emerald-600 selection:text-white">
+      {/* Ambient background */}
+      <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-canvas">
+        <div className="aurora-field">
+          <div className="aurora-blob aurora-blob--emerald -left-40 -top-52 h-[34rem] w-[34rem]" />
+          <div className="aurora-blob aurora-blob--teal -right-48 -top-40 h-[30rem] w-[30rem]" />
+          <div className="aurora-blob aurora-blob--cyan left-1/3 top-[42rem] h-[28rem] w-[28rem] opacity-60" />
+        </div>
+        <div className="bg-grid absolute inset-0 opacity-70" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-500/60 to-transparent" />
+      </div>
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-emerald-700 focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-white"
+      >
+        Skip to content
+      </a>
+
+      <Header />
+
+      <main
+        id="main-content"
+        className="relative z-10 mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6 sm:py-10 lg:px-8"
+      >
         <Routes>
           <Route path="/" element={<HomePage />} />
 

@@ -1,87 +1,46 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Scissors, Send, QrCode, Mic, LayoutGrid } from 'lucide-react';
+import { toolNavItems } from './navItems';
 
 export const Navbar: React.FC = () => {
-  const tools = [
-    {
-      to: '/',
-      label: 'All Tools Dashboard',
-      badge: 'Interactive',
-      icon: LayoutGrid,
-    },
-    {
-      to: '/whatsapp-status-splitter',
-      label: 'Status Splitter',
-      fullLabel: 'WhatsApp Status Video Splitter Online — 30s clips',
-      badge: 'Lossless 30s',
-      icon: Scissors,
-    },
-    {
-      to: '/direct-chat-without-saving-number',
-      label: 'Direct Chat',
-      fullLabel: 'Send WhatsApp Message Without Saving Number',
-      badge: 'Zero Contact',
-      icon: Send,
-    },
-    {
-      to: '/whatsapp-qr-code-generator',
-      label: 'QR Builder',
-      fullLabel: 'WhatsApp Link and QR Code Generator',
-      badge: 'Vector/PNG',
-      icon: QrCode,
-    },
-    {
-      to: '/whatsapp-audio-compressor',
-      label: 'Audio Compressor',
-      fullLabel: 'Compress Audio for WhatsApp (16MB)',
-      badge: '< 16MB Target',
-      icon: Mic,
-    },
-  ];
-
   return (
-    <div className="w-full border-b border-slate-800 bg-slate-900/60 backdrop-blur-md overflow-x-auto no-scrollbar">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-4 py-2.5 min-w-max">
-          <nav aria-label="WhatsApp tools" className="flex items-center gap-1.5 sm:gap-2">
-            {tools.map((tool) => {
-              const Icon = tool.icon;
-              return (
-                <NavLink
-                  key={tool.to}
-                  to={tool.to}
-                  end={tool.to === '/'}
-                  aria-label={'fullLabel' in tool && tool.fullLabel ? (tool.fullLabel as string) : tool.label}
-                  className={({ isActive }) =>
-                    `flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 border ${
-                      isActive
-                        ? 'bg-emerald-500 text-slate-950 border-emerald-400 font-bold shadow-lg shadow-emerald-500/20'
-                        : 'bg-slate-900/80 text-slate-400 border-slate-800 hover:text-white hover:border-slate-700 hover:bg-slate-800/80'
-                    }`
-                  }
-                >
-                  {({ isActive }) => (
-                    <>
-                      <Icon aria-hidden="true" className={`w-4 h-4 ${isActive ? 'text-slate-950' : 'text-emerald-400'}`} />
-                      <span>{tool.label}</span>
-                      <span
-                        className={`hidden lg:inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full ${
-                          isActive
-                            ? 'bg-slate-950/20 text-slate-950'
-                            : 'bg-slate-800 text-slate-400 border border-slate-700'
-                        }`}
-                      >
-                        {tool.badge}
-                      </span>
-                    </>
-                  )}
-                </NavLink>
-              );
-            })}
-          </nav>
-        </div>
-      </div>
-    </div>
+    <nav aria-label="WhatsApp tools" className="hidden items-center gap-0.5 lg:flex">
+      {toolNavItems.map((item) => {
+        const Icon = item.icon;
+        return (
+          <NavLink
+            key={item.to}
+            to={item.to}
+            end={item.to === '/'}
+            title={item.description}
+            className={({ isActive }) =>
+              `group relative flex items-center gap-2 rounded-xl px-3 py-2 text-[13px] font-semibold transition-colors duration-200 ${
+                isActive
+                  ? 'bg-emerald-50 text-emerald-700'
+                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+              }`
+            }
+          >
+            {({ isActive }) => (
+              <>
+                <Icon
+                  aria-hidden="true"
+                  className={`h-4 w-4 transition-colors ${
+                    isActive ? 'text-emerald-700' : 'text-slate-600 group-hover:text-emerald-700'
+                  }`}
+                />
+                <span>{item.label}</span>
+                <span
+                  aria-hidden="true"
+                  className={`absolute inset-x-3 -bottom-px h-px bg-gradient-to-r from-transparent via-emerald-500 to-transparent transition-opacity duration-200 ${
+                    isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-50'
+                  }`}
+                />
+              </>
+            )}
+          </NavLink>
+        );
+      })}
+    </nav>
   );
 };

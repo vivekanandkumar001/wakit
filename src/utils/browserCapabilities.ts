@@ -4,7 +4,8 @@ export interface BrowserCapabilityReport {
   isCrossOriginIsolated: boolean;
   isFullySupported: boolean;
   isMobile: boolean;
-  maxFileSizeMB: number; // 60MB mobile, 150MB desktop
+  maxFileSizeMB: number; // 60MB mobile, 150MB desktop (video safe limit)
+  maxAudioFileSizeMB: number; // 3GB hard input cap for the audio compressor
   warningReason?: string;
 }
 
@@ -17,6 +18,7 @@ export function checkBrowserCapabilities(): BrowserCapabilityReport {
       isFullySupported: false,
       isMobile: false,
       maxFileSizeMB: 150,
+      maxAudioFileSizeMB: 3072,
       warningReason: 'Server-side rendering environment.',
     };
   }
@@ -53,6 +55,7 @@ export function checkBrowserCapabilities(): BrowserCapabilityReport {
     isFullySupported,
     isMobile,
     maxFileSizeMB,
+    maxAudioFileSizeMB: 3072,
     warningReason,
   };
 }

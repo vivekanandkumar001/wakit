@@ -170,11 +170,12 @@ export function useFFmpeg() {
       const cap = checkBrowserCapabilities();
       capabilityRef.current = cap;
 
-      const maxBytes = cap.maxFileSizeMB * 1024 * 1024;
+      const maxBytes = cap.maxAudioFileSizeMB * 1024 * 1024;
       if (file.size > maxBytes) {
-        const fileMB = (file.size / (1024 * 1024)).toFixed(1);
-        const limitType = cap.isMobile ? 'mobile' : 'desktop';
-        const errorMsg = `Audio size (${fileMB}MB) exceeds maximum ${limitType} limit of ${cap.maxFileSizeMB}MB.`;
+        const fileSize = file.size >= 1024 ** 3
+          ? `${(file.size / 1024 ** 3).toFixed(2)} GB`
+          : `${(file.size / (1024 * 1024)).toFixed(1)} MB`;
+        const errorMsg = `Audio size (${fileSize}) exceeds the 3 GB maximum.`;
         setError(errorMsg);
         throw new Error(errorMsg);
       }
@@ -182,11 +183,10 @@ export function useFFmpeg() {
       setIsProcessing(true);
       setProgress(0);
       setError(null);
-      setStatusText('Transferring audio buffer to Web Worker...');
+      setStatusText('Mounting audio file in the Web Worker...');
 
       const worker = getWorker();
       const id = `task_compress_${Date.now()}`;
-      const fileData = await file.arrayBuffer();
 
       return new Promise<CompressionResult>((resolve, reject) => {
         const handleMessage = (e: MessageEvent) => {
@@ -224,17 +224,16 @@ export function useFFmpeg() {
         };
 
         worker.addEventListener('message', handleMessage);
-        worker.postMessage(
-          {
-            id,
-            command: 'COMPRESS_AUDIO',
-            fileData,
-            fileName: file.name,
-            bitrate,
-            format,
-          },
-          [fileData]
-        );
+        // Send the File itself, not an ArrayBuffer copy. The worker mounts it
+        // read-only through WORKERFS, which keeps multi-GB inputs out of RAM.
+        worker.postMessage({
+          id,
+          command: 'COMPRESS_AUDIO',
+          file,
+          fileName: file.name,
+          bitrate,
+          format,
+        });
       });
     },
     [getWorker, registerBlobUrl]

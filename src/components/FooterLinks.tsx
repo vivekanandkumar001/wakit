@@ -19,8 +19,8 @@ const TOOL_LINKS = [
   },
   {
     to: '/whatsapp-audio-compressor',
-    label: 'Compress Audio for WhatsApp (16MB)',
-    hint: 'Shrink MP3/WAV/M4A under the 16MB limit',
+    label: 'Compress Audio for WhatsApp (up to 3GB)',
+    hint: 'Shrink MP3/WAV/M4A up to 3GB under the 16MB limit',
   },
 ];
 
@@ -32,16 +32,16 @@ const TOOL_LINKS = [
 export const FooterLinks: React.FC = () => {
   return (
     <nav aria-label="WhatsApp tools">
-      <h2 className="text-xs font-bold uppercase tracking-wider text-slate-200">
-        WhatsApp Tools
+      <h2 className="text-xs font-bold uppercase tracking-[0.12em] text-slate-900">
+        WhatsApp tools
       </h2>
-      <ul className="space-y-2.5 text-xs mt-3">
+      <ul className="mt-3 space-y-2.5 text-xs text-slate-600">
         {TOOL_LINKS.map((tool) => (
           <li key={tool.to}>
             <Link
               to={tool.to}
               title={tool.hint}
-              className="hover:text-emerald-400 transition-colors"
+              className="transition-colors hover:text-emerald-700"
             >
               {tool.label}
             </Link>

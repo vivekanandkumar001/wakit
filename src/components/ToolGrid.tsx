@@ -1,23 +1,129 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
 import JSZip from 'jszip';
 import { COUNTRIES, type Country } from '../data/countries';
+import { useFFmpeg, type CompressionResult } from '../hooks/useFFmpeg';
+import { checkBrowserCapabilities } from '../utils/browserCapabilities';
 import {
   Scissors,
   Send,
   QrCode,
   Mic,
-  Upload,
   Download,
   ExternalLink,
   FileVideo,
   FileAudio,
   ChevronDown,
   RefreshCw,
-  Search
+  Search,
+  CheckCircle2,
+  type LucideIcon,
 } from 'lucide-react';
 
+// ---------------------------------------------------------------------------
+// Shared building blocks
+// ---------------------------------------------------------------------------
+const CardHeader: React.FC<{
+  icon: LucideIcon;
+  title: string;
+  subtitle: string;
+  badge: string;
+}> = ({ icon: Icon, title, subtitle, badge }) => (
+  <div className="relative z-10 flex items-start justify-between gap-3">
+    <div className="flex items-start gap-3">
+      <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-emerald-50 text-emerald-600 ring-1 ring-emerald-200">
+        <Icon className="h-5 w-5" aria-hidden="true" />
+      </span>
+      <div className="min-w-0">
+        <h3 className="text-base font-bold tracking-tight text-slate-900 sm:text-lg">{title}</h3>
+        <p className="mt-0.5 text-xs leading-relaxed text-slate-600">{subtitle}</p>
+      </div>
+    </div>
+    <span className="badge mt-1 shrink-0">{badge}</span>
+  </div>
+);
+
+const ProgressBar: React.FC<{
+  value: number;
+  label: string;
+  detail?: string;
+}> = ({ value, label, detail }) => (
+  <div className="space-y-2" role="status" aria-live="polite">
+    <div className="flex items-center justify-between gap-3 text-xs font-semibold text-slate-600">
+      <span className="flex min-w-0 items-center gap-1.5">
+        <RefreshCw className="h-3.5 w-3.5 shrink-0 animate-spin text-emerald-600" aria-hidden="true" />
+        <span className="truncate">{label}</span>
+      </span>
+      <span className="shrink-0 font-mono font-bold text-emerald-700">{detail ?? `${value}%`}</span>
+    </div>
+    <div className="progress-track">
+      <div className="progress-fill" style={{ width: `${value}%` }} />
+    </div>
+  </div>
+);
+
+const Dropzone: React.FC<{
+  inputRef: React.RefObject<HTMLInputElement | null>;
+  accept: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  icon: LucideIcon;
+  title: string;
+  hint: string;
+  fileName?: string;
+  fileMeta?: string;
+}> = ({ inputRef, accept, onChange, icon: Icon, title, hint, fileName, fileMeta }) => (
+  <button
+    type="button"
+    onClick={() => inputRef.current?.click()}
+    className="group relative w-full rounded-2xl border border-dashed border-slate-300 bg-slate-50/80 px-4 py-5 text-center transition-all duration-200 hover:border-emerald-500 hover:bg-emerald-50/60"
+  >
+    <input ref={inputRef} type="file" accept={accept} className="hidden" onChange={onChange} />
+    {fileName ? (
+      <span className="flex items-center justify-center gap-3">
+        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-emerald-100 text-emerald-700 ring-1 ring-emerald-200">
+          <Icon className="h-5 w-5" aria-hidden="true" />
+        </span>
+        <span className="min-w-0 text-left">
+          <span className="block max-w-[220px] truncate text-sm font-semibold text-slate-900">{fileName}</span>
+          <span className="mt-0.5 block truncate font-mono text-[11px] text-emerald-700">{fileMeta}</span>
+        </span>
+      </span>
+    ) : (
+      <span className="flex flex-col items-center gap-2">
+        <span className="grid h-10 w-10 place-items-center rounded-xl bg-white text-emerald-600 ring-1 ring-slate-200 transition-transform duration-200 group-hover:scale-105">
+          <Icon className="h-5 w-5" aria-hidden="true" />
+        </span>
+        <span className="text-sm font-semibold text-slate-800">{title}</span>
+        <span className="text-[11px] text-slate-500">{hint}</span>
+      </span>
+    )}
+  </button>
+);
+
+const formatSize = (bytes: number) => {
+  if (bytes >= 1024 ** 3) return `${(bytes / 1024 ** 3).toFixed(2)} GB`;
+  if (bytes >= 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  return `${(bytes / 1024).toFixed(1)} KB`;
+};
+
+const PresetChip: React.FC<{ label: string; onClick: () => void }> = ({ label, onClick }) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className="max-w-full truncate rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-medium text-slate-600 transition-colors hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700"
+  >
+    {label}
+  </button>
+);
+
 export const ToolGrid: React.FC = () => {
+  const {
+    compressAudio,
+    revokeBlobUrl,
+    isProcessing: isAudioCompressing,
+    progress: audioCompressProgress,
+  } = useFFmpeg();
+
   // -------------------------------------------------------------
   // Tool 1: 30s Status Video Splitter
   // -------------------------------------------------------------
@@ -52,9 +158,9 @@ export const ToolGrid: React.FC = () => {
         setIsSplitting(false);
         clearInterval(interval);
         setSplitClips([
-          { id: 1, name: `${videoFile.name.replace(/\.[^/.]+$/, "")}_status_clip1.mp4`, duration: '0:30' },
-          { id: 2, name: `${videoFile.name.replace(/\.[^/.]+$/, "")}_status_clip2.mp4`, duration: '0:30' },
-          { id: 3, name: `${videoFile.name.replace(/\.[^/.]+$/, "")}_status_clip3.mp4`, duration: '0:18' },
+          { id: 1, name: `${videoFile.name.replace(/\.[^/.]+$/, '')}_status_clip1.mp4`, duration: '0:30' },
+          { id: 2, name: `${videoFile.name.replace(/\.[^/.]+$/, '')}_status_clip2.mp4`, duration: '0:30' },
+          { id: 3, name: `${videoFile.name.replace(/\.[^/.]+$/, '')}_status_clip3.mp4`, duration: '0:18' },
         ]);
       } else {
         setSplitterProgress(current);
@@ -66,7 +172,7 @@ export const ToolGrid: React.FC = () => {
     if (!splitClips.length || !videoFile) return;
     const zip = new JSZip();
     const folder = zip.folder('WaKit_Status_Clips');
-    
+
     splitClips.forEach((clip) => {
       folder?.file(clip.name, videoFile);
     });
@@ -88,12 +194,9 @@ export const ToolGrid: React.FC = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [message, setMessage] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const countryDropdownRef = useRef<HTMLDivElement>(null);
 
-  const presets = [
-    "Hi, please send location",
-    "Payment completed",
-    "Where are you?"
-  ];
+  const presets = ['Hi, please send location', 'Payment completed', 'Where are you?'];
 
   const filteredCountries = useMemo(() => {
     if (!countrySearch.trim()) return COUNTRIES;
@@ -116,6 +219,29 @@ export const ToolGrid: React.FC = () => {
     if (!cleanPhone) return;
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
   };
+
+  // Close the country dropdown on outside click or Escape.
+  useEffect(() => {
+    if (!isDropdownOpen) return;
+
+    const onPointerDown = (event: MouseEvent | TouchEvent) => {
+      if (countryDropdownRef.current && !countryDropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsDropdownOpen(false);
+    };
+
+    document.addEventListener('mousedown', onPointerDown);
+    document.addEventListener('touchstart', onPointerDown);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', onPointerDown);
+      document.removeEventListener('touchstart', onPointerDown);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [isDropdownOpen]);
 
   // -------------------------------------------------------------
   // Tool 3: WhatsApp QR Code Builder
@@ -145,143 +271,129 @@ export const ToolGrid: React.FC = () => {
   // Tool 4: Audio Attachment Compressor
   // -------------------------------------------------------------
   const [audioFile, setAudioFile] = useState<File | null>(null);
-  const [audioPreviewUrl, setAudioPreviewUrl] = useState<string | null>(null);
-  const [targetSize, setTargetSize] = useState<string>('< 16MB');
-  const [compressProgress, setCompressProgress] = useState<number>(0);
-  const [isCompressing, setIsCompressing] = useState<boolean>(false);
-  const [compressedBlobUrl, setCompressedBlobUrl] = useState<string | null>(null);
+  const [audioBitrate, setAudioBitrate] = useState<'64k' | '96k' | '128k'>('64k');
+  const [compressedAudio, setCompressedAudio] = useState<CompressionResult | null>(null);
+  const [audioError, setAudioError] = useState<string | null>(null);
   const audioInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    return () => {
+      if (compressedAudio) revokeBlobUrl(compressedAudio.url);
+    };
+  }, [compressedAudio, revokeBlobUrl]);
 
   const handleAudioSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      setAudioFile(file);
-      setAudioPreviewUrl(URL.createObjectURL(file));
-      setCompressedBlobUrl(null);
-      setCompressProgress(0);
+    if (!file) return;
+
+    setAudioError(null);
+
+    if (!file.type.startsWith('audio/') && !file.name.match(/\.(mp3|wav|m4a|aac|ogg|flac)$/i)) {
+      setAudioError('Please select a valid audio file (MP3, WAV, M4A, AAC, OGG).');
+      return;
+    }
+
+    const cap = checkBrowserCapabilities();
+    const maxBytes = cap.maxAudioFileSizeMB * 1024 * 1024;
+    if (file.size > maxBytes) {
+      setAudioError('Audio size exceeds the 3 GB maximum.');
+      return;
+    }
+
+    if (compressedAudio) {
+      revokeBlobUrl(compressedAudio.url);
+      setCompressedAudio(null);
+    }
+
+    setAudioFile(file);
+  };
+
+  const handleCompressAudio = async () => {
+    if (!audioFile) return;
+
+    setAudioError(null);
+    try {
+      const result = await compressAudio(audioFile, audioBitrate, 'mp3');
+      setCompressedAudio(result);
+    } catch (err: unknown) {
+      setAudioError(err instanceof Error ? err.message : 'Audio compression failed.');
     }
   };
 
-  const handleCompressAudio = () => {
-    if (!audioFile) return;
-    setIsCompressing(true);
-    setCompressProgress(15);
-
-    let current = 15;
-    const interval = setInterval(() => {
-      current += 25;
-      if (current >= 100) {
-        setCompressProgress(100);
-        setIsCompressing(false);
-        clearInterval(interval);
-        if (audioPreviewUrl) {
-          setCompressedBlobUrl(audioPreviewUrl);
-        }
-      } else {
-        setCompressProgress(current);
-      }
-    }, 200);
-  };
-
   return (
-    <section className="py-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      {/* 2x2 Grid Container */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
-        
+    <section id="tools" className="relative scroll-mt-24 py-4 sm:py-6">
+      {/* Section header */}
+      <div className="mb-7 flex flex-col gap-4 sm:mb-9 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <span className="eyebrow">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
+            The toolkit
+          </span>
+          <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+            Four tools. <span className="text-gradient-emerald">Zero uploads.</span>
+          </h2>
+          <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-600">
+            Everything below runs inside this tab. Your files stay on your device from the first
+            byte to the final download.
+          </p>
+        </div>
+        <p className="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-[11px] font-semibold text-slate-600 shadow-sm">
+          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" aria-hidden="true" />
+          Works offline after first load
+        </p>
+      </div>
+
+      {/* 2x2 Grid */}
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 xl:gap-6">
         {/* ============================================================== */}
         {/* CARD 1: 30s Status Video Splitter */}
         {/* ============================================================== */}
-        <div className="glass-card p-6 sm:p-7 flex flex-col justify-between relative border border-slate-800 hover:border-emerald-500/40">
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-                  <Scissors className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                    30s Status Video Splitter
-                  </h3>
-                  <p className="text-xs text-slate-400">Slices long MP4/MOV videos into exact 30s status clips</p>
-                </div>
-              </div>
-              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                WASM Copy
-              </span>
-            </div>
+        <article className="glass-card tool-card flex flex-col p-5 sm:p-6">
+          <div className="relative z-10 flex flex-1 flex-col gap-4">
+            <CardHeader
+              icon={Scissors}
+              title="30s Status Splitter"
+              subtitle="Slice long MP4/MOV videos into exact 30-second status clips"
+              badge="WASM copy"
+            />
 
-            {/* Dropzone with File Size Indicator */}
-            <div
-              onClick={() => videoInputRef.current?.click()}
-              className="border-2 border-dashed border-slate-800 hover:border-emerald-500/50 bg-slate-950/50 rounded-xl p-5 text-center cursor-pointer transition-all duration-200"
-            >
-              <input
-                ref={videoInputRef}
-                type="file"
-                accept="video/*"
-                className="hidden"
-                onChange={handleVideoSelect}
-              />
-              {videoFile ? (
-                <div className="flex items-center justify-center gap-3 text-emerald-400">
-                  <FileVideo className="w-6 h-6 shrink-0" />
-                  <div className="text-left truncate">
-                    <p className="text-sm font-bold text-white truncate max-w-[200px]">{videoFile.name}</p>
-                    <p className="text-xs text-emerald-400 font-mono">Size: {(videoFile.size / (1024 * 1024)).toFixed(1)} MB (Ready for WASM cut)</p>
-                  </div>
-                </div>
-              ) : (
-                <div className="space-y-2">
-                  <Upload className="w-8 h-8 text-emerald-400 mx-auto opacity-80" />
-                  <p className="text-sm font-medium text-slate-200">
-                    Drag and drop long video here, or <span className="text-emerald-400 font-semibold underline">browse</span>
-                  </p>
-                  <p className="text-xs text-slate-500">Max file size limit: 150MB (Client-side RAM guardrail)</p>
-                </div>
-              )}
-            </div>
+            <Dropzone
+              inputRef={videoInputRef}
+              accept="video/*"
+              onChange={handleVideoSelect}
+              icon={FileVideo}
+              title="Drop a long video, or browse"
+              hint="MP4, MOV or WebM • up to 150MB"
+              fileName={videoFile?.name}
+              fileMeta={
+                videoFile ? `${(videoFile.size / (1024 * 1024)).toFixed(1)} MB • ready for WASM cut` : undefined
+              }
+            />
 
-            {/* Video Preview */}
             {videoPreviewUrl && (
-              <div className="relative rounded-xl overflow-hidden bg-black/60 border border-slate-800 max-h-40 flex justify-center">
-                <video src={videoPreviewUrl} controls className="max-h-40 w-full object-contain" />
+              <div className="overflow-hidden rounded-xl border border-slate-200 bg-slate-900">
+                <video src={videoPreviewUrl} controls className="max-h-44 w-full object-contain" />
               </div>
             )}
 
-            {/* Processing Progress Bar */}
             {isSplitting && (
-              <div className="space-y-2">
-                <div className="flex justify-between text-xs font-semibold text-slate-300">
-                  <span className="flex items-center gap-1.5">
-                    <RefreshCw className="w-3.5 h-3.5 text-emerald-400 animate-spin" />
-                    Slicing status video via FFmpeg.wasm...
-                  </span>
-                  <span className="text-emerald-400 font-mono">{splitterProgress}%</span>
-                </div>
-                <div className="w-full bg-slate-900 h-2.5 rounded-full overflow-hidden border border-slate-800">
-                  <div
-                    className="bg-gradient-emerald h-full transition-all duration-300"
-                    style={{ width: `${splitterProgress}%` }}
-                  ></div>
-                </div>
-              </div>
+              <ProgressBar value={splitterProgress} label="Slicing status video via FFmpeg.wasm…" />
             )}
 
-            {/* Output Clip Preview Cards */}
             {splitClips.length > 0 && (
               <div className="space-y-2">
-                <p className="text-xs font-bold text-slate-300 flex items-center justify-between">
-                  <span>Output 30s Status Clips:</span>
-                  <span className="text-emerald-400 font-mono">{splitClips.length} Clips Ready</span>
+                <p className="flex items-center justify-between text-[11px] font-bold uppercase tracking-[0.1em] text-slate-600">
+                  <span>Output clips</span>
+                  <span className="text-emerald-700">{splitClips.length} ready</span>
                 </p>
-                <div className="space-y-1.5 max-h-32 overflow-y-auto pr-1">
+                <div className="max-h-32 space-y-1.5 overflow-y-auto pr-1">
                   {splitClips.map((clip) => (
                     <div
                       key={clip.id}
-                      className="flex items-center justify-between p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-xs"
+                      className="flex items-center justify-between gap-3 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-2 text-xs"
                     >
-                      <span className="text-slate-200 font-medium truncate">{clip.name}</span>
-                      <span className="text-emerald-400 font-mono px-2 py-0.5 rounded bg-slate-900 border border-slate-800">
+                      <span className="truncate font-medium text-slate-700">{clip.name}</span>
+                      <span className="shrink-0 rounded-md border border-emerald-200 bg-white px-1.5 py-0.5 font-mono text-[10px] font-bold text-emerald-700">
                         {clip.duration}
                       </span>
                     </div>
@@ -291,223 +403,217 @@ export const ToolGrid: React.FC = () => {
             )}
           </div>
 
-          {/* Action CTA */}
-          <div className="pt-4 mt-4 border-t border-slate-800/80">
+          <div className="relative z-10 mt-5 border-t border-slate-200 pt-4">
             {splitClips.length > 0 ? (
-              <button
-                onClick={handleDownloadAllZip}
-                className="w-full py-3 px-4 rounded-xl font-bold text-slate-950 bg-gradient-emerald hover:opacity-95 shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 transition-all cursor-pointer"
-              >
-                <Download className="w-4 h-4" />
-                <span>Download All (.zip)</span>
+              <button type="button" onClick={handleDownloadAllZip} className="btn-primary w-full py-3">
+                <Download className="h-4 w-4" aria-hidden="true" />
+                Download all (.zip)
               </button>
             ) : (
               <button
+                type="button"
                 onClick={handleSplitVideo}
                 disabled={!videoFile || isSplitting}
-                className={`w-full py-3 px-4 rounded-xl font-bold text-slate-950 flex items-center justify-center gap-2 transition-all ${
-                  videoFile && !isSplitting
-                    ? 'bg-gradient-emerald hover:opacity-95 shadow-lg shadow-emerald-500/20 cursor-pointer'
-                    : 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700'
-                }`}
+                className="btn-primary w-full py-3"
               >
-                <Scissors className="w-4 h-4" />
-                <span>{isSplitting ? 'Processing...' : 'Split into 30s Clips'}</span>
+                <Scissors className="h-4 w-4" aria-hidden="true" />
+                {isSplitting ? 'Processing…' : 'Split into 30s clips'}
               </button>
             )}
           </div>
-        </div>
+        </article>
 
         {/* ============================================================== */}
         {/* CARD 2: Direct Chat (No Contact Save) */}
         {/* ============================================================== */}
-        <div className="glass-card p-6 sm:p-7 flex flex-col justify-between relative border border-slate-800 hover:border-emerald-500/40">
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-                  <Send className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                    Direct Chat (No Contact Save)
-                  </h3>
-                  <p className="text-xs text-slate-400">Open WhatsApp chat directly without saving phone number</p>
-                </div>
-              </div>
-              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                Universal Link
-              </span>
-            </div>
+        <article className="glass-card tool-card flex flex-col p-5 sm:p-6">
+          <div className="relative z-10 flex flex-1 flex-col gap-4">
+            <CardHeader
+              icon={Send}
+              title="Direct Chat"
+              subtitle="Open a WhatsApp chat without saving the number first"
+              badge="Universal link"
+            />
 
-            {/* Country Selector with Quick Search */}
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-slate-300">Country Code & Phone Number</label>
+            <div>
+              <label htmlFor="home-phone" className="field-label">
+                Country code &amp; phone number
+              </label>
               <div className="flex items-center gap-2">
-                <div className="relative">
+                <div className="relative" ref={countryDropdownRef}>
                   <button
                     type="button"
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className="flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs font-semibold text-slate-200 hover:border-slate-700 transition-colors"
+                    className="flex h-[42px] items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-800 shadow-sm transition-colors hover:border-emerald-400"
+                    aria-haspopup="listbox"
+                    aria-expanded={isDropdownOpen}
+                    aria-label={`Select country code: ${selectedCountry.name} ${selectedCountry.dialCode}`}
                   >
-                    <span>{selectedCountry.flag}</span>
-                    <span>{selectedCountry.dialCode}</span>
-                    <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+                    <span aria-hidden="true">{selectedCountry.flag}</span>
+                    <span className="font-mono">{selectedCountry.dialCode}</span>
+                    <ChevronDown
+                      className={`h-3.5 w-3.5 text-slate-500 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}
+                      aria-hidden="true"
+                    />
                   </button>
 
-                  {/* Dropdown Menu */}
                   {isDropdownOpen && (
-                    <div className="absolute left-0 top-full mt-1.5 w-64 max-h-56 overflow-y-auto bg-slate-900 border border-slate-800 rounded-xl shadow-2xl z-30 p-2 space-y-1">
-                      <div className="relative mb-1">
-                        <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" />
-                        <input
-                          type="text"
-                          placeholder="Search country..."
-                          value={countrySearch}
-                          onChange={(e) => setCountrySearch(e.target.value)}
-                          className="w-full bg-slate-950 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white outline-none focus:border-emerald-500/60"
-                        />
+                    <div
+                      className="absolute left-0 top-full z-30 mt-2 max-h-64 w-72 overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2 shadow-xl shadow-slate-900/10"
+                      role="listbox"
+                      aria-label="Countries"
+                    >
+                      <div className="sticky top-0 z-10 mb-1 bg-white pb-1">
+                        <div className="relative">
+                          <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-slate-500" aria-hidden="true" />
+                          <input
+                            type="text"
+                            placeholder="Search country…"
+                            value={countrySearch}
+                            onChange={(e) => setCountrySearch(e.target.value)}
+                            className="field py-1.5 pl-8 text-xs"
+                            autoFocus
+                          />
+                        </div>
                       </div>
-                      {filteredCountries.map((c) => (
-                        <button
-                          key={c.code}
-                          type="button"
-                          onClick={() => {
-                            setSelectedCountry(c);
-                            setIsDropdownOpen(false);
-                          }}
-                          className={`w-full flex items-center justify-between px-2.5 py-1.5 text-xs rounded-lg text-left transition-colors ${
-                            selectedCountry.code === c.code
-                              ? 'bg-emerald-500/20 text-emerald-400 font-bold'
-                              : 'text-slate-300 hover:bg-slate-800'
-                          }`}
-                        >
-                          <span className="flex items-center gap-2 truncate">
-                            <span>{c.flag}</span>
-                            <span>{c.name}</span>
-                          </span>
-                          <span className="font-mono text-slate-400">{c.dialCode}</span>
-                        </button>
-                      ))}
+                      {filteredCountries.length === 0 ? (
+                        <p className="px-2 py-3 text-center text-xs text-slate-500">No country found</p>
+                      ) : (
+                        filteredCountries.map((c) => (
+                          <button
+                            key={c.code}
+                            type="button"
+                            role="option"
+                            aria-selected={selectedCountry.code === c.code}
+                            onClick={() => {
+                              setSelectedCountry(c);
+                              setIsDropdownOpen(false);
+                            }}
+                            className={`flex w-full items-center justify-between gap-2 rounded-lg px-2.5 py-1.5 text-left text-xs transition-colors ${
+                              selectedCountry.code === c.code
+                                ? 'bg-emerald-50 font-bold text-emerald-700'
+                                : 'text-slate-700 hover:bg-slate-50'
+                            }`}
+                          >
+                            <span className="flex min-w-0 items-center gap-2">
+                              <span aria-hidden="true">{c.flag}</span>
+                              <span className="truncate">{c.name}</span>
+                            </span>
+                            <span className="shrink-0 font-mono text-slate-500">{c.dialCode}</span>
+                          </button>
+                        ))
+                      )}
                     </div>
                   )}
                 </div>
 
                 <input
+                  id="home-phone"
                   type="tel"
-                  placeholder="Enter 10-digit mobile number"
+                  inputMode="tel"
+                  placeholder="Enter mobile number"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
-                  className="flex-1 bg-slate-950 border border-slate-800 focus:border-emerald-500/60 focus:ring-1 focus:ring-emerald-500/60 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none transition-all font-mono"
+                  className="field h-[42px] flex-1 py-0 font-mono text-sm"
                 />
               </div>
             </div>
 
-            {/* Optional Message */}
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-300">Message (Optional)</label>
+            <div>
+              <label htmlFor="home-message" className="field-label">
+                Message <span className="font-medium normal-case tracking-normal text-slate-500">(optional)</span>
+              </label>
               <textarea
+                id="home-message"
                 rows={2}
-                placeholder="Type your message here..."
+                placeholder="Type your message here…"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500/60 rounded-xl p-3 text-xs text-white placeholder-slate-500 outline-none resize-none"
+                className="field resize-none text-xs"
               />
             </div>
 
-            {/* Quick Preset Message Chips */}
-            <div className="space-y-1.5">
-              <span className="text-[11px] font-medium text-slate-400">Quick Message Presets:</span>
+            <div>
+              <span className="mb-1.5 block text-[11px] font-semibold text-slate-600">Quick presets</span>
               <div className="flex flex-wrap gap-1.5">
                 {presets.map((preset, idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => setMessage(preset)}
-                    className="text-[11px] px-3 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-emerald-400 hover:border-emerald-500/40 transition-colors"
-                  >
-                    "{preset}"
-                  </button>
+                  <PresetChip key={idx} label={preset} onClick={() => setMessage(preset)} />
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Action CTA */}
-          <div className="pt-4 mt-4 border-t border-slate-800/80">
+          <div className="relative z-10 mt-5 border-t border-slate-200 pt-4">
             <button
+              type="button"
               onClick={handleOpenWhatsApp}
               disabled={!cleanPhone}
-              className={`w-full py-3 px-4 rounded-xl font-bold text-slate-950 flex items-center justify-center gap-2 transition-all ${
-                cleanPhone
-                  ? 'bg-gradient-emerald hover:opacity-95 shadow-lg shadow-emerald-500/20 cursor-pointer'
-                  : 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700'
-              }`}
+              className="btn-primary w-full py-3"
             >
-              <ExternalLink className="w-4 h-4" />
-              <span>Open in WhatsApp</span>
+              <ExternalLink className="h-4 w-4" aria-hidden="true" />
+              Open in WhatsApp
             </button>
           </div>
-        </div>
+        </article>
 
         {/* ============================================================== */}
         {/* CARD 3: WhatsApp QR Code Builder */}
         {/* ============================================================== */}
-        <div className="glass-card p-6 sm:p-7 flex flex-col justify-between relative border border-slate-800 hover:border-emerald-500/40">
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-                  <QrCode className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                    WhatsApp QR Code Builder
-                  </h3>
-                  <p className="text-xs text-slate-400">Scan-to-chat QR code generator for business cards & flyers</p>
-                </div>
-              </div>
-              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                Vector SVG
-              </span>
-            </div>
+        <article className="glass-card tool-card flex flex-col p-5 sm:p-6">
+          <div className="relative z-10 flex flex-1 flex-col gap-4">
+            <CardHeader
+              icon={QrCode}
+              title="QR Code Builder"
+              subtitle="Scan-to-chat codes for business cards, packaging and flyers"
+              badge="PNG export"
+            />
 
-            {/* Inputs */}
             <div className="space-y-3">
               <div>
-                <label className="text-xs font-semibold text-slate-300">WhatsApp Phone Number</label>
+                <label htmlFor="home-qr-phone" className="field-label">
+                  WhatsApp phone number
+                </label>
                 <input
+                  id="home-qr-phone"
                   type="tel"
+                  inputMode="tel"
                   value={qrPhone}
                   onChange={(e) => setQrPhone(e.target.value)}
                   placeholder="919876543210"
-                  className="w-full mt-1 bg-slate-950 border border-slate-800 focus:border-emerald-500/60 rounded-xl px-3.5 py-2 text-xs text-white outline-none font-mono"
+                  className="field font-mono text-xs"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-slate-300">Prefilled Greeting Text</label>
+                <label htmlFor="home-qr-greeting" className="field-label">
+                  Prefilled greeting
+                </label>
                 <input
+                  id="home-qr-greeting"
                   type="text"
                   value={greetingText}
                   onChange={(e) => setGreetingText(e.target.value)}
                   placeholder="Hi! Connecting with your business."
-                  className="w-full mt-1 bg-slate-950 border border-slate-800 focus:border-emerald-500/60 rounded-xl px-3.5 py-2 text-xs text-white outline-none"
+                  className="field text-xs"
                 />
               </div>
             </div>
 
-            {/* Real-time SVG Preview with WhatsApp Icon */}
-            <div className="flex flex-col items-center justify-center p-3.5 bg-slate-950 rounded-xl border border-slate-800">
-              <div ref={qrCanvasRef} className="p-3 bg-white rounded-xl shadow-md inline-block" aria-label="WhatsApp QR code preview with logo">
+            <div className="flex flex-col items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+              <div
+                ref={qrCanvasRef}
+                className="inline-block rounded-xl bg-white p-3 shadow-lg shadow-slate-300/50"
+                role="img"
+                aria-label="WhatsApp QR code preview"
+              >
                 <QRCodeCanvas
                   value={fullQrValue}
-                  size={150}
-                  fgColor="#075E54"
+                  size={148}
+                  fgColor="#047857"
                   bgColor="#FFFFFF"
                   level="H"
                   imageSettings={{
-                    src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%2325D366"><path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.758.459 3.474 1.33 4.982L2 22l5.177-1.338c1.45.798 3.093 1.217 4.835 1.218h.004c5.507 0 9.99-4.478 9.99-9.984 0-2.669-1.038-5.176-2.925-7.062A9.925 9.925 0 0 0 12.012 2z"/></svg>',
+                    src: '/favicon.svg',
                     x: undefined,
                     y: undefined,
                     height: 30,
@@ -516,155 +622,121 @@ export const ToolGrid: React.FC = () => {
                   }}
                 />
               </div>
-              <p className="text-[11px] text-slate-400 mt-2">WhatsApp center badge embedded</p>
+              <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" aria-hidden="true" />
+                Live preview
+              </p>
             </div>
           </div>
 
-          {/* Action CTA */}
-          <div className="pt-4 mt-4 border-t border-slate-800/80">
-            <button
-              onClick={handleDownloadQrPng}
-              className="w-full py-3 px-4 rounded-xl font-bold text-slate-950 bg-gradient-emerald hover:opacity-95 shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 transition-all cursor-pointer"
-            >
-              <Download className="w-4 h-4" />
-              <span>Download QR (PNG)</span>
+          <div className="relative z-10 mt-5 border-t border-slate-200 pt-4">
+            <button type="button" onClick={handleDownloadQrPng} className="btn-primary w-full py-3">
+              <Download className="h-4 w-4" aria-hidden="true" />
+              Download QR (PNG)
             </button>
           </div>
-        </div>
+        </article>
 
         {/* ============================================================== */}
         {/* CARD 4: Audio Attachment Compressor */}
         {/* ============================================================== */}
-        <div className="glass-card p-6 sm:p-7 flex flex-col justify-between relative border border-slate-800 hover:border-emerald-500/40">
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-                  <Mic className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                    Audio Attachment Compressor
-                  </h3>
-                  <p className="text-xs text-slate-400">Compress heavy audio files under WhatsApp's 16MB limit</p>
-                </div>
-              </div>
-              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                &lt; 16MB Limit
-              </span>
-            </div>
+        <article className="glass-card tool-card flex flex-col p-5 sm:p-6">
+          <div className="relative z-10 flex flex-1 flex-col gap-4">
+            <CardHeader
+              icon={Mic}
+              title="Audio Compressor"
+              subtitle="Shrink heavy audio up to 3GB under WhatsApp's 16MB limit"
+              badge="3GB input"
+            />
 
-            {/* Target Size Buttons */}
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-300">Select Target Max Size</label>
-              <div className="grid grid-cols-3 gap-2">
-                {['< 16MB', '8MB', '4MB'].map((sizeOption) => (
-                  <button
-                    key={sizeOption}
-                    type="button"
-                    onClick={() => setTargetSize(sizeOption)}
-                    className={`py-2 rounded-xl text-xs font-bold transition-all border ${
-                      targetSize === sizeOption
-                        ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-md shadow-emerald-500/20'
-                        : 'bg-slate-950 text-slate-300 border-slate-800 hover:border-slate-700'
-                    }`}
-                  >
-                    {sizeOption}
-                  </button>
-                ))}
+            <div>
+              <span className="field-label">Output bitrate</span>
+              <div className="grid grid-cols-3 gap-2" role="group" aria-label="Output bitrate">
+                {(['64k', '96k', '128k'] as const).map((option) => {
+                  const active = audioBitrate === option;
+                  return (
+                    <button
+                      key={option}
+                      type="button"
+                      onClick={() => setAudioBitrate(option)}
+                      aria-pressed={active}
+                      className={`rounded-xl border py-2 text-xs font-bold transition-all ${
+                        active
+                          ? 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-sm'
+                          : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-slate-900'
+                      }`}
+                    >
+                      {option} {option === '64k' ? '(Voice)' : ''}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
-            {/* Audio File Dropzone */}
-            <div
-              onClick={() => audioInputRef.current?.click()}
-              className="border-2 border-dashed border-slate-800 hover:border-emerald-500/50 bg-slate-950/50 rounded-xl p-5 text-center cursor-pointer transition-all duration-200"
-            >
-              <input
-                ref={audioInputRef}
-                type="file"
-                accept="audio/*"
-                className="hidden"
-                onChange={handleAudioSelect}
-              />
-              {audioFile ? (
-                <div className="flex items-center justify-center gap-3 text-emerald-400">
-                  <FileAudio className="w-6 h-6 shrink-0" />
-                  <div className="text-left truncate">
-                    <p className="text-sm font-bold text-white truncate max-w-[200px]">{audioFile.name}</p>
-                    <p className="text-xs text-slate-400 font-mono">Original: {(audioFile.size / (1024 * 1024)).toFixed(1)} MB</p>
-                  </div>
-                </div>
-              ) : (
-                <div className="space-y-2">
-                  <Upload className="w-8 h-8 text-emerald-400 mx-auto opacity-80" />
-                  <p className="text-sm font-medium text-slate-200">
-                    Click or drag MP3/WAV audio file
-                  </p>
-                  <p className="text-xs text-slate-500">Transcodes directly in-browser using WebAssembly</p>
-                </div>
-              )}
-            </div>
+            <Dropzone
+              inputRef={audioInputRef}
+              accept="audio/*"
+              onChange={handleAudioSelect}
+              icon={FileAudio}
+              title="Click or drop an audio file"
+              hint="MP3, WAV, M4A or AAC • up to 3GB • local transcoding"
+              fileName={audioFile?.name}
+              fileMeta={audioFile ? `Original: ${formatSize(audioFile.size)}` : undefined}
+            />
 
-            {/* Progress Bar */}
-            {isCompressing && (
-              <div className="space-y-2">
-                <div className="flex justify-between text-xs font-semibold text-slate-300">
-                  <span className="flex items-center gap-1.5">
-                    <RefreshCw className="w-3.5 h-3.5 text-emerald-400 animate-spin" />
-                    Transcoding audio...
+            {audioFile && audioFile.size > 512 * 1024 * 1024 && (
+              <p className="text-[11px] font-medium leading-relaxed text-amber-700">
+                Large file: processing may take a while and needs enough free browser memory. Keep this tab open.
+              </p>
+            )}
+
+            {isAudioCompressing && <ProgressBar value={audioCompressProgress} label="Transcoding audio…" />}
+
+            {compressedAudio && audioFile && (
+              <div className="space-y-3 rounded-xl border border-emerald-200 bg-emerald-50 p-3">
+                <div className="flex items-center justify-between gap-3 text-xs">
+                  <span className="text-slate-600">
+                    Before <span className="font-mono font-semibold text-slate-800">{formatSize(audioFile.size)}</span>
                   </span>
-                  <span className="text-emerald-400 font-mono">{compressProgress}%</span>
+                  <span className="inline-flex items-center gap-1 font-bold text-emerald-700">
+                    <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" />
+                    After {formatSize(compressedAudio.size)}
+                  </span>
                 </div>
-                <div className="w-full bg-slate-900 h-2.5 rounded-full overflow-hidden border border-slate-800">
-                  <div
-                    className="bg-gradient-emerald h-full transition-all duration-300"
-                    style={{ width: `${compressProgress}%` }}
-                  ></div>
-                </div>
+                <audio src={compressedAudio.url} controls className="h-9 w-full" />
               </div>
             )}
 
-            {/* Before / After Comparison Indicator */}
-            {compressedBlobUrl && audioFile && (
-              <div className="p-3 bg-slate-950 rounded-xl border border-slate-800 space-y-2">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-400">Before: {(audioFile.size / (1024 * 1024)).toFixed(1)} MB</span>
-                  <span className="text-emerald-400 font-bold">After: &lt; {targetSize} (Voice Optimized)</span>
-                </div>
-                <audio src={compressedBlobUrl} controls className="w-full h-8" />
-              </div>
+            {audioError && (
+              <p role="alert" className="rounded-lg border border-red-200 bg-red-50 p-2.5 text-xs text-red-700">
+                {audioError}
+              </p>
             )}
           </div>
 
-          {/* Action CTA */}
-          <div className="pt-4 mt-4 border-t border-slate-800/80">
-            {compressedBlobUrl ? (
+          <div className="relative z-10 mt-5 border-t border-slate-200 pt-4">
+            {compressedAudio ? (
               <a
-                href={compressedBlobUrl}
-                download={`WaKit_Compressed_${audioFile?.name}`}
-                className="w-full py-3 px-4 rounded-xl font-bold text-slate-950 bg-gradient-emerald hover:opacity-95 shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 transition-all cursor-pointer"
+                href={compressedAudio.url}
+                download={compressedAudio.filename}
+                className="btn-primary w-full py-3"
               >
-                <Download className="w-4 h-4" />
-                <span>Download Compressed Audio</span>
+                <Download className="h-4 w-4" aria-hidden="true" />
+                Download compressed audio
               </a>
             ) : (
               <button
+                type="button"
                 onClick={handleCompressAudio}
-                disabled={!audioFile || isCompressing}
-                className={`w-full py-3 px-4 rounded-xl font-bold text-slate-950 flex items-center justify-center gap-2 transition-all ${
-                  audioFile && !isCompressing
-                    ? 'bg-gradient-emerald hover:opacity-95 shadow-lg shadow-emerald-500/20 cursor-pointer'
-                    : 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700'
-                }`}
+                disabled={!audioFile || isAudioCompressing}
+                className="btn-primary w-full py-3"
               >
-                <Mic className="w-4 h-4" />
-                <span>{isCompressing ? 'Compressing...' : `Compress Audio (${targetSize})`}</span>
+                <Mic className="h-4 w-4" aria-hidden="true" />
+                {isAudioCompressing ? `Compressing… ${audioCompressProgress}%` : `Compress audio (${audioBitrate})`}
               </button>
             )}
           </div>
-        </div>
-
+        </article>
       </div>
     </section>
   );

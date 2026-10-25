@@ -3,6 +3,9 @@ import { QRCodeCanvas, QRCodeSVG } from 'qrcode.react';
 import { AdBanner } from '../components/AdBanner';
 import { SEOHead, type FAQItem } from '../components/SEOHead';
 import { ToolSeoContent } from '../components/ToolSeoContent';
+import { PageHeader } from '../components/PageHeader';
+import { QuickAnswer } from '../components/QuickAnswer';
+import { RelatedTools } from '../components/RelatedTools';
 import { FAQAccordion } from '../components/FAQAccordion';
 import { 
   QrCode, 
@@ -42,7 +45,7 @@ const qrGeneratorFaqs: FAQItem[] = [
   },
   {
     question: 'Can I add the official WhatsApp logo inside the center of the QR code?',
-    answer: 'Yes! Toggle the "Embed WhatsApp Center Badge" checkbox to overlay an authentic center icon.',
+    answer: 'Yes! Toggle the "Embed WaKit center badge" checkbox to overlay an authentic center icon.',
   },
 ];
 
@@ -134,8 +137,10 @@ export const QRGeneratorPage: React.FC = () => {
     <div className="max-w-4xl mx-auto space-y-8">
       <SEOHead
         title="WhatsApp QR Code & Chat Link Generator | WaKit"
-        description="Generate WhatsApp chat links, Wi-Fi and payment QR codes. Custom colours, PNG and SVG export, generated in your browser with no signup."
+        description="Create a free WhatsApp QR code, wa.me chat link, Wi-Fi or payment QR in your browser. Custom colors, high-res PNG and vector SVG export — no signup."
         canonicalPath="/whatsapp-qr-code-generator"
+        breadcrumbs={[{ name: 'QR Builder' }]}
+        appCategory="UtilitiesApplication"
         keywords="whatsapp link and qr code generator, whatsapp qr code generator free, scan to chat qr, wa.me qr builder"
         faqs={qrGeneratorFaqs}
         howToName="How to generate a WhatsApp QR code"
@@ -147,18 +152,28 @@ export const QRGeneratorPage: React.FC = () => {
       />
 
       {/* Title Header */}
-      <div className="text-center space-y-3">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-semibold border border-emerald-500/20">
-          <QrCode className="w-3.5 h-3.5" />
-          <span>High-Res Vector SVG & Canvas PNG Export</span>
-        </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-          WhatsApp QR Code Generator Free
-        </h1>
-        <p className="text-slate-600 dark:text-slate-400 text-sm max-w-xl mx-auto leading-relaxed">
-          Create branded WhatsApp direct chat links, WiFi sharing codes, and payment prompts with customizable colors.
-        </p>
-      </div>
+      <PageHeader
+        icon={QrCode}
+        eyebrow="High-res PNG & vector SVG export"
+        title={
+          <>
+            WhatsApp QR code <span className="text-gradient-emerald">generator</span>
+          </>
+        }
+        description="Create branded WhatsApp chat links, Wi-Fi sharing codes and payment prompts with custom colors — all generated on your device."
+        breadcrumbs={[{ name: 'QR Builder' }]}
+      />
+
+      <QuickAnswer
+        question="How do I create a free WhatsApp QR code?"
+        answer="Choose the WhatsApp Direct Chat preset, enter your number with country code, then download the QR as PNG or SVG. WaKit builds the code locally in your browser, so your number and artwork are never uploaded or stored."
+        facts={[
+          { label: 'Formats', value: 'PNG + SVG' },
+          { label: 'Expiry', value: 'Never' },
+          { label: 'Uploads', value: '0 files' },
+          { label: 'Price', value: 'Free' },
+        ]}
+      />
 
       {/* Presets Navigation Tabs */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -166,7 +181,7 @@ export const QRGeneratorPage: React.FC = () => {
           onClick={() => setActivePreset('chat')}
           className={`p-3 rounded-2xl border text-xs font-bold flex flex-col items-center gap-2 transition-all ${
             activePreset === 'chat'
-              ? 'bg-emerald-500 text-white border-emerald-500 shadow-md shadow-emerald-500/20'
+              ? 'bg-emerald-700 text-white border-emerald-700 shadow-md shadow-emerald-700/25'
               : 'glass-pill text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800'
           }`}
         >
@@ -178,7 +193,7 @@ export const QRGeneratorPage: React.FC = () => {
           onClick={() => setActivePreset('wifi')}
           className={`p-3 rounded-2xl border text-xs font-bold flex flex-col items-center gap-2 transition-all ${
             activePreset === 'wifi'
-              ? 'bg-emerald-500 text-white border-emerald-500 shadow-md shadow-emerald-500/20'
+              ? 'bg-emerald-700 text-white border-emerald-700 shadow-md shadow-emerald-700/25'
               : 'glass-pill text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800'
           }`}
         >
@@ -190,7 +205,7 @@ export const QRGeneratorPage: React.FC = () => {
           onClick={() => setActivePreset('payment')}
           className={`p-3 rounded-2xl border text-xs font-bold flex flex-col items-center gap-2 transition-all ${
             activePreset === 'payment'
-              ? 'bg-emerald-500 text-white border-emerald-500 shadow-md shadow-emerald-500/20'
+              ? 'bg-emerald-700 text-white border-emerald-700 shadow-md shadow-emerald-700/25'
               : 'glass-pill text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800'
           }`}
         >
@@ -202,7 +217,7 @@ export const QRGeneratorPage: React.FC = () => {
           onClick={() => setActivePreset('custom')}
           className={`p-3 rounded-2xl border text-xs font-bold flex flex-col items-center gap-2 transition-all ${
             activePreset === 'custom'
-              ? 'bg-emerald-500 text-white border-emerald-500 shadow-md shadow-emerald-500/20'
+              ? 'bg-emerald-700 text-white border-emerald-700 shadow-md shadow-emerald-700/25'
               : 'glass-pill text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800'
           }`}
         >
@@ -215,7 +230,7 @@ export const QRGeneratorPage: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div className="lg:col-span-7 glass-card p-6 sm:p-8 space-y-6">
           <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <Layers className="w-5 h-5 text-emerald-500" />
+            <Layers className="w-5 h-5 text-emerald-700" />
             <span>Preset Configuration</span>
           </h2>
 
@@ -240,6 +255,7 @@ export const QRGeneratorPage: React.FC = () => {
                 </label>
                 <textarea
                   rows={3}
+                  aria-label="Pre-filled message text"
                   value={messageText}
                   onChange={(e) => setMessageText(e.target.value)}
                   className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none"
@@ -350,18 +366,19 @@ export const QRGeneratorPage: React.FC = () => {
 
           <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-4">
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-              <Palette className="w-4 h-4 text-emerald-500" />
+              <Palette className="w-4 h-4 text-emerald-700" />
               <span>QR Style & Colors</span>
             </h3>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
-                <label className="block text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+                <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-600">
                   Foreground Color
                 </label>
                 <div className="flex items-center gap-2">
                   <input
                     type="color"
+                    aria-label="QR foreground color"
                     value={fgColor}
                     onChange={(e) => setFgColor(e.target.value)}
                     className="w-9 h-9 rounded-lg border-0 cursor-pointer"
@@ -371,12 +388,13 @@ export const QRGeneratorPage: React.FC = () => {
               </div>
 
               <div className="space-y-1">
-                <label className="block text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+                <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-600">
                   Background Color
                 </label>
                 <div className="flex items-center gap-2">
                   <input
                     type="color"
+                    aria-label="QR background color"
                     value={bgColor}
                     onChange={(e) => setBgColor(e.target.value)}
                     className="w-9 h-9 rounded-lg border-0 cursor-pointer"
@@ -388,11 +406,12 @@ export const QRGeneratorPage: React.FC = () => {
 
             <div className="flex items-center justify-between p-3 rounded-xl bg-slate-100/60 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
               <span className="text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-emerald-500" />
-                <span>Embed WhatsApp Center Badge</span>
+                <Sparkles className="w-4 h-4 text-emerald-700" />
+                <span>Embed WaKit center badge</span>
               </span>
               <input
                 type="checkbox"
+                aria-label="Embed WaKit center badge"
                 checked={includeLogo}
                 onChange={(e) => setIncludeLogo(e.target.checked)}
                 className="w-4 h-4 accent-emerald-500 rounded cursor-pointer"
@@ -400,12 +419,13 @@ export const QRGeneratorPage: React.FC = () => {
             </div>
 
             <div className="space-y-1">
-              <div className="flex justify-between text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+              <div className="flex justify-between text-[11px] font-semibold text-slate-600 dark:text-slate-600">
                 <span>QR Display Size</span>
                 <span className="font-mono">{qrSize}px</span>
               </div>
               <input
                 type="range"
+                aria-label="QR display size"
                 min={180}
                 max={320}
                 step={20}
@@ -423,7 +443,7 @@ export const QRGeneratorPage: React.FC = () => {
             <h3 className="font-bold text-base text-slate-900 dark:text-white">
               Live QR Preview
             </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
+            <p className="text-xs text-slate-600 dark:text-slate-600">
               High-resolution canvas rendering with vector export options.
             </p>
           </div>
@@ -443,7 +463,7 @@ export const QRGeneratorPage: React.FC = () => {
               imageSettings={
                 includeLogo
                   ? {
-                      src: '/whatsapp-logo.svg',
+                      src: '/favicon.svg',
                       x: undefined,
                       y: undefined,
                       height: 36,
@@ -467,10 +487,10 @@ export const QRGeneratorPage: React.FC = () => {
 
           <div className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 text-left space-y-1">
             <div className="flex items-center justify-between text-[11px]">
-              <span className="font-semibold text-slate-500">QR Payload Target:</span>
+              <span className="font-semibold text-slate-600">QR Payload Target:</span>
               <button
                 onClick={handleCopyPayload}
-                className="text-emerald-500 hover:underline flex items-center gap-1 text-[10px] font-semibold"
+                className="text-emerald-700 hover:underline flex items-center gap-1 text-[10px] font-semibold"
               >
                 {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
                 <span>{copied ? 'Copied' : 'Copy Payload'}</span>
@@ -485,7 +505,7 @@ export const QRGeneratorPage: React.FC = () => {
             <button
               type="button"
               onClick={handleDownloadPng}
-              className="py-3 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs shadow-md shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="py-3 px-4 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-md shadow-emerald-700/25 transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <Download className="w-4 h-4" />
               <span>PNG (High-Res)</span>
@@ -511,31 +531,31 @@ export const QRGeneratorPage: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="glass-card p-6 space-y-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold">
+            <div className="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 flex items-center justify-center font-bold">
               <Store className="w-5 h-5" />
             </div>
             <h3 className="font-bold text-base text-slate-900 dark:text-white">Store Counter Banners</h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-600 leading-relaxed">
               Place a printed WhatsApp QR code at your store checkout for instant customer service orders and UPI payment prompts.
             </p>
           </div>
 
           <div className="glass-card p-6 space-y-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold">
+            <div className="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 flex items-center justify-center font-bold">
               <Package className="w-5 h-5" />
             </div>
             <h3 className="font-bold text-base text-slate-900 dark:text-white">Product Packaging Flyers</h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-600 leading-relaxed">
               Print vector SVG QR codes on product boxes and thank-you inserts so buyers can scan to request support or leave reviews.
             </p>
           </div>
 
           <div className="glass-card p-6 space-y-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold">
+            <div className="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 flex items-center justify-center font-bold">
               <Share2 className="w-5 h-5" />
             </div>
             <h3 className="font-bold text-base text-slate-900 dark:text-white">WiFi & Guest Sharing</h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-600 leading-relaxed">
               Allow cafe guests and event attendees to connect to your guest WiFi instantly without typing complicated passwords.
             </p>
           </div>
@@ -552,6 +572,8 @@ export const QRGeneratorPage: React.FC = () => {
           { name: 'Download & Deploy', text: 'Export print-ready PNG or scalable SVG for store banners, packaging, business cards, and flyers.' },
         ]}
       />
+
+      <RelatedTools currentPath="/whatsapp-qr-code-generator" />
 
       {/* Programmatic FAQ Section */}
       <FAQAccordion items={qrGeneratorFaqs} title="WhatsApp QR Code Generator FAQ" />

@@ -6,6 +6,9 @@ import { COOPCheckBanner } from '../components/COOPCheckBanner';
 import { AdBanner } from '../components/AdBanner';
 import { SEOHead, type FAQItem } from '../components/SEOHead';
 import { ToolSeoContent } from '../components/ToolSeoContent';
+import { PageHeader } from '../components/PageHeader';
+import { QuickAnswer } from '../components/QuickAnswer';
+import { RelatedTools } from '../components/RelatedTools';
 import { FAQAccordion } from '../components/FAQAccordion';
 import { 
   Scissors, 
@@ -204,9 +207,11 @@ export const StatusSplitterPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <SEOHead
-        title="WhatsApp Status Video Splitter (30s Clips) | WaKit"
-        description="Split a video into exact 30-second WhatsApp status clips in your browser. Lossless WebAssembly cutting, no uploads, and a ZIP download of every part."
+        title="WhatsApp Status Splitter — 30s Clips, No Upload | WaKit"
+        description="Split long videos into exact 30-second WhatsApp status clips in your browser. Lossless WebAssembly cutting, no uploads, free ZIP download."
         canonicalPath="/whatsapp-status-splitter"
+        breadcrumbs={[{ name: 'Status Splitter' }]}
+        appCategory="MultimediaApplication"
         keywords="whatsapp status video splitter online, split video for whatsapp status 30 seconds, cut video into 30s clips"
         faqs={statusSplitterFaqs}
         howToName="How to split a video for WhatsApp Status"
@@ -217,19 +222,29 @@ export const StatusSplitterPage: React.FC = () => {
         ]}
       />
 
-      {/* Title Header */}
-      <div className="text-center space-y-3">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-semibold border border-emerald-500/20">
-          <Scissors className="w-3.5 h-3.5" />
-          <span>Lossless Stream Copy • Web Worker Off-Thread Processing</span>
-        </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-          WhatsApp Status Splitter (Lossless 30s Slicer)
-        </h1>
-        <p className="text-slate-600 dark:text-slate-400 text-sm max-w-2xl mx-auto leading-relaxed">
-          Split long videos into exact 30-second clips for WhatsApp Status online without losing video quality. Processed 100% in your browser using WebAssembly.
-        </p>
-      </div>
+      <PageHeader
+        icon={Scissors}
+        eyebrow="Lossless stream copy • Web Worker"
+        title={
+          <>
+            WhatsApp Status Splitter{' '}
+            <span className="text-gradient-emerald">(30s clips)</span>
+          </>
+        }
+        description="Split long videos into exact 30-second clips for WhatsApp Status without losing video quality. Processed 100% in your browser using WebAssembly."
+        breadcrumbs={[{ name: 'Status Splitter' }]}
+      />
+
+      <QuickAnswer
+        question="How do I split a video into 30-second WhatsApp status clips?"
+        answer="Drop an MP4, MOV or WebM file into WaKit, then click “Split into 30s Status Clips”. FFmpeg WebAssembly cuts it locally into lossless 30-second parts with no upload, and you can download every clip as a ZIP."
+        facts={[
+          { label: 'Clip length', value: '30 seconds' },
+          { label: 'Quality', value: 'Lossless copy' },
+          { label: 'Uploads', value: '0 files' },
+          { label: 'Price', value: 'Free' },
+        ]}
+      />
 
       <COOPCheckBanner />
 
@@ -259,18 +274,18 @@ export const StatusSplitterPage: React.FC = () => {
                 }
               }}
             />
-            <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center shadow-inner">
+            <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 text-emerald-700 flex items-center justify-center shadow-inner">
               <UploadCloud className="w-8 h-8" />
             </div>
             <div className="space-y-1">
               <h3 className="font-bold text-base text-slate-800 dark:text-slate-200">
-                Drag & Drop video file here, or <span className="text-emerald-500 underline">browse</span>
+                Drag & Drop video file here, or <span className="text-emerald-700 underline">browse</span>
               </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-slate-600 dark:text-slate-600">
                 Supports MP4, MOV, WebM • Max Limit: {cap.maxFileSizeMB}MB ({cap.isMobile ? 'Mobile RAM Guard' : 'Desktop'})
               </p>
             </div>
-            <div className="flex items-center gap-3 text-[11px] text-slate-400 dark:text-slate-500">
+            <div className="flex items-center gap-3 text-[11px] text-slate-600 dark:text-slate-600">
               <span className="flex items-center gap-1"><Sparkles className="w-3 h-3 text-amber-500" /> Dedicated Web Worker</span>
               <span>•</span>
               <span>60 FPS UI</span>
@@ -280,14 +295,14 @@ export const StatusSplitterPage: React.FC = () => {
           <div className="space-y-6">
             <div className="p-5 rounded-2xl bg-slate-100/70 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-500 flex items-center justify-center shrink-0">
+                <div className="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-700 flex items-center justify-center shrink-0">
                   <FileVideo className="w-6 h-6" />
                 </div>
                 <div>
                   <h4 className="font-bold text-sm text-slate-900 dark:text-slate-100 line-clamp-1">
                     {selectedFile.name}
                   </h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                  <p className="text-xs text-slate-600 dark:text-slate-600">
                     {formatFileSize(selectedFile.size)}
                   </p>
                 </div>
@@ -306,7 +321,7 @@ export const StatusSplitterPage: React.FC = () => {
             {videoMetadata && (
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 text-center">
-                  <div className="flex items-center justify-center gap-1 text-slate-400 text-xs mb-1">
+                  <div className="flex items-center justify-center gap-1 text-slate-600 text-xs mb-1">
                     <Clock className="w-3.5 h-3.5" />
                     <span>Duration</span>
                   </div>
@@ -316,17 +331,17 @@ export const StatusSplitterPage: React.FC = () => {
                 </div>
 
                 <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 text-center">
-                  <div className="flex items-center justify-center gap-1 text-slate-400 text-xs mb-1">
-                    <Layers className="w-3.5 h-3.5 text-emerald-500" />
+                  <div className="flex items-center justify-center gap-1 text-slate-600 text-xs mb-1">
+                    <Layers className="w-3.5 h-3.5 text-emerald-700" />
                     <span>Est. Clips</span>
                   </div>
-                  <div className="font-bold text-sm text-emerald-600 dark:text-emerald-400">
+                  <div className="font-bold text-sm text-emerald-700 dark:text-emerald-400">
                     {videoMetadata.estimatedClips} Clips (30s)
                   </div>
                 </div>
 
                 <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 text-center">
-                  <div className="flex items-center justify-center gap-1 text-slate-400 text-xs mb-1">
+                  <div className="flex items-center justify-center gap-1 text-slate-600 text-xs mb-1">
                     <FileVideo className="w-3.5 h-3.5" />
                     <span>Resolution</span>
                   </div>
@@ -336,7 +351,7 @@ export const StatusSplitterPage: React.FC = () => {
                 </div>
 
                 <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 text-center">
-                  <div className="flex items-center justify-center gap-1 text-slate-400 text-xs mb-1">
+                  <div className="flex items-center justify-center gap-1 text-slate-600 text-xs mb-1">
                     <HardDrive className="w-3.5 h-3.5" />
                     <span>File Size</span>
                   </div>
@@ -389,10 +404,10 @@ export const StatusSplitterPage: React.FC = () => {
           <div className="space-y-2 p-4 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
             <div className="flex items-center justify-between text-xs font-semibold">
               <span className="text-slate-700 dark:text-slate-300 flex items-center gap-2">
-                <Loader2 className="w-3.5 h-3.5 animate-spin text-emerald-500" />
+                <Loader2 className="w-3.5 h-3.5 animate-spin text-emerald-700" />
                 <span>{statusText || 'Executing FFmpeg in background worker...'}</span>
               </span>
-              <span className="text-emerald-600 dark:text-emerald-400 font-mono">{progress}%</span>
+              <span className="text-emerald-700 dark:text-emerald-400 font-mono">{progress}%</span>
             </div>
             <div className="w-full h-2.5 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
               <div
@@ -408,10 +423,10 @@ export const StatusSplitterPage: React.FC = () => {
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <div>
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-emerald-500" />
+                  <CheckCircle2 className="w-5 h-5 text-emerald-700" />
                   <span>Split Completed ({segments.length} Clips)</span>
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-slate-600 dark:text-slate-600">
                   Ready to download and upload directly to WhatsApp Status.
                 </p>
               </div>
@@ -419,7 +434,7 @@ export const StatusSplitterPage: React.FC = () => {
               <button
                 onClick={handleDownloadZip}
                 disabled={isZipping}
-                className="px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-semibold text-xs shadow-md shadow-emerald-500/20 transition-all flex items-center gap-2 disabled:opacity-60 cursor-pointer"
+                className="px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-semibold text-xs shadow-md shadow-emerald-500/20 transition-all flex items-center gap-2 disabled:opacity-60 cursor-pointer"
               >
                 {isZipping ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
@@ -448,7 +463,7 @@ export const StatusSplitterPage: React.FC = () => {
                       <span className="font-semibold text-slate-800 dark:text-slate-200">
                         Part {seg.index}
                       </span>
-                      <span className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+                      <span className="text-[11px] text-slate-600 dark:text-slate-600 font-mono">
                         {formatFileSize(seg.size)}
                       </span>
                     </div>
@@ -457,7 +472,7 @@ export const StatusSplitterPage: React.FC = () => {
                   <a
                     href={seg.url}
                     download={seg.filename}
-                    className="w-full py-2 px-3 rounded-lg bg-slate-200/80 hover:bg-emerald-500 hover:text-white dark:bg-slate-800 dark:hover:bg-emerald-500 text-slate-700 dark:text-slate-300 font-medium text-xs transition-colors flex items-center justify-center gap-1.5"
+                    className="w-full py-2 px-3 rounded-lg bg-slate-200/80 hover:bg-emerald-700 hover:text-white dark:bg-slate-800 dark:hover:bg-emerald-500 text-slate-700 dark:text-slate-300 font-medium text-xs transition-colors flex items-center justify-center gap-1.5"
                   >
                     <Download className="w-3.5 h-3.5" />
                     <span>Download Part {seg.index}</span>
@@ -483,41 +498,43 @@ export const StatusSplitterPage: React.FC = () => {
       {/* Feature Highlights Grid */}
       <section className="glass-card p-6 sm:p-8 space-y-4">
         <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-          <Zap className="w-5 h-5 text-emerald-500" />
+          <Zap className="w-5 h-5 text-emerald-700" />
           <span>Why Choose WaKit WhatsApp Status Splitter?</span>
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
           <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1">
             <div className="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-1.5">
-              <Film className="w-4 h-4 text-emerald-500" />
+              <Film className="w-4 h-4 text-emerald-700" />
               <span>100% Lossless Quality</span>
             </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
+            <p className="text-xs text-slate-600 dark:text-slate-600">
               Zero video re-encoding means 100% original HD resolution and audio clarity are retained.
             </p>
           </div>
 
           <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1">
             <div className="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-1.5">
-              <Lock className="w-4 h-4 text-emerald-500" />
+              <Lock className="w-4 h-4 text-emerald-700" />
               <span>Zero Server Uploads</span>
             </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
+            <p className="text-xs text-slate-600 dark:text-slate-600">
               All files are processed strictly inside your device's browser memory. Zero privacy leakage.
             </p>
           </div>
 
           <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1">
             <div className="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-1.5">
-              <Sparkles className="w-4 h-4 text-emerald-500" />
+              <Sparkles className="w-4 h-4 text-emerald-700" />
               <span>Instant ZIP Download</span>
             </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
+            <p className="text-xs text-slate-600 dark:text-slate-600">
               Download all split video parts in a single ZIP package for organized sharing.
             </p>
           </div>
         </div>
       </section>
+
+      <RelatedTools currentPath="/whatsapp-status-splitter" />
 
       {/* Programmatic FAQ Section */}
       <FAQAccordion items={statusSplitterFaqs} title="WhatsApp Status Splitter FAQ" />

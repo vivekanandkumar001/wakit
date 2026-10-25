@@ -1,4 +1,4 @@
-import { FFmpeg } from '@ffmpeg/ffmpeg';
+import { FFmpeg, FFFSType } from '@ffmpeg/ffmpeg';
 import { fetchFile, toBlobURL } from '@ffmpeg/util';
 
 let ffmpeg: FFmpeg | null = null;
@@ -32,7 +32,7 @@ async function getFFmpeg(onProgress: (ratio: number, text: string) => void) {
 }
 
 self.onmessage = async (e: MessageEvent) => {
-  const { id, command, fileData, fileName, segmentTime, bitrate, format } = e.data;
+  const { id, command, file, fileData, fileName, segmentTime, bitrate, format } = e.data;
 
   const postProgress = (ratio: number, statusText: string) => {
     self.postMessage({ id, type: 'PROGRESS', ratio, statusText });
@@ -122,15 +122,25 @@ self.onmessage = async (e: MessageEvent) => {
       }
     } else if (command === 'COMPRESS_AUDIO') {
       const outputVirtualName = `output_${Date.now()}.${format || 'mp3'}`;
-      const filesToDelete: string[] = [inputVirtualName, outputVirtualName];
+      const mountPoint = `/wakit_input_${Date.now()}`;
+      const filesToDelete: string[] = [outputVirtualName];
 
       try {
-        postProgress(10, 'Writing audio buffer to WASM RAM...');
-        const fetchedFile = await fetchFile(new Blob([fileData]));
-        await ff.writeFile(inputVirtualName, fetchedFile);
+        if (!(file instanceof Blob)) {
+          throw new Error('Audio file was not transferred to the worker.');
+        }
 
+        postProgress(8, 'Mounting audio file directly from disk (no RAM copy)...');
+        await ff.createDir(mountPoint);
+        await ff.mount(
+          FFFSType.WORKERFS,
+          { blobs: [{ name: inputVirtualName, data: file }] },
+          mountPoint
+        );
+
+        const inputPath = `${mountPoint}/${inputVirtualName}`;
         postProgress(20, `Transcoding audio to ${bitrate} (${format})...`);
-        await ff.exec(['-i', inputVirtualName, '-b:a', bitrate || '64k', outputVirtualName]);
+        await ff.exec(['-i', inputPath, '-vn', '-b:a', bitrate || '64k', outputVirtualName]);
 
         postProgress(90, 'Reading compressed audio output...');
         const data = (await ff.readFile(outputVirtualName)) as Uint8Array;
@@ -151,6 +161,17 @@ self.onmessage = async (e: MessageEvent) => {
           [data.buffer as ArrayBuffer]
         );
       } finally {
+        // Unmount before deleting the mount point. Input data stays on disk.
+        try {
+          await ff.unmount(mountPoint);
+        } catch {
+          // ignore if mount never happened
+        }
+        try {
+          await ff.deleteDir(mountPoint);
+        } catch {
+          // ignore if directory was never created
+        }
         for (const f of filesToDelete) {
           try {
             await ff.deleteFile(f);
@@ -161,7 +182,10 @@ self.onmessage = async (e: MessageEvent) => {
       }
     }
   } catch (err: unknown) {
-    const errorMsg = err instanceof Error ? err.message : 'Worker execution error';
+    let errorMsg = err instanceof Error ? err.message : 'Worker execution error';
+    if (/out of memory|memory access out of bounds|allocation failed|cannot allocate|OOM|invalid array length/i.test(errorMsg)) {
+      errorMsg = 'This file is too large for the available browser memory. Try a lower bitrate, close other tabs, or use a smaller source file.';
+    }
     self.postMessage({ id, type: 'ERROR', error: errorMsg });
   }
 };

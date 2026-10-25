@@ -20,38 +20,38 @@ interface ToolSeoContentProps {
 export const ToolSeoContent: React.FC<ToolSeoContentProps> = ({ toolName, steps, intro }) => {
   return (
     <>
-      <section aria-labelledby="howto-heading" className="space-y-6 my-10">
-        <h2 id="howto-heading" className="text-xl font-bold text-slate-900 dark:text-white text-center">
+      <section aria-labelledby="howto-heading" className="my-10 space-y-6">
+        <h2 id="howto-heading" className="text-center text-xl font-bold text-slate-900">
           How to Use the {toolName} in 3 Steps
         </h2>
-        <p className="text-sm text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-center leading-relaxed">
+        <p className="mx-auto max-w-2xl text-center text-sm leading-relaxed text-slate-600">
           {intro}
         </p>
-        <ol className="grid grid-cols-1 md:grid-cols-3 gap-6 list-none p-0 m-0">
+        <ol className="m-0 grid list-none grid-cols-1 gap-6 p-0 md:grid-cols-3">
           {steps.map((step, index) => (
-            <li key={step.name} className="glass-card p-6 space-y-3 text-center">
+            <li key={step.name} className="glass-card space-y-3 p-6 text-center">
               <div
                 aria-hidden="true"
-                className="w-12 h-12 rounded-2xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto font-bold text-lg"
+                className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-lg font-bold text-emerald-700 ring-1 ring-emerald-200"
               >
                 {index + 1}
               </div>
-              <h3 className="font-bold text-base text-slate-900 dark:text-white">{step.name}</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{step.text}</p>
+              <h3 className="text-base font-bold text-slate-900">{step.name}</h3>
+              <p className="text-xs leading-relaxed text-slate-600">{step.text}</p>
             </li>
           ))}
         </ol>
       </section>
 
-      <section aria-labelledby="wasm-heading" className="glass-card p-6 sm:p-8 space-y-3">
+      <section aria-labelledby="wasm-heading" className="glass-card space-y-3 p-6 sm:p-8">
         <h2
           id="wasm-heading"
-          className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2"
+          className="flex items-center gap-2 text-lg font-bold text-slate-900"
         >
-          <ShieldCheck aria-hidden="true" className="w-5 h-5 text-emerald-500" />
+          <ShieldCheck aria-hidden="true" className="h-5 w-5 text-emerald-600" />
           <span>Why Client-Side WebAssembly Is Safer Than Cloud-Upload Converters</span>
         </h2>
-        <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+        <p className="text-xs leading-relaxed text-slate-600 sm:text-sm">
           Cloud-upload converters make you send personal videos, voice notes, and phone numbers to
           a remote server — where files can be stored, scanned, or leaked long after you click
           “convert”. {toolName} works differently: it runs FFmpeg compiled to WebAssembly inside

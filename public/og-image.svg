@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="WaKit — private WhatsApp tools in your browser">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ecfdf5"/>
+      <stop offset="48%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#ccfbf1"/>
+    </linearGradient>
+    <linearGradient id="tile" x1="90" y1="176" x2="230" y2="320" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="52%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#0d9488"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#0f172a" stroke-opacity="0.05" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <circle cx="1080" cy="80" r="220" fill="#99f6e4" opacity="0.35"/>
+  <circle cx="120" cy="600" r="180" fill="#a7f3d0" opacity="0.35"/>
+
+  <g transform="translate(90 168) scale(2.15)">
+    <rect x="2" y="2" width="60" height="60" rx="18" fill="url(#tile)"/>
+    <path d="M14 21.5 23.5 44 32 28.5 40.5 44 50 21.5" fill="none" stroke="#ffffff" stroke-width="5.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="49.5" cy="15.5" r="4" fill="#a7f3d0" stroke="#ffffff" stroke-width="1.8"/>
+  </g>
+
+  <text x="268" y="272" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="96" font-weight="800" letter-spacing="-4">
+    <tspan fill="#0f172a">Wa</tspan><tspan fill="#059669">Kit</tspan>
+  </text>
+  <text x="272" y="322" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="30" font-weight="600" fill="#475569">
+    Private WhatsApp tools in your browser
+  </text>
+
+  <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="21" font-weight="700">
+    <rect x="92" y="430" width="214" height="58" rx="16" fill="#ffffff" stroke="#a7f3d0"/>
+    <text x="199" y="467" text-anchor="middle" fill="#047857">30s Status Splitter</text>
+
+    <rect x="322" y="430" width="160" height="58" rx="16" fill="#ffffff" stroke="#a7f3d0"/>
+    <text x="402" y="467" text-anchor="middle" fill="#047857">Direct Chat</text>
+
+    <rect x="498" y="430" width="162" height="58" rx="16" fill="#ffffff" stroke="#a7f3d0"/>
+    <text x="579" y="467" text-anchor="middle" fill="#047857">QR Builder</text>
+
+    <rect x="676" y="430" width="232" height="58" rx="16" fill="#ffffff" stroke="#a7f3d0"/>
+    <text x="792" y="467" text-anchor="middle" fill="#047857">Audio Compressor</text>
+  </g>
+
+  <text x="92" y="548" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="600" fill="#64748b">
+    No uploads · No accounts · 100% on-device
+  </text>
+  <text x="1108" y="548" text-anchor="end" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" fill="#059669">
+    wakit.progeni.live
+  </text>
+</svg>

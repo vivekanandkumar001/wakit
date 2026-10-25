@@ -1,36 +1,55 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#020617" />
+    <meta name="theme-color" content="#f6faf8" />
+    <meta name="color-scheme" content="light" />
 
-    <title>WhatsSwift – Free Private WhatsApp Utilities (Status Splitter, Direct Chat, QR, Audio)</title>
+    <title>WaKit – Free Private WhatsApp Utilities (Status Splitter, Direct Chat, QR, Audio)</title>
     <meta
       name="description"
-      content="Free private WhatsApp tools in your browser: split 30s status videos, direct chat, QR codes & 16MB audio compression. Zero uploads, instant results."
+      content="Free private WhatsApp tools in your browser: split 30s status videos, direct chat, QR codes & compress audio up to 3GB for WhatsApp's 16MB limit. Zero uploads."
     />
     <meta
       name="keywords"
-      content="whatsapp status video splitter online, send whatsapp message without saving number, whatsapp link and qr code generator, compress audio for whatsapp 16mb, whatsswift, wakit"
+      content="whatsapp status video splitter online, send whatsapp message without saving number, whatsapp link and qr code generator, compress audio for whatsapp 16mb, compress 3gb audio, wakit"
     />
-    <meta name="author" content="WhatsSwift" />
+    <meta name="author" content="WaKit" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 
-    <!-- Canonical: live production URL. Self-heals to the served origin on load. -->
+    <!-- Canonical: production URL. Per-route canonicals are set by SEOHead. -->
     <link rel="canonical" href="https://wakit.progeni.live/" />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="WaKit LLM site guide" />
+
+    <!-- Progressive enhancement: hide the crawl fallback as soon as JS runs.
+         If the app bundle fails, the root loader shows a clear reload message. -->
     <script>
       (function () {
-        try {
-          var link = document.querySelector('link[rel="canonical"]');
-          if (link && location.protocol.indexOf('http') === 0) {
-            link.setAttribute('href', location.origin + location.pathname);
-          }
-        } catch (e) {}
+        document.documentElement.classList.add('js');
+        function showBootError() {
+          var el = document.getElementById('boot-message');
+          if (el) el.textContent = 'WaKit could not load. Please reload the page.';
+        }
+        window.addEventListener('error', showBootError, true);
+        window.addEventListener('unhandledrejection', showBootError);
+        window.setTimeout(showBootError, 15000);
       })();
     </script>
+    <style>
+      .js #seo-fallback {
+        display: none !important;
+      }
+    </style>
+    <noscript>
+      <style>
+        #root {
+          display: none !important;
+        }
+      </style>
+    </noscript>
 
     <!-- Core Web Vitals: font loading optimized (preconnect + display=swap, non-blocking) -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
@@ -57,45 +76,48 @@
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="WhatsSwift" />
+    <meta property="og:site_name" content="WaKit" />
     <meta property="og:url" content="https://wakit.progeni.live/" />
-    <meta property="og:title" content="WhatsSwift – Free Private WhatsApp Utilities (Status Splitter, Direct Chat, QR, Audio)" />
+    <meta property="og:title" content="WaKit – Free Private WhatsApp Utilities (Status Splitter, Direct Chat, QR, Audio)" />
     <meta
       property="og:description"
-      content="Split 30s status videos, chat without saving numbers, generate QR codes & compress audio to 16MB — free, private, 100% in-browser. No uploads."
+      content="Split 30s status videos, chat without saving numbers, generate QR codes & compress audio up to 3GB for WhatsApp's 16MB limit — free, private, 100% in-browser."
     />
-    <meta property="og:image" content="https://wakit.progeni.live/favicon.svg" />
-    <meta property="og:image:alt" content="WhatsSwift — free private WhatsApp utilities in your browser" />
+    <meta property="og:image" content="https://wakit.progeni.live/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="WaKit — free private WhatsApp utilities in your browser" />
     <meta property="og:locale" content="en_US" />
 
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="https://wakit.progeni.live/" />
-    <meta name="twitter:title" content="WhatsSwift – Free Private WhatsApp Utilities (Status Splitter, Direct Chat, QR, Audio)" />
+    <meta name="twitter:title" content="WaKit – Free Private WhatsApp Utilities (Status Splitter, Direct Chat, QR, Audio)" />
     <meta
       name="twitter:description"
-      content="Free in-browser WhatsApp toolkit: 30s status splitter, direct chat, QR generator & 16MB audio compressor. Zero uploads, instant results."
+      content="Free in-browser WhatsApp toolkit: 30s status splitter, direct chat, QR generator & 3GB audio compressor with 16MB output. Zero uploads, instant results."
     />
-    <meta name="twitter:image" content="https://wakit.progeni.live/favicon.svg" />
+    <meta name="twitter:image" content="https://wakit.progeni.live/og-image.png" />
+    <meta name="twitter:image:alt" content="WaKit — free private WhatsApp utilities in your browser" />
 
     <!-- Structured data: WebApplication -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "WebApplication",
-        "name": "WhatsSwift",
-        "alternateName": "WaKit",
+        "name": "WaKit",
         "url": "https://wakit.progeni.live/",
         "applicationCategory": "UtilitiesApplication",
         "operatingSystem": "Any",
         "browserRequirements": "Requires JavaScript. Requires HTML5 and WebAssembly.",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-        "description": "Free client-side WhatsApp utilities: status video splitter (30s clips), direct chat without saving numbers, QR code generator, and audio compressor (16MB target). All processing runs locally via WebAssembly — files never leave your device.",
+        "description": "Free client-side WhatsApp utilities: status video splitter (30s clips), direct chat without saving numbers, QR code generator, and audio compressor (up to 3GB input, 16MB output target). All processing runs locally via WebAssembly — files never leave your device.",
         "featureList": [
           "WhatsApp Status Video Splitter — cut videos into exact 30-second clips online",
           "Direct Chat Without Saving Number — message any WhatsApp number via wa.me links",
           "WhatsApp Link and QR Code Generator — scan-to-chat, Wi-Fi and payment QR codes",
-          "Audio Compressor for WhatsApp — shrink MP3/WAV/M4A under the 16MB attachment limit"
+          "Audio Compressor for WhatsApp — shrink MP3/WAV/M4A files up to 3GB under the 16MB attachment limit"
         ],
         "privacyPolicy": "https://wakit.progeni.live/privacy-policy"
       }
@@ -113,7 +135,7 @@
             "name": "Are my videos and audio files uploaded to a server? Is WebAssembly processing secure?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "No. WhatsSwift runs FFmpeg as WebAssembly entirely inside your browser sandbox. Your videos and audio never leave your device — unlike cloud-upload converters that store your files on remote servers."
+              "text": "No. WaKit runs FFmpeg as WebAssembly entirely inside your browser sandbox. Your videos and audio never leave your device — unlike cloud-upload converters that store your files on remote servers."
             }
           },
           {
@@ -126,10 +148,10 @@
           },
           {
             "@type": "Question",
-            "name": "How do I compress audio under WhatsApp's 16MB limit?",
+            "name": "How do I compress a large audio file for WhatsApp?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "WhatsApp rejects media attachments over 16MB. Upload your MP3, WAV or M4A to the Audio Compressor, pick 64k (voice), 96k or 128k, and download a smaller file that sends instantly — all processed locally."
+              "text": "WhatsApp rejects media attachments over 16MB. Upload an MP3, WAV or M4A up to 3GB to the Audio Compressor, pick 64k (voice), 96k or 128k, and download a smaller file that sends instantly — all processed locally."
             }
           },
           {
@@ -144,26 +166,41 @@
       }
     </script>
   </head>
-  <body class="bg-slate-dark text-slate-100 antialiased">
-    <!-- Static crawl fallback: raw-HTML content for crawlers / no-JS.
-         React replaces this on hydration for interactive users. -->
+  <body class="bg-canvas text-slate-900 antialiased">
     <div id="root">
-      <main style="max-width: 800px; margin: 0 auto; padding: 40px 20px; font-family: system-ui, sans-serif; color: #e2e8f0; background: #020617;">
-        <h1>WhatsSwift – Free Private WhatsApp Utilities in Your Browser</h1>
+      <div
+        role="status"
+        aria-live="polite"
+        style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#f6faf8;padding:24px;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;"
+      >
+        <div style="text-align:center;">
+          <div aria-hidden="true" style="width:56px;height:56px;border-radius:18px;background:linear-gradient(135deg,#047857,#0f766e);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:#ffffff;font-size:24px;font-weight:800;box-shadow:0 12px 28px -12px rgba(4,120,87,0.55);">W</div>
+          <p id="boot-message" style="margin:0;color:#0f172a;font-size:16px;font-weight:700;">Loading WaKit…</p>
+          <p style="margin:8px 0 0;color:#475569;font-size:13px;">Private WhatsApp tools, running in your browser.</p>
+          <p style="margin:16px 0 0;color:#64748b;font-size:12px;">Taking too long? <a href="/" style="color:#047857;font-weight:700;">Reload the page</a>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Static crawl fallback: visible to crawlers and no-JS visitors.
+         Hidden by the inline .js rule as soon as JavaScript runs. -->
+    <div id="seo-fallback">
+      <main style="max-width: 800px; margin: 0 auto; padding: 40px 20px; font-family: system-ui, sans-serif; color: #0f172a; background: #ffffff;">
+        <h1>WaKit – Free Private WhatsApp Utilities in Your Browser</h1>
         <p>
-          WhatsSwift is a free toolkit that runs 100% client-side: split status videos into
+          WaKit is a free toolkit that runs 100% client-side: split status videos into
           30-second clips, send WhatsApp messages without saving numbers, generate WhatsApp
-          link and QR codes, and compress audio under the 16MB limit. No uploads, no signup.
+          link and QR codes, and compress audio up to 3GB for WhatsApp's 16MB limit. No uploads, no signup.
           Enable JavaScript at
-          <a href="https://wakit.progeni.live/" style="color: #34d399;">https://wakit.progeni.live/</a>
+          <a href="https://wakit.progeni.live/" style="color: #047857;">https://wakit.progeni.live/</a>
           for the full interactive app.
         </p>
-        <nav aria-label="WhatsSwift tools">
+        <nav aria-label="WaKit tools">
           <ul>
-            <li><a href="https://wakit.progeni.live/whatsapp-status-splitter" style="color: #34d399;">WhatsApp Status Video Splitter Online — cut videos into 30s clips</a></li>
-            <li><a href="https://wakit.progeni.live/direct-chat-without-saving-number" style="color: #34d399;">Send WhatsApp Message Without Saving Number — direct chat</a></li>
-            <li><a href="https://wakit.progeni.live/whatsapp-qr-code-generator" style="color: #34d399;">WhatsApp Link and QR Code Generator — scan-to-chat codes</a></li>
-            <li><a href="https://wakit.progeni.live/whatsapp-audio-compressor" style="color: #34d399;">Compress Audio for WhatsApp 16MB — shrink MP3/WAV/M4A</a></li>
+            <li><a href="https://wakit.progeni.live/whatsapp-status-splitter" style="color: #047857;">WhatsApp Status Video Splitter Online — cut videos into 30s clips</a></li>
+            <li><a href="https://wakit.progeni.live/direct-chat-without-saving-number" style="color: #047857;">Send WhatsApp Message Without Saving Number — direct chat</a></li>
+            <li><a href="https://wakit.progeni.live/whatsapp-qr-code-generator" style="color: #047857;">WhatsApp Link and QR Code Generator — scan-to-chat codes</a></li>
+            <li><a href="https://wakit.progeni.live/whatsapp-audio-compressor" style="color: #047857;">Compress Audio for WhatsApp — up to 3GB input, 16MB output</a></li>
           </ul>
         </nav>
 
@@ -206,15 +243,16 @@
           <li>Step 3: Download the PNG or SVG for print, packaging, or store banners.</li>
         </ol>
 
-        <h2>Compress Audio for WhatsApp (16MB Limit)</h2>
+        <h2>Compress Audio for WhatsApp (Up to 3GB Input)</h2>
         <p>
-          WhatsApp rejects attachments over 16MB. Transcode heavy MP3, WAV, M4A, or AAC
-          recordings to 64k (voice), 96k, or 128k MP3/OPUS locally — cutting size by up to
-          70% while keeping speech clear.
+          WhatsApp rejects attachments over 16MB. WaKit accepts source MP3, WAV, M4A, or AAC
+          recordings up to 3GB, then transcodes them to 64k (voice), 96k, or 128k MP3/OPUS
+          locally — cutting size by up to 70% while keeping speech clear. Large files are
+          mounted read-only from disk instead of being copied into browser memory first.
         </p>
         <h3>How to use</h3>
         <ol>
-          <li>Step 1: Drop your audio file into the compressor.</li>
+          <li>Step 1: Drop an audio file up to 3GB into the compressor.</li>
           <li>Step 2: Choose bitrate (64k for voice) and MP3 or OPUS output.</li>
           <li>Step 3: Compress and download the file, ready to send on WhatsApp.</li>
         </ol>
@@ -222,7 +260,7 @@
         <h2>Why client-side WebAssembly is safer than cloud-upload converters</h2>
         <p>
           Cloud converters require uploading personal videos, voice notes, and phone numbers
-          to remote servers where they may be stored, scanned, or leaked. WhatsSwift instead
+          to remote servers where they may be stored, scanned, or leaked. WaKit instead
           runs FFmpeg compiled to WebAssembly inside your browser's sandbox: bytes are
           processed in local memory and never transmitted. No accounts, no logs, no retention.
         </p>
@@ -237,8 +275,8 @@
           <p>WhatsApp enforces a 30-second cap per status story. The splitter cuts exact 30s segments so each uploads cleanly.</p>
         </details>
         <details>
-          <summary><strong>How do I stay under the 16MB audio limit?</strong></summary>
-          <p>Compress to 64 kbps for voice notes. A 50MB lecture shrinks to roughly 10–14MB and sends instantly.</p>
+          <summary><strong>What is the maximum audio file size WaKit can compress?</strong></summary>
+          <p>The hard input limit is 3GB. Processing time and success depend on available browser memory; mobile devices work best with files under 150MB. Output is still targeted at WhatsApp's 16MB attachment cap.</p>
         </details>
         <details>
           <summary><strong>Is direct chat without saving a number safe?</strong></summary>
@@ -246,20 +284,6 @@
         </details>
       </main>
     </div>
-
-    <noscript>
-      <div style="max-width:800px;margin:0 auto;padding:40px 20px;font-family:system-ui,sans-serif;">
-        <h1>WhatsSwift – Free Private WhatsApp Utilities</h1>
-        <p>
-          WhatsSwift needs JavaScript for the interactive tools: (1) Status Splitter,
-          (2) Direct Chat without saving numbers, (3) QR Code Generator,
-          (4) Audio Compressor for the 16MB limit. All free and private at
-          <a href="https://wakit.progeni.live/">https://wakit.progeni.live/</a>.
-          Please enable JavaScript to use the full app.
-        </p>
-      </div>
-    </noscript>
-
 
     <script type="module" src="/src/main.tsx"></script>
   </body>
