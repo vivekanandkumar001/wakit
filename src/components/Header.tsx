@@ -4,6 +4,7 @@ import { ArrowUpRight, Lock, Menu, ShieldCheck, Sparkles, X } from 'lucide-react
 import { Navbar } from './Navbar';
 import { secondaryNavItems, toolNavItems } from './navItems';
 import { socialToolNavItems } from '../data/socialTools';
+import { ToolSearch } from './ToolSearch';
 import { Logo } from './Logo';
 
 export const Header: React.FC = () => {
@@ -44,10 +45,12 @@ export const Header: React.FC = () => {
 
           {/* Actions */}
           <div className="flex items-center gap-2">
-            <span className="hidden items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-[11px] font-bold text-emerald-700 xl:inline-flex">
+            <span className="hidden items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1.5 text-[10px] font-bold text-emerald-700 2xl:inline-flex">
               <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
               100% client-side
             </span>
+
+            <ToolSearch />
 
             <NavLink
               to="/social-tools"

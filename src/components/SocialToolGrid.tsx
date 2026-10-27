@@ -1,13 +1,23 @@
 import React from 'react';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { socialToolGroups } from '../data/socialTools';
+import { crossPlatformToolItems, socialToolGroups } from '../data/socialTools';
+
+const groupNotes: Record<string, string> = {
+  WhatsApp: 'Exports open on both phone and desktop',
+  Instagram: 'Sizes tuned for feed, Reels and carousel',
+  Facebook: 'Formats ready for pages, ads and Marketplace',
+};
 
 /**
  * Compact homepage discovery block for the 12 Creator Studio tools.
  * The hub page carries the full descriptions; this section stays scannable.
  */
 export const SocialToolGrid: React.FC = () => {
+  const platformGroups = socialToolGroups.filter((group) => group.name !== 'Cross-platform');
+  const crossPlatform = crossPlatformToolItems[0];
+  const CrossIcon = crossPlatform.icon;
+
   return (
     <section id="creator-studio" className="relative scroll-mt-24 py-4 sm:py-6">
       <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
@@ -33,8 +43,8 @@ export const SocialToolGrid: React.FC = () => {
         </Link>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {socialToolGroups.map((group) => (
+      <div className="grid gap-4 md:grid-cols-3">
+        {platformGroups.map((group) => (
           <section key={group.name} className="glass-card flex flex-col overflow-hidden">
             <div className="border-b border-slate-200 bg-slate-50/80 px-4 py-3">
               <div className="flex items-center justify-between gap-2">
@@ -47,10 +57,10 @@ export const SocialToolGrid: React.FC = () => {
             </div>
             <ul className="flex flex-1 flex-col divide-y divide-slate-100">
               {group.tools.map((tool) => (
-                <li key={tool.to}>
+                <li key={tool.to} className="flex flex-1">
                   <Link
                     to={tool.to}
-                    className="group flex items-center gap-2.5 px-4 py-3 transition-colors hover:bg-emerald-50/50"
+                    className="group flex w-full items-center gap-2.5 px-4 py-3 transition-colors hover:bg-emerald-50/50"
                   >
                     <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100">
                       <tool.icon className="h-4 w-4" aria-hidden="true" />
@@ -68,8 +78,48 @@ export const SocialToolGrid: React.FC = () => {
                 </li>
               ))}
             </ul>
+            <p className="mt-auto flex items-center gap-1.5 border-t border-slate-100 bg-white px-4 py-2.5 text-[10px] font-semibold text-slate-500">
+              <CheckCircle2 className="h-3 w-3 shrink-0 text-emerald-600" aria-hidden="true" />
+              {groupNotes[group.name]}
+            </p>
           </section>
         ))}
+      </div>
+
+      {/* Cross-platform band: fills the full width instead of an almost-empty fourth column */}
+      <div className="glass-card mt-4 flex flex-col gap-4 p-4 sm:p-5 md:flex-row md:items-center md:justify-between">
+        <div className="flex items-start gap-3">
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200">
+            <CrossIcon className="h-5 w-5" aria-hidden="true" />
+          </span>
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-2">
+              <h3 className="text-sm font-black text-slate-900">Cross-platform: {crossPlatform.label}</h3>
+              <span className="badge">{crossPlatform.badge}</span>
+            </div>
+            <p className="mt-1 max-w-2xl text-xs leading-relaxed text-slate-600">
+              Resize up to 12 images into eight platform presets in one batch, then build a
+              trackable UTM link and export its QR for print or bio use.
+            </p>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {['8 presets', 'UTM builder', 'QR export', '12 images / batch'].map((chip) => (
+                <span
+                  key={chip}
+                  className="rounded-full border border-slate-200 bg-white px-2 py-0.5 text-[10px] font-semibold text-slate-600"
+                >
+                  {chip}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+        <Link
+          to={crossPlatform.to}
+          className="btn-secondary group inline-flex shrink-0 items-center justify-center gap-1.5 px-4 py-2.5 text-xs"
+        >
+          Open batch resizer
+          <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+        </Link>
       </div>
     </section>
   );
