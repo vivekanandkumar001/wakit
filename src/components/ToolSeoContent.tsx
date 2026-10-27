@@ -61,7 +61,7 @@ export const ToolSeoContent: React.FC<ToolSeoContentProps> = ({
           <ShieldCheck aria-hidden="true" className="h-5 w-5 text-emerald-600" />
           <span>{securityHeading}</span>
         </h2>
-        <p className="text-xs leading-relaxed text-slate-600 sm:text-sm">
+        <p className="max-w-4xl text-xs leading-relaxed text-slate-600 sm:text-sm">
           {securityText ??
             `Cloud-upload converters make you send personal videos, voice notes, and phone numbers to a remote server — where files can be stored, scanned, or leaked long after you click “convert”. ${toolName} works differently: it runs inside your browser’s sandbox, so every byte is processed in your device’s local memory and nothing is ever transmitted, logged, or retained. No accounts, no queues, no waiting rooms — just instant, private results, even on slow networks.`}
         </p>

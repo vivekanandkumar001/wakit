@@ -62,7 +62,7 @@ export const HeroSection: React.FC = () => {
         <div className="absolute left-1/2 top-0 h-[30rem] w-[30rem] -translate-x-1/2 rounded-full border border-teal-300/25" />
       </div>
 
-      <div className="mx-auto max-w-6xl">
+      <div className="w-full">
         <div className="grid items-stretch gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-12">
           {/* Left: message and primary actions */}
           <div className="text-center lg:text-left">
@@ -194,7 +194,7 @@ export const HeroSection: React.FC = () => {
 
         {/* Stats strip */}
         <dl
-          className="animate-fade-up mx-auto mt-9 grid w-full max-w-5xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-slate-200 bg-slate-200 shadow-sm sm:grid-cols-4"
+          className="animate-fade-up mt-9 grid w-full grid-cols-2 gap-px overflow-hidden rounded-2xl border border-slate-200 bg-slate-200 shadow-sm sm:grid-cols-4"
           style={{ animationDelay: '400ms' }}
         >
           {stats.map((stat) => (

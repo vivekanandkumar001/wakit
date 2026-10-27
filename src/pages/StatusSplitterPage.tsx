@@ -205,7 +205,7 @@ export const StatusSplitterPage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
+    <div className="w-full space-y-8">
       <SEOHead
         title="WhatsApp Status Splitter — 30s Clips, No Upload | WaKit"
         description="Split long videos into exact 30-second WhatsApp status clips in your browser. Lossless WebAssembly cutting, no uploads, free ZIP download."

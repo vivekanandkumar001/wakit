@@ -52,7 +52,7 @@ export const App: React.FC = () => {
 
       <main
         id="main-content"
-        className="relative z-10 mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6 sm:py-10 lg:px-8"
+        className="relative z-10 w-full flex-1 px-5 py-6 sm:py-10"
       >
         <Routes>
           <Route path="/" element={<HomePage />} />

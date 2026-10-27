@@ -22,7 +22,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   updated = SITE.updatedLabel,
 }) => {
   return (
-    <header className="relative mx-auto max-w-2xl px-1 pb-1 pt-2 text-center sm:pt-6">
+    <header className="relative mx-auto max-w-4xl px-1 pb-1 pt-2 text-center sm:pt-6">
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 -top-8 -z-10 mx-auto h-52 max-w-xl rounded-full bg-emerald-200/40 blur-[90px]" />
 
       {breadcrumbs && breadcrumbs.length > 0 && (

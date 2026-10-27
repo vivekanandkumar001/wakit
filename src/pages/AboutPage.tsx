@@ -29,7 +29,7 @@ const principles = [
 
 export const AboutPage: React.FC = () => {
   return (
-    <div className="mx-auto max-w-4xl space-y-8">
+    <div className="w-full space-y-8">
       <SEOHead
         title="About WaKit — How Our Browser-Based WhatsApp Tools Work"
         description="How WaKit runs WhatsApp video splitting, QR generation and audio compression entirely in your browser with FFmpeg WebAssembly, plus what the tools cannot do."
@@ -45,38 +45,40 @@ export const AboutPage: React.FC = () => {
         breadcrumbs={[{ name: 'About' }]}
       />
 
-      <div className="glass-card space-y-8 p-6 sm:p-10">
-        <div className="space-y-4">
-          <h2 className="flex items-center gap-2 text-xl font-bold text-slate-900">
-            <Lock className="h-5 w-5 text-emerald-600" aria-hidden="true" />
-            <span>The zero-server philosophy</span>
-          </h2>
-          <p className="text-sm leading-relaxed text-slate-600">
-            Traditional web converters upload your personal videos, photos, and voice notes to
-            remote cloud servers to process them. That creates serious privacy risks, bandwidth
-            usage, and data-leakage possibilities.
-          </p>
-          <p className="text-sm leading-relaxed text-slate-600">
-            <strong className="text-slate-900">WaKit</strong> was built to solve this. Using modern{' '}
-            <strong className="text-slate-900">WebAssembly (WASM)</strong> and HTML5 APIs, your
-            browser runs the same FFmpeg media-processing binary locally on your computer or phone.
-            The file never has to travel anywhere.
-          </p>
-        </div>
+      <div className="glass-card p-6 sm:p-10">
+        <div className="grid gap-8 xl:grid-cols-[1fr_1.1fr] xl:items-start">
+          <div className="space-y-4">
+            <h2 className="flex items-center gap-2 text-xl font-bold text-slate-900">
+              <Lock className="h-5 w-5 text-emerald-600" aria-hidden="true" />
+              <span>The zero-server philosophy</span>
+            </h2>
+            <p className="text-sm leading-relaxed text-slate-600">
+              Traditional web converters upload your personal videos, photos, and voice notes to
+              remote cloud servers to process them. That creates serious privacy risks, bandwidth
+              usage, and data-leakage possibilities.
+            </p>
+            <p className="text-sm leading-relaxed text-slate-600">
+              <strong className="text-slate-900">WaKit</strong> was built to solve this. Using modern{' '}
+              <strong className="text-slate-900">WebAssembly (WASM)</strong> and HTML5 APIs, your
+              browser runs the same FFmpeg media-processing binary locally on your computer or phone.
+              The file never has to travel anywhere.
+            </p>
+          </div>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          {principles.map(({ icon: Icon, title, text }) => (
-            <div key={title} className="space-y-2 rounded-2xl border border-slate-200 bg-slate-50 p-5">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-emerald-600 ring-1 ring-emerald-200">
-                <Icon className="h-5 w-5" aria-hidden="true" />
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {principles.map(({ icon: Icon, title, text }) => (
+              <div key={title} className="space-y-2 rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-emerald-600 ring-1 ring-emerald-200">
+                  <Icon className="h-5 w-5" aria-hidden="true" />
+                </div>
+                <h3 className="text-sm font-bold text-slate-900">{title}</h3>
+                <p className="text-xs leading-relaxed text-slate-600">{text}</p>
               </div>
-              <h3 className="text-sm font-bold text-slate-900">{title}</h3>
-              <p className="text-xs leading-relaxed text-slate-600">{text}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
-        <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-xs leading-relaxed text-emerald-900">
+        <div className="mt-8 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-xs leading-relaxed text-emerald-900">
           <strong>Independent utility:</strong> WaKit is free to use with no account and no
           subscription. Files you open are never sent to us or sold to anyone.
         </div>

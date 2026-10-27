@@ -53,7 +53,7 @@ export const ClientToolPage: React.FC<ClientToolPageProps> = ({
   children,
 }) => {
   return (
-    <div className="mx-auto max-w-6xl space-y-8">
+    <div className="w-full space-y-8">
       <SEOHead
         {...seo}
         breadcrumbs={breadcrumbs}

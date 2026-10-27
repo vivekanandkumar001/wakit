@@ -105,7 +105,7 @@ export const DirectMessagePage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
+    <div className="w-full space-y-8">
       <SEOHead
         title="WhatsApp Direct Chat Without Saving Number | WaKit"
         description="Message any WhatsApp number without saving it as a contact. Build an official wa.me link with a prefilled message in your browser — free and private."

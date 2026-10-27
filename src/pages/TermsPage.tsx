@@ -6,7 +6,7 @@ import { PageHeader } from '../components/PageHeader';
 
 export const TermsPage: React.FC = () => {
   return (
-    <div className="mx-auto max-w-4xl space-y-8">
+    <div className="w-full space-y-8">
       <SEOHead
         title="Terms of Service | WaKit"
         description="The terms that apply when you use WaKit's free browser-based creator and messaging tools, including acceptable use, liability limits and trademark attribution."
@@ -22,7 +22,7 @@ export const TermsPage: React.FC = () => {
         breadcrumbs={[{ name: 'Terms of Service' }]}
       />
 
-      <div className="glass-card space-y-6 p-6 text-sm leading-relaxed text-slate-700 sm:p-10">
+      <div className="glass-card grid gap-x-10 gap-y-6 p-6 text-sm leading-relaxed text-slate-700 sm:p-10 xl:grid-cols-2">
         <section className="space-y-2">
           <h2 className="text-lg font-bold text-slate-900">1. Acceptance of terms</h2>
           <p>

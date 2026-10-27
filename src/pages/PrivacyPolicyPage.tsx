@@ -7,7 +7,7 @@ import { SITE } from '../config/site';
 
 export const PrivacyPolicyPage: React.FC = () => {
   return (
-    <div className="mx-auto max-w-4xl space-y-8">
+    <div className="w-full space-y-8">
       <SEOHead
         title="Privacy Policy — No File Uploads | WaKit"
         description="What WaKit stores and what it does not: media stays in browser memory, no account is required, and no files or phone numbers are ever sent to a server."
@@ -23,7 +23,7 @@ export const PrivacyPolicyPage: React.FC = () => {
         breadcrumbs={[{ name: 'Privacy Policy' }]}
       />
 
-      <div className="glass-card space-y-6 p-6 text-sm leading-relaxed text-slate-700 sm:p-10">
+      <div className="glass-card grid gap-x-10 gap-y-6 p-6 text-sm leading-relaxed text-slate-700 sm:p-10 xl:grid-cols-2">
         <section className="space-y-2">
           <h2 className="flex items-center gap-2 text-lg font-bold text-slate-900">
             <Lock className="h-5 w-5 text-emerald-600" aria-hidden="true" />
@@ -93,7 +93,7 @@ export const PrivacyPolicyPage: React.FC = () => {
           </p>
         </section>
 
-        <section className="space-y-2">
+        <section className="space-y-2 xl:col-span-2">
           <h2 className="text-lg font-bold text-slate-900">5. Contact us</h2>
           <p>
             If you have questions about this Privacy Policy or the technical security

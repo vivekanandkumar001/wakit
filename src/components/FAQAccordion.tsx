@@ -119,7 +119,7 @@ export const FAQAccordion: React.FC<FAQAccordionProps> = ({
                 }`}
               >
                 <div className="overflow-hidden">
-                  <p className="px-4 pb-4 pl-10 text-xs leading-relaxed text-slate-600 sm:text-[13px]">
+                  <p className="max-w-4xl px-4 pb-4 pl-10 text-xs leading-relaxed text-slate-600 sm:text-[13px]">
                     {item.answer}
                   </p>
                 </div>

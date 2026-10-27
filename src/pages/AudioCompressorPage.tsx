@@ -162,7 +162,7 @@ export const AudioCompressorPage: React.FC = () => {
   };
 
   return (
-    <div className="mx-auto max-w-4xl space-y-8">
+    <div className="w-full space-y-8">
       <SEOHead
         title="Compress Audio for WhatsApp (Up to 3GB) | WaKit"
         description="Compress MP3, WAV and M4A files up to 3GB under WhatsApp's 16MB limit. The 64 kbps voice mode shrinks audio locally in your browser, with no uploads or signup."

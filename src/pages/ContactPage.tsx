@@ -36,7 +36,7 @@ export const ContactPage: React.FC = () => {
   };
 
   return (
-    <div className="mx-auto max-w-4xl space-y-8">
+    <div className="w-full space-y-8">
       <SEOHead
         title="Contact WaKit Support | WaKit"
         description={`Report a bug, request a feature, or ask a question about WaKit. Messages open in your own email app and go to ${SUPPORT_EMAIL}.`}

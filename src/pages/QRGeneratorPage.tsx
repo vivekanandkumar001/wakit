@@ -134,7 +134,7 @@ export const QRGeneratorPage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
+    <div className="w-full space-y-8">
       <SEOHead
         title="WhatsApp QR Code & Chat Link Generator | WaKit"
         description="Create a free WhatsApp QR code, wa.me chat link, Wi-Fi or payment QR in your browser. Custom colors, high-res PNG and vector SVG export — no signup."

@@ -9,7 +9,7 @@ export const Footer: React.FC = () => {
     <footer className="relative z-10 mt-auto w-full border-t border-slate-200 bg-white/80 pt-12 pb-8 text-slate-600 backdrop-blur-xl">
       <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-400/60 to-transparent" />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-5">
         <div className="mb-10 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand Column */}
           <div className="space-y-4 lg:col-span-2">

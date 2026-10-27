@@ -30,7 +30,7 @@ export const QuickAnswer: React.FC<QuickAnswerProps> = ({ question, answer, fact
           <h2 id="quick-answer-question" className="mt-1.5 text-base font-bold tracking-tight text-slate-900 sm:text-lg">
             {question}
           </h2>
-          <p className="mt-2 text-sm leading-relaxed text-slate-700">{answer}</p>
+          <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-700">{answer}</p>
         </div>
       </div>
 
