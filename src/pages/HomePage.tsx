@@ -1,7 +1,7 @@
 import React from 'react';
 import { HeroSection } from '../components/HeroSection';
+import { ToolDirectory } from '../components/ToolDirectory';
 import { ToolGrid } from '../components/ToolGrid';
-import { SocialToolGrid } from '../components/SocialToolGrid';
 import { TrustSection } from '../components/TrustSection';
 import { FAQAccordion, exactWaKitFaqs } from '../components/FAQAccordion';
 import { SEOHead } from '../components/SEOHead';
@@ -20,9 +20,9 @@ export const HomePage: React.FC = () => {
       <div className="space-y-8 sm:space-y-10">
         <HeroSection />
 
-        <ToolGrid />
+        <ToolDirectory />
 
-        <SocialToolGrid />
+        <ToolGrid />
 
         <TrustSection />
 

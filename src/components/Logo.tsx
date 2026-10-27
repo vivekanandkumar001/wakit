@@ -87,18 +87,39 @@ interface LogoProps {
   compact?: boolean;
   /** Render as a plain span instead of a link (e.g. inside another link). */
   asLink?: boolean;
+  /** `light` is for the deep-emerald header bar. */
+  tone?: 'dark' | 'light';
 }
 
-export const Logo: React.FC<LogoProps> = ({ className = '', compact = false, asLink = true }) => {
+export const Logo: React.FC<LogoProps> = ({
+  className = '',
+  compact = false,
+  asLink = true,
+  tone = 'dark',
+}) => {
+  const isLight = tone === 'light';
+
   const content = (
     <>
-      <LogoMark className="h-9 w-9 shrink-0 transition-transform duration-300 group-hover:-rotate-3 group-hover:scale-105" />
+      <LogoMark
+        className={`h-9 w-9 shrink-0 transition-transform duration-300 group-hover:-rotate-3 group-hover:scale-105 ${
+          isLight ? 'drop-shadow-[0_6px_14px_rgba(2,44,34,0.45)]' : ''
+        }`}
+      />
       <span className="flex flex-col leading-none">
-        <span className="text-[1.15rem] font-extrabold tracking-[-0.03em] text-slate-900">
-          Wa<span className="text-emerald-700">Kit</span>
+        <span
+          className={`text-[1.15rem] font-extrabold tracking-[-0.03em] ${
+            isLight ? 'text-white' : 'text-slate-900'
+          }`}
+        >
+          Wa<span className={isLight ? 'text-amber-300' : 'text-emerald-700'}>Kit</span>
         </span>
         {!compact && (
-          <span className="mt-1 hidden text-[9px] font-bold uppercase tracking-[0.16em] text-slate-500 sm:block">
+          <span
+            className={`mt-1 hidden text-[9px] font-bold uppercase tracking-[0.16em] sm:block ${
+              isLight ? 'text-emerald-100/80' : 'text-slate-500'
+            }`}
+          >
             Private creator tools
           </span>
         )}

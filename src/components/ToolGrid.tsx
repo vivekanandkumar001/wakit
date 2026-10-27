@@ -327,15 +327,15 @@ export const ToolGrid: React.FC = () => {
         <div>
           <span className="eyebrow">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
-            The toolkit
+            Try it now
           </span>
           <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
-            WhatsApp essentials.{' '}
-            <span className="text-gradient-emerald">Zero uploads.</span>
+            Run the four essentials{' '}
+            <span className="text-gradient-emerald">right here.</span>
           </h2>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-600">
-            Everything below runs inside this tab. Your files stay on your device from the first
-            byte to the final download.
+            No guide needed for these. Drop a file or type a number, work locally, and download
+            the result from this page.
           </p>
         </div>
         <p className="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-[11px] font-semibold text-slate-600 shadow-sm">

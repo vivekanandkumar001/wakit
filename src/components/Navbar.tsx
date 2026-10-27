@@ -3,9 +3,13 @@ import { NavLink } from 'react-router-dom';
 import { toolNavItems } from './navItems';
 import { CreatorStudioMenu } from './CreatorStudioMenu';
 
+/**
+ * Desktop category strip below the brand/search bar. Text-first like a
+ * marketplace header, so the row stays compact and scannable.
+ */
 export const Navbar: React.FC = () => {
   return (
-    <nav aria-label="Primary" className="hidden items-center gap-0.5 min-[960px]:flex">
+    <nav aria-label="Primary" className="hidden min-w-0 items-center gap-0.5 min-[900px]:flex">
       {toolNavItems
         .filter((item) => item.to !== '/social-tools')
         .map((item) => {
@@ -17,10 +21,8 @@ export const Navbar: React.FC = () => {
               end={item.to === '/'}
               title={item.description}
               className={({ isActive }) =>
-                `group relative flex items-center gap-2 rounded-xl px-2.5 py-2 text-[12px] font-semibold transition-colors duration-200 min-[1150px]:px-3 min-[1150px]:text-[13px] ${
-                  isActive
-                    ? 'bg-emerald-50 text-emerald-700'
-                    : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                `group relative flex h-11 items-center gap-1.5 whitespace-nowrap px-2.5 text-[12.5px] font-semibold transition-colors duration-200 ${
+                  isActive ? 'text-emerald-700' : 'text-slate-600 hover:text-emerald-700'
                 }`
               }
             >
@@ -28,15 +30,15 @@ export const Navbar: React.FC = () => {
                 <>
                   <Icon
                     aria-hidden="true"
-                    className={`hidden h-4 w-4 transition-colors min-[1150px]:block ${
-                      isActive ? 'text-emerald-700' : 'text-slate-600 group-hover:text-emerald-700'
+                    className={`hidden h-4 w-4 min-[1200px]:block ${
+                      isActive ? 'text-emerald-600' : 'text-slate-400 group-hover:text-emerald-600'
                     }`}
                   />
                   <span>{item.label}</span>
                   <span
                     aria-hidden="true"
-                    className={`absolute inset-x-3 -bottom-px h-px bg-gradient-to-r from-transparent via-emerald-500 to-transparent transition-opacity duration-200 ${
-                      isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-50'
+                    className={`absolute inset-x-2 bottom-0 h-0.5 rounded-full bg-emerald-600 transition-opacity duration-200 ${
+                      isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-40'
                     }`}
                   />
                 </>
@@ -44,8 +46,9 @@ export const Navbar: React.FC = () => {
             </NavLink>
           );
         })}
+
+      <span aria-hidden="true" className="mx-1.5 h-4 w-px bg-slate-200" />
       <CreatorStudioMenu />
     </nav>
   );
 };
-

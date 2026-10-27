@@ -7,6 +7,12 @@ import { socialToolNavItems } from '../data/socialTools';
 import { ToolSearch } from './ToolSearch';
 import { Logo } from './Logo';
 
+const popularLinks = [
+  { to: '/whatsapp-sticker-maker', label: 'Sticker Maker' },
+  { to: '/instagram-grid-planner', label: 'Grid Planner' },
+  { to: '/whatsapp-media-compressor', label: 'Media Compressor' },
+];
+
 export const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
@@ -35,48 +41,82 @@ export const Header: React.FC = () => {
   }, [menuOpen]);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-200/80 bg-white/85 shadow-[0_1px_0_rgba(15,23,42,0.02)] backdrop-blur-xl">
-      <div className="w-full px-5">
-        <div className="flex h-16 items-center justify-between gap-3">
-          <Logo />
+    <header className="sticky top-0 z-50 w-full">
+      {/* Brand bar: logo, Flipkart-style always-visible search, actions */}
+      <div className="relative bg-[linear-gradient(100deg,#022c22_0%,#064e3b_46%,#065f46_100%)]">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute -left-24 -top-24 h-64 w-64 rounded-full bg-emerald-400/15 blur-3xl" />
+          <div className="absolute right-0 top-0 h-40 w-96 translate-x-1/3 rounded-full bg-teal-300/10 blur-3xl" />
+          <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-amber-300/40 to-transparent" />
+        </div>
 
-          {/* Desktop navigation */}
+        <div className="relative flex w-full flex-col gap-2.5 px-5 py-2.5 md:h-16 md:flex-row md:items-center md:gap-3 md:py-0">
+          <div className="flex items-center justify-between gap-3 md:contents">
+            <Logo tone="light" />
+
+            <div className="flex items-center gap-2 md:order-3 md:ml-auto">
+              <span className="hidden items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-2.5 py-1.5 text-[10px] font-bold text-emerald-50 min-[900px]:inline-flex">
+                <ShieldCheck className="h-3.5 w-3.5 text-emerald-300" aria-hidden="true" />
+                100% on-device
+              </span>
+
+              <NavLink
+                to="/social-tools"
+                aria-label="Open Creator Studio — 12 private social tools"
+                title="Creator Studio — 12 private social tools"
+                className="relative grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-amber-400 text-emerald-950 shadow-sm transition-colors hover:bg-amber-300 min-[900px]:hidden"
+              >
+                <Sparkles className="h-5 w-5" aria-hidden="true" />
+                <span
+                  aria-hidden="true"
+                  className="absolute -right-1 -top-1 rounded-full bg-emerald-950 px-1 text-[9px] font-extrabold leading-4 text-amber-300 ring-2 ring-emerald-800"
+                >
+                  12
+                </span>
+              </NavLink>
+
+              <button
+                type="button"
+                onClick={() => setMenuOpen(true)}
+                className="grid h-10 w-10 place-items-center rounded-xl border border-white/20 bg-white/10 text-white transition-colors hover:border-white/40 hover:bg-white/20 min-[900px]:hidden"
+                aria-label="Open tools menu"
+                aria-expanded={menuOpen}
+                aria-controls="mobile-menu"
+              >
+                <Menu className="h-5 w-5" aria-hidden="true" />
+              </button>
+            </div>
+          </div>
+
+          <ToolSearch className="md:order-2 md:min-w-0 md:max-w-[80rem] md:flex-1" />
+        </div>
+      </div>
+
+      {/* Category bar: keeps every primary destination visible on desktop */}
+      <div className="hidden border-b border-slate-200 bg-white/95 shadow-[0_1px_0_rgba(15,23,42,0.03)] min-[900px]:block">
+        <div className="flex h-11 w-full items-center justify-between gap-4 px-5">
           <Navbar />
 
-          {/* Actions */}
-          <div className="flex items-center gap-2">
-            <span className="hidden items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1.5 text-[10px] font-bold text-emerald-700 2xl:inline-flex">
-              <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
-              100% client-side
-            </span>
-
-            <ToolSearch />
-
-            <NavLink
-              to="/social-tools"
-              aria-label="Open Creator Studio — 12 private social tools"
-              title="Creator Studio — 12 private social tools"
-              className="relative grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-emerald-600 text-white shadow-sm transition-colors hover:bg-emerald-700 min-[960px]:hidden"
-            >
-              <Sparkles className="h-5 w-5 text-amber-300" aria-hidden="true" />
-              <span
-                aria-hidden="true"
-                className="absolute -right-1 -top-1 rounded-full bg-amber-400 px-1 text-[9px] font-extrabold leading-4 text-emerald-950 ring-2 ring-white"
-              >
-                12
+          <div className="flex shrink-0 items-center gap-4">
+            <div className="hidden items-center gap-3 2xl:flex">
+              <span className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-slate-400">
+                Popular
               </span>
-            </NavLink>
+              {popularLinks.map((link) => (
+                <NavLink
+                  key={link.to}
+                  to={link.to}
+                  className="text-[11px] font-semibold text-slate-600 transition-colors hover:text-emerald-700"
+                >
+                  {link.label}
+                </NavLink>
+              ))}
+            </div>
 
-            <button
-              type="button"
-              onClick={() => setMenuOpen(true)}
-              className="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 bg-white text-slate-700 shadow-sm transition-colors hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 min-[960px]:hidden"
-              aria-label="Open tools menu"
-              aria-expanded={menuOpen}
-              aria-controls="mobile-menu"
-            >
-              <Menu className="h-5 w-5" aria-hidden="true" />
-            </button>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-bold text-emerald-700 ring-1 ring-emerald-200">
+              <Lock className="h-3 w-3" aria-hidden="true" />
+              0 uploads
+            </span>
           </div>
         </div>
       </div>
@@ -84,13 +124,13 @@ export const Header: React.FC = () => {
       {/* Mobile drawer */}
       <div
         id="mobile-menu"
-        className={`fixed inset-0 z-[60] min-[960px]:hidden ${menuOpen ? '' : 'pointer-events-none'}`}
+        className={`fixed inset-0 z-[60] min-[900px]:hidden ${menuOpen ? '' : 'pointer-events-none'}`}
         aria-hidden={!menuOpen}
         inert={!menuOpen}
       >
         <div
           onClick={() => setMenuOpen(false)}
-          className={`absolute inset-0 bg-slate-900/35 backdrop-blur-sm transition-opacity duration-300 ${
+          className={`absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity duration-300 ${
             menuOpen ? 'opacity-100' : 'opacity-0'
           }`}
         />
@@ -99,7 +139,7 @@ export const Header: React.FC = () => {
           role="dialog"
           aria-modal="true"
           aria-label="WaKit tools menu"
-          className={`absolute inset-x-3 top-3 origin-top rounded-3xl border border-slate-200 bg-white p-4 shadow-2xl shadow-slate-900/20 transition-all duration-300 sm:inset-x-auto sm:right-4 sm:w-[24rem] max-h-[calc(100dvh-1.5rem)] overflow-y-auto overscroll-contain ${
+          className={`absolute inset-x-3 top-3 max-h-[calc(100dvh-1.5rem)] origin-top overflow-y-auto overscroll-contain rounded-3xl border border-slate-200 bg-white p-4 shadow-2xl shadow-slate-900/20 transition-all duration-300 sm:inset-x-auto sm:right-4 sm:w-[24rem] ${
             menuOpen ? 'translate-y-0 opacity-100' : '-translate-y-3 opacity-0'
           }`}
         >
@@ -111,7 +151,7 @@ export const Header: React.FC = () => {
               <div>
                 <p className="text-sm font-bold text-slate-900">WaKit toolkit</p>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">
-                  Zero uploads
+                  16 tools · zero uploads
                 </p>
               </div>
             </div>

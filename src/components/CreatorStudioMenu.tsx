@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { ArrowRight, ChevronDown, Sparkles } from 'lucide-react';
+import { ArrowRight, ChevronDown, Lock, Sparkles } from 'lucide-react';
 import { socialToolGroups, socialToolNavItems } from '../data/socialTools';
 
 /**
- * Desktop Creator Studio entry for the primary navigation.
- * The 12 tools are grouped by platform so visitors can jump straight to a
- * specific tool instead of landing on the hub and searching again.
+ * Creator Studio entry in the desktop category strip. Opens a full-width
+ * mega menu so all 12 tools are one click away instead of hidden behind a hub.
  */
 export const CreatorStudioMenu: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -86,21 +85,18 @@ export const CreatorStudioMenu: React.FC = () => {
         aria-controls={panelId}
         aria-label="Creator Studio — 12 private social tools"
         title="12 browser-only tools for WhatsApp, Instagram and Facebook"
-        className={`group relative flex items-center gap-1.5 rounded-xl border px-2.5 py-2 text-[12px] font-bold transition-colors duration-200 min-[1150px]:gap-2 min-[1150px]:px-3 min-[1150px]:text-[13px] ${
-          isActive || open
-            ? 'border-emerald-300 bg-emerald-600 text-white shadow-sm'
-            : 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:border-emerald-300 hover:bg-emerald-100/70'
+        className={`group relative flex h-11 items-center gap-1.5 whitespace-nowrap px-2.5 text-[12.5px] font-bold transition-colors duration-200 ${
+          isActive || open ? 'text-emerald-700' : 'text-emerald-700/90 hover:text-emerald-900'
         }`}
       >
-        <Sparkles
-          aria-hidden="true"
-          className={`h-4 w-4 ${isActive || open ? 'text-amber-300' : 'text-amber-500'}`}
-        />
+        <Sparkles className="h-4 w-4 text-amber-500" aria-hidden="true" />
         <span>Creator Studio</span>
         <span
           aria-hidden="true"
-          className={`hidden rounded-full px-1.5 py-0.5 text-[10px] font-bold min-[1150px]:inline ${
-            isActive || open ? 'bg-white/15 text-white' : 'bg-white text-emerald-700 ring-1 ring-emerald-200'
+          className={`rounded-full px-1.5 py-0.5 text-[9px] font-extrabold ${
+            isActive || open
+              ? 'bg-emerald-600 text-white'
+              : 'bg-emerald-100 text-emerald-700 ring-1 ring-emerald-200'
           }`}
         >
           12
@@ -109,41 +105,57 @@ export const CreatorStudioMenu: React.FC = () => {
           aria-hidden="true"
           className={`h-3.5 w-3.5 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
         />
+        <span
+          aria-hidden="true"
+          className={`absolute inset-x-2 bottom-0 h-0.5 rounded-full bg-emerald-600 transition-opacity duration-200 ${
+            isActive || open ? 'opacity-100' : 'opacity-0 group-hover:opacity-40'
+          }`}
+        />
       </button>
 
       {open && (
         <div
           id={panelId}
-          className="absolute right-0 top-full z-50 mt-2 w-[44rem] overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-2xl shadow-slate-900/15 xl:w-[56rem]"
+          // Viewport-fixed, pinned directly under the 64px brand bar + 45px category bar.
+          className="fixed left-5 right-5 top-[6.8125rem] z-[55] max-h-[calc(100dvh-7.5rem)] overflow-y-auto overscroll-contain rounded-2xl border border-slate-200 bg-white p-2 shadow-2xl shadow-slate-900/20"
         >
-          <div className="flex items-center justify-between gap-3 rounded-xl bg-emerald-50/80 px-3 py-2.5">
+          <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-[linear-gradient(100deg,#022c22,#065f46)] px-4 py-3 text-white">
             <div className="flex items-center gap-2.5">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-emerald-600 text-white">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-white/10 ring-1 ring-white/15">
                 <Sparkles className="h-4 w-4 text-amber-300" aria-hidden="true" />
               </span>
               <div>
-                <p className="text-sm font-bold text-slate-900">Creator Studio</p>
-                <p className="text-[11px] text-slate-600">
+                <p className="text-sm font-bold">Creator Studio</p>
+                <p className="text-[11px] text-emerald-100/85">
                   12 private tools for WhatsApp, Instagram and Facebook
                 </p>
               </div>
             </div>
-            <NavLink
-              to="/social-tools"
-              onClick={() => setOpen(false)}
-              className="inline-flex shrink-0 items-center gap-1 rounded-lg bg-white px-2.5 py-1.5 text-[11px] font-bold text-emerald-700 ring-1 ring-emerald-200 transition-colors hover:bg-emerald-600 hover:text-white hover:ring-emerald-600"
-            >
-              All 12 tools
-              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-            </NavLink>
+            <div className="flex items-center gap-3">
+              <span className="hidden items-center gap-1.5 text-[10px] font-semibold text-emerald-100/80 sm:inline-flex">
+                <Lock className="h-3 w-3" aria-hidden="true" />
+                Files stay on your device
+              </span>
+              <NavLink
+                to="/social-tools"
+                onClick={() => setOpen(false)}
+                className="inline-flex shrink-0 items-center gap-1 rounded-lg bg-amber-400 px-3 py-1.5 text-[11px] font-extrabold text-emerald-950 transition-colors hover:bg-amber-300"
+              >
+                All 12 tools
+                <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+              </NavLink>
+            </div>
           </div>
 
-          <div className="mt-1 grid grid-cols-2 gap-1 xl:grid-cols-4">
+          <div className="mt-1 grid gap-1 md:grid-cols-2 xl:grid-cols-4">
             {socialToolGroups.map((group) => (
-              <div key={group.name} className="p-2">
-                <p className="px-1.5 pb-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
-                  {group.name}
-                </p>
+              <div key={group.name} className="rounded-xl p-2 hover:bg-slate-50/70">
+                <div className="px-2 pb-1.5">
+                  <p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-slate-500">
+                    {group.name}
+                  </p>
+                  <p className="mt-0.5 truncate text-[10px] text-slate-400">{group.description}</p>
+                </div>
                 <ul className="space-y-0.5">
                   {group.tools.map((tool) => {
                     const Icon = tool.icon;
@@ -154,24 +166,31 @@ export const CreatorStudioMenu: React.FC = () => {
                           onClick={() => setOpen(false)}
                           title={tool.description}
                           className={({ isActive: linkActive }) =>
-                            `flex items-center gap-2 rounded-lg px-1.5 py-1.5 transition-colors ${
+                            `group flex items-center gap-2 rounded-lg px-2 py-2 transition-colors ${
                               linkActive
                                 ? 'bg-emerald-50 text-emerald-700'
-                                : 'text-slate-700 hover:bg-slate-50 hover:text-emerald-700'
+                                : 'text-slate-700 hover:bg-white hover:text-emerald-700'
                             }`
                           }
                         >
                           {({ isActive: linkActive }) => (
                             <>
-                              <Icon
-                                aria-hidden="true"
-                                className={`h-3.5 w-3.5 shrink-0 ${
-                                  linkActive ? 'text-emerald-600' : 'text-slate-400'
+                              <span
+                                className={`grid h-7 w-7 shrink-0 place-items-center rounded-lg ring-1 ${
+                                  linkActive
+                                    ? 'bg-white text-emerald-600 ring-emerald-200'
+                                    : 'bg-slate-50 text-slate-400 ring-slate-200 group-hover:text-emerald-600'
                                 }`}
-                              />
+                              >
+                                <Icon className="h-3.5 w-3.5" aria-hidden="true" />
+                              </span>
                               <span className="min-w-0 flex-1 truncate text-[12px] font-semibold">
                                 {tool.label}
                               </span>
+                              <ArrowRight
+                                className="h-3 w-3 shrink-0 text-slate-300 transition-transform group-hover:translate-x-0.5 group-hover:text-emerald-500"
+                                aria-hidden="true"
+                              />
                             </>
                           )}
                         </NavLink>
@@ -183,8 +202,12 @@ export const CreatorStudioMenu: React.FC = () => {
             ))}
           </div>
 
-          <p className="mt-1 border-t border-slate-100 px-3 pb-1 pt-2 text-[10px] text-slate-500">
-            Every file is processed on your device — no uploads, no account, no watermark.
+          <p className="mt-1 flex items-center justify-between gap-3 border-t border-slate-100 px-3 pb-1 pt-2 text-[10px] text-slate-500">
+            <span>Every file is processed on your device — no uploads, no account, no watermark.</span>
+            <span className="hidden shrink-0 items-center gap-1 font-semibold text-emerald-700 sm:inline-flex">
+              <Lock className="h-3 w-3" aria-hidden="true" />
+              0 uploads
+            </span>
           </p>
         </div>
       )}
