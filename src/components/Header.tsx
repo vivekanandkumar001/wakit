@@ -1,20 +1,54 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { ArrowUpRight, Download, Lock, Menu, ShieldCheck, Smartphone, Sparkles, X } from 'lucide-react';
 import { Navbar } from './Navbar';
 import { secondaryNavItems } from './navItems';
 import { toolCategories, totalToolCount } from '../data/toolCategories';
 import { ToolSearch } from './ToolSearch';
+import { PlatformMark } from './BrandIcons';
 import { Logo } from './Logo';
 
 export const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
   // Close the mobile menu whenever the route changes.
   useEffect(() => {
     setMenuOpen(false);
   }, [location.pathname]);
+
+  // Content-first chrome: a sticky header that steps out of the way while
+  // scrolling down and returns on scroll up. Desktop keeps it pinned.
+  useEffect(() => {
+    if (menuOpen) return;
+
+    let lastY = window.scrollY;
+    let frame = 0;
+
+    const onScroll = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(() => {
+        const y = window.scrollY;
+        setScrolled(y > 8);
+
+        if (Math.abs(y - lastY) > 6) {
+          setHidden(y > lastY && y > 160);
+          lastY = y;
+        }
+        frame = 0;
+      });
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, [menuOpen]);
 
   // Lock page scroll and support Escape while the drawer is open.
   useEffect(() => {
@@ -34,17 +68,68 @@ export const Header: React.FC = () => {
     };
   }, [menuOpen]);
 
+  // Drawer focus management: move focus in, keep Tab inside, restore on close.
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const dialog = drawerRef.current;
+    if (!dialog) return;
+
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    const focusables = () =>
+      [...dialog.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])')].filter(
+        (el) => el.offsetParent !== null,
+      );
+
+    const focusFrame = window.requestAnimationFrame(() => {
+      focusables()[0]?.focus({ preventScroll: true });
+    });
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Tab') return;
+      const items = focusables();
+      if (items.length === 0) return;
+
+      const first = items[0];
+      const last = items[items.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      window.cancelAnimationFrame(focusFrame);
+      document.removeEventListener('keydown', onKeyDown);
+      if (previouslyFocused?.isConnected) {
+        previouslyFocused.focus({ preventScroll: true });
+      } else {
+        menuButtonRef.current?.focus({ preventScroll: true });
+      }
+    };
+  }, [menuOpen]);
+
   return (
-    <header className="sticky top-0 z-50 w-full">
+    <header
+      className={`sticky top-0 z-50 w-full transition-transform duration-300 ${
+        hidden ? 'max-[899px]:-translate-y-full' : ''
+      } ${scrolled ? 'shadow-[0_18px_44px_-32px_rgba(2,44,34,0.75)]' : ''}`}
+    >
       {/* Brand bar: logo, Flipkart-style always-visible search, actions */}
-      <div className="relative bg-[linear-gradient(100deg,#022c22_0%,#064e3b_46%,#065f46_100%)]">
+      <div className="pt-safe relative bg-[linear-gradient(100deg,#022c22_0%,#064e3b_46%,#065f46_100%)]">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute -left-24 -top-24 h-64 w-64 rounded-full bg-emerald-400/15 blur-3xl" />
           <div className="absolute right-0 top-0 h-40 w-96 translate-x-1/3 rounded-full bg-teal-300/10 blur-3xl" />
           <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-amber-300/40 to-transparent" />
         </div>
 
-        <div className="relative mx-auto flex w-full max-w-[1200px] flex-col gap-2.5 px-5 py-2.5 md:h-16 md:flex-row md:items-center md:gap-3 md:py-0">
+        <div className="relative mx-auto flex w-full max-w-[1200px] flex-col gap-2 px-4 py-2 sm:gap-2.5 sm:px-5 sm:py-2.5 md:h-16 md:flex-row md:items-center md:gap-3 md:py-0">
           <div className="flex items-center justify-between gap-3 md:contents">
             <Logo tone="light" />
 
@@ -89,6 +174,7 @@ export const Header: React.FC = () => {
               </NavLink>
 
               <button
+                ref={menuButtonRef}
                 type="button"
                 onClick={() => setMenuOpen(true)}
                 className="grid h-10 w-10 place-items-center rounded-xl border border-white/20 bg-white/10 text-white transition-colors hover:border-white/40 hover:bg-white/20 min-[900px]:hidden"
@@ -134,10 +220,11 @@ export const Header: React.FC = () => {
         />
 
         <div
+          ref={drawerRef}
           role="dialog"
           aria-modal="true"
           aria-label="WaKit tools menu"
-          className={`absolute inset-x-3 top-3 max-h-[calc(100dvh-1.5rem)] origin-top overflow-y-auto overscroll-contain rounded-3xl border border-slate-200 bg-white p-4 shadow-2xl shadow-slate-900/20 transition-all duration-300 sm:inset-x-auto sm:right-4 sm:w-[24rem] ${
+          className={`absolute inset-x-3 top-[max(0.75rem,env(safe-area-inset-top))] max-h-[calc(100dvh-1.5rem-env(safe-area-inset-top))] origin-top overflow-y-auto overscroll-contain rounded-3xl border border-slate-200 bg-white p-4 shadow-2xl shadow-slate-900/20 transition-all duration-300 sm:inset-x-auto sm:right-4 sm:w-[24rem] ${
             menuOpen ? 'translate-y-0 opacity-100' : '-translate-y-3 opacity-0'
           }`}
         >
@@ -164,53 +251,46 @@ export const Header: React.FC = () => {
           </div>
 
           <div className="space-y-3">
-            {toolCategories.map((category) => {
-              const CategoryIcon = category.icon;
-              return (
-                <section key={category.key} aria-labelledby={`drawer-${category.key}`}>
-                  <div className="flex items-center gap-2 px-1 pb-1.5">
-                    <span
-                      className={`grid h-6 w-6 shrink-0 place-items-center rounded-md ring-1 ${category.tone.tile}`}
-                    >
-                      <CategoryIcon className="h-3.5 w-3.5" aria-hidden="true" />
-                    </span>
-                    <h3
-                      id={`drawer-${category.key}`}
-                      className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-500"
-                    >
-                      {category.label}
-                    </h3>
-                    <span className="ml-auto text-[10px] font-semibold text-slate-400">
-                      {category.tools.length} tools
-                    </span>
-                  </div>
+            {toolCategories.map((category) => (
+              <section key={category.key} aria-labelledby={`drawer-${category.key}`}>
+                <div className="flex items-center gap-2 px-1 pb-1.5">
+                  <PlatformMark platform={category.key} className="h-5 w-5" />
+                  <h3
+                    id={`drawer-${category.key}`}
+                    className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-500"
+                  >
+                    {category.label}
+                  </h3>
+                  <span className="ml-auto text-[10px] font-semibold text-slate-400">
+                    {category.tools.length} tools
+                  </span>
+                </div>
 
-                  <div className={category.tools.length === 1 ? 'grid gap-1' : 'grid grid-cols-2 gap-1'}>
-                    {category.tools.map((tool) => {
-                      const ToolIcon = tool.icon;
-                      return (
-                        <NavLink
-                          key={tool.to}
-                          to={tool.to}
-                          onClick={() => setMenuOpen(false)}
-                          title={tool.description}
-                          className={({ isActive }) =>
-                            `flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-[11px] font-semibold ring-1 transition-colors ${
-                              isActive
-                                ? 'bg-emerald-50 text-emerald-700 ring-emerald-300'
-                                : 'bg-slate-50/80 text-slate-700 ring-slate-200 hover:bg-white hover:text-emerald-700 hover:ring-emerald-200'
-                            }`
-                          }
-                        >
-                          <ToolIcon className="h-3.5 w-3.5 shrink-0 text-slate-400" aria-hidden="true" />
-                          <span className="truncate">{tool.label}</span>
-                        </NavLink>
-                      );
-                    })}
-                  </div>
-                </section>
-              );
-            })}
+                <div className={category.tools.length === 1 ? 'grid gap-1' : 'grid grid-cols-2 gap-1'}>
+                  {category.tools.map((tool) => {
+                    const ToolIcon = tool.icon;
+                    return (
+                      <NavLink
+                        key={tool.to}
+                        to={tool.to}
+                        onClick={() => setMenuOpen(false)}
+                        title={tool.description}
+                        className={({ isActive }) =>
+                          `flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-[11px] font-semibold ring-1 transition-colors ${
+                            isActive
+                              ? 'bg-emerald-50 text-emerald-700 ring-emerald-300'
+                              : 'bg-slate-50/80 text-slate-700 ring-slate-200 hover:bg-white hover:text-emerald-700 hover:ring-emerald-200'
+                          }`
+                        }
+                      >
+                        <ToolIcon className="h-3.5 w-3.5 shrink-0 text-slate-400" aria-hidden="true" />
+                        <span className="truncate">{tool.label}</span>
+                      </NavLink>
+                    );
+                  })}
+                </div>
+              </section>
+            ))}
           </div>
 
           <NavLink

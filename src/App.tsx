@@ -3,6 +3,8 @@ import { Routes, Route } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { InstallAppBanner } from './components/InstallAppBanner';
+import { MobileTabBar } from './components/MobileTabBar';
+import { ScrollManager } from './components/ScrollManager';
 
 import { HomePage } from './pages/HomePage';
 import { StatusSplitterPage } from './pages/StatusSplitterPage';
@@ -32,6 +34,7 @@ import { NotFoundPage } from './pages/NotFoundPage';
 export const App: React.FC = () => {
   return (
     <div className="relative flex min-h-screen flex-col overflow-x-clip bg-canvas text-slate-900 selection:bg-emerald-600 selection:text-white">
+      <ScrollManager />
       {/* Ambient background */}
       <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-canvas">
         <div className="aurora-field">
@@ -110,6 +113,8 @@ export const App: React.FC = () => {
       <InstallAppBanner />
 
       <Footer />
+
+      <MobileTabBar />
     </div>
   );
 };

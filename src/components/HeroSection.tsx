@@ -76,7 +76,7 @@ export const HeroSection: React.FC = () => {
   };
 
   return (
-    <section className="relative overflow-hidden pb-8 pt-7 sm:pb-12 sm:pt-11">
+    <section className="relative overflow-hidden pb-4 pt-4 sm:pb-12 sm:pt-11">
       {/* Local glow + orbit rings */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute left-1/2 top-0 h-[26rem] w-[46rem] -translate-x-1/2 rounded-full bg-emerald-200/35 blur-[120px]" />
@@ -98,7 +98,7 @@ export const HeroSection: React.FC = () => {
             </div>
 
             <h1
-              className="animate-fade-up mt-5 text-[2.45rem] font-extrabold leading-[1.02] tracking-[-0.04em] text-slate-900 sm:text-5xl lg:text-[3.25rem] xl:text-[3.5rem] 2xl:text-[3.75rem]"
+              className="animate-fade-up mt-3 text-[1.9rem] font-extrabold leading-[1.06] tracking-[-0.04em] text-slate-900 sm:mt-5 sm:text-5xl lg:text-[3.25rem] xl:text-[3.5rem] 2xl:text-[3.75rem]"
               style={{ animationDelay: '80ms' }}
             >
               Every social tool you need.{' '}
@@ -106,7 +106,7 @@ export const HeroSection: React.FC = () => {
             </h1>
 
             <p
-              className="animate-fade-up mt-5 max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg lg:mx-0"
+              className="animate-fade-up mt-2.5 hidden max-w-2xl text-base leading-relaxed text-slate-600 sm:mt-5 sm:block sm:text-lg lg:mx-0"
               style={{ animationDelay: '160ms' }}
             >
               Split status videos, compress heavy chat media, build scan-to-chat QR codes and
@@ -114,22 +114,28 @@ export const HeroSection: React.FC = () => {
               running inside this tab.
             </p>
 
+            <p className="animate-fade-up mt-2 text-[13px] font-medium leading-snug text-slate-600 sm:hidden">
+              16 private tools for WhatsApp, Instagram and Facebook — nothing leaves this tab.
+            </p>
+
             <div
-              className="animate-fade-up mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start"
+              className="animate-fade-up mt-4 grid grid-cols-2 gap-2 sm:mt-7 sm:flex sm:flex-row sm:items-center sm:justify-center sm:gap-3 lg:justify-start"
               style={{ animationDelay: '240ms' }}
             >
-              <a href="#tool-directory" className="btn-primary group w-full px-6 py-3.5 text-sm sm:w-auto">
-                Browse all 16 tools
+              <a href="#tool-directory" className="btn-primary group w-full px-3 py-3 text-[13px] sm:w-auto sm:px-6 sm:py-3.5 sm:text-sm">
+                <span className="sm:hidden">All 16 tools</span>
+                <span className="hidden sm:inline">Browse all 16 tools</span>
                 <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
               </a>
-              <Link to="/social-tools" className="btn-secondary w-full px-6 py-3.5 text-sm sm:w-auto">
-                <Sparkles className="h-4 w-4 text-amber-500" aria-hidden="true" />
-                Open Creator Studio
+              <Link to="/social-tools" className="btn-secondary w-full px-3 py-3 text-[13px] sm:w-auto sm:px-6 sm:py-3.5 sm:text-sm">
+                <Sparkles className="h-4 w-4 shrink-0 text-amber-500" aria-hidden="true" />
+                <span className="sm:hidden">Studio</span>
+                <span className="hidden sm:inline">Open Creator Studio</span>
               </Link>
             </div>
 
             <div
-              className="animate-fade-up mt-7 flex flex-wrap items-center justify-center gap-2 lg:justify-start"
+              className="animate-fade-up mt-7 hidden flex-wrap items-center justify-center gap-2 sm:flex lg:justify-start"
               style={{ animationDelay: '320ms' }}
             >
               {trustPoints.map((point) => {
@@ -150,7 +156,7 @@ export const HeroSection: React.FC = () => {
           {/* Right: a task-first launchpad instead of a duplicate tool list */}
           <aside
             aria-label="Quick start tools"
-            className="animate-fade-up mx-auto h-full w-full max-w-xl lg:max-w-none"
+            className="animate-fade-up mx-auto hidden h-full w-full max-w-xl lg:block lg:max-w-none"
             style={{ animationDelay: '300ms' }}
           >
             <div className="flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_24px_65px_-32px_rgba(2,44,34,0.35)]">
@@ -230,7 +236,7 @@ export const HeroSection: React.FC = () => {
 
         {/* Stats strip */}
         <dl
-          className="animate-fade-up mt-8 grid w-full grid-cols-2 gap-px overflow-hidden rounded-2xl border border-slate-200 bg-slate-200 shadow-sm sm:mt-10 sm:grid-cols-4"
+          className="animate-fade-up mt-8 hidden w-full grid-cols-2 gap-px overflow-hidden rounded-2xl border border-slate-200 bg-slate-200 shadow-sm sm:mt-10 sm:grid sm:grid-cols-4"
           style={{ animationDelay: '400ms' }}
         >
           {stats.map((stat) => (

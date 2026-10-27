@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { toolNavItems } from './navItems';
 import { socialToolGroups } from '../data/socialTools';
+import { PlatformMark, type PlatformKey } from './BrandIcons';
 
 interface SearchItem {
   to: string;
@@ -23,6 +24,13 @@ interface SearchItem {
 }
 
 const GROUP_ORDER = ['WhatsApp', 'Instagram', 'Facebook', 'Cross-platform', 'Creator Studio'];
+
+const groupBrand: Record<string, PlatformKey> = {
+  WhatsApp: 'whatsapp',
+  Instagram: 'instagram',
+  Facebook: 'facebook',
+  'Cross-platform': 'multi',
+};
 
 const searchItems: SearchItem[] = [
   ...toolNavItems
@@ -272,7 +280,7 @@ export const ToolSearch: React.FC<ToolSearchProps> = ({ className = '' }) => {
       <form
         role="search"
         onSubmit={handleSubmit}
-        className="flex h-11 items-center gap-1 rounded-xl bg-white pr-1 shadow-[0_8px_24px_-12px_rgba(2,44,34,0.55)] ring-1 ring-white/60 transition-shadow focus-within:ring-2 focus-within:ring-amber-300 sm:h-12 sm:rounded-xl"
+        className="flex h-10 items-center gap-1 rounded-xl bg-white pr-1 shadow-[0_8px_24px_-12px_rgba(2,44,34,0.55)] ring-1 ring-white/60 transition-shadow focus-within:ring-2 focus-within:ring-amber-300 sm:h-12 sm:rounded-xl"
       >
         <span className="grid h-full w-11 shrink-0 place-items-center text-emerald-700">
           <Search className="h-[18px] w-[18px]" aria-hidden="true" />
@@ -371,7 +379,7 @@ export const ToolSearch: React.FC<ToolSearchProps> = ({ className = '' }) => {
                         key={item.to}
                         type="button"
                         onClick={() => go(item)}
-                        className="group flex items-center gap-2.5 rounded-xl px-2.5 py-2 text-left transition-colors hover:bg-emerald-50"
+                        className="group flex min-w-0 w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-left transition-colors hover:bg-emerald-50"
                       >
                         <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100">
                           <Icon className="h-4 w-4" aria-hidden="true" />
@@ -478,7 +486,13 @@ export const ToolSearch: React.FC<ToolSearchProps> = ({ className = '' }) => {
                             <span className="truncate text-[13px] font-bold text-slate-900">
                               {highlightMatch(item.label, trimmedQuery)}
                             </span>
-                            <span className="shrink-0 rounded-full bg-white px-1.5 py-0.5 text-[8px] font-extrabold uppercase tracking-[0.1em] text-slate-500 ring-1 ring-slate-200">
+                            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-white px-1.5 py-0.5 text-[8px] font-extrabold uppercase tracking-[0.1em] text-slate-500 ring-1 ring-slate-200">
+                              {groupBrand[item.group] && (
+                                <PlatformMark
+                                  platform={groupBrand[item.group]}
+                                  className="h-2.5 w-2.5"
+                                />
+                              )}
                               {item.group}
                             </span>
                           </span>

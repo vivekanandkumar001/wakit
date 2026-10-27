@@ -6,7 +6,7 @@ import { Logo } from './Logo';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="relative z-10 mt-auto w-full border-t border-slate-200 bg-white/80 pt-12 pb-8 text-slate-600 backdrop-blur-xl">
+    <footer className="relative z-10 mt-auto w-full border-t border-slate-200 bg-white/80 pt-12 pb-[calc(5.5rem+env(safe-area-inset-bottom))] text-slate-600 backdrop-blur-xl min-[900px]:pb-8">
       <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-400/60 to-transparent" />
 
       <div className="mx-auto w-full max-w-[1200px] px-5">
@@ -50,24 +50,24 @@ export const Footer: React.FC = () => {
             <h2 className="text-xs font-bold uppercase tracking-[0.12em] text-slate-900">
               Legal &amp; company
             </h2>
-            <ul className="space-y-2.5 text-xs">
+            <ul className="space-y-0.5 text-xs">
               <li>
-                <Link to="/privacy-policy" className="transition-colors hover:text-emerald-700">
+                <Link to="/privacy-policy" className="inline-block py-1.5 transition-colors hover:text-emerald-700">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link to="/terms" className="transition-colors hover:text-emerald-700">
+                <Link to="/terms" className="inline-block py-1.5 transition-colors hover:text-emerald-700">
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="transition-colors hover:text-emerald-700">
+                <Link to="/about" className="inline-block py-1.5 transition-colors hover:text-emerald-700">
                   About WaKit
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="transition-colors hover:text-emerald-700">
+                <Link to="/contact" className="inline-block py-1.5 transition-colors hover:text-emerald-700">
                   Contact
                 </Link>
               </li>

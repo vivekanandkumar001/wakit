@@ -4,6 +4,14 @@ import { Link } from 'react-router-dom';
 import { ClientToolPage } from '../components/ClientToolPage';
 import type { FAQItem, HowToStep } from '../components/SEOHead';
 import { socialToolGroups } from '../data/socialTools';
+import { PlatformMark, type PlatformKey } from '../components/BrandIcons';
+
+const groupPlatform: Record<string, PlatformKey> = {
+  WhatsApp: 'whatsapp',
+  Instagram: 'instagram',
+  Facebook: 'facebook',
+  'Cross-platform': 'multi',
+};
 
 const faqs: FAQItem[] = [
   {
@@ -131,9 +139,12 @@ export const SocialToolsHubPage: React.FC = () => {
         {socialToolGroups.map((group) => (
           <section key={group.name} className="glass-card overflow-hidden">
             <div className="flex flex-col gap-1 border-b border-slate-200 bg-slate-50/80 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <h3 className="text-base font-black text-slate-900">{group.name}</h3>
-                <p className="mt-0.5 text-xs text-slate-600">{group.description}</p>
+              <div className="flex items-center gap-2.5">
+                <PlatformMark platform={groupPlatform[group.name] ?? 'multi'} className="h-7 w-7" />
+                <div>
+                  <h3 className="text-base font-black text-slate-900">{group.name}</h3>
+                  <p className="mt-0.5 text-xs text-slate-600">{group.description}</p>
+                </div>
               </div>
               <span className="w-fit rounded-full bg-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-500 ring-1 ring-slate-200">
                 {group.tools.length} {group.tools.length === 1 ? 'tool' : 'tools'}
@@ -150,7 +161,7 @@ export const SocialToolsHubPage: React.FC = () => {
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100">
                       <tool.icon className="h-5 w-5" aria-hidden="true" />
                     </span>
-                    <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-slate-500">
+                    <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-slate-600">
                       {tool.badge}
                     </span>
                   </div>

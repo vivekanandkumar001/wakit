@@ -30,8 +30,7 @@ export const InstallAppBanner: React.FC = () => {
 
   return (
     <div
-      className="fixed inset-x-0 bottom-0 z-40 px-3 min-[900px]:hidden"
-      style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
+      className="fixed inset-x-0 bottom-[calc(3.25rem+env(safe-area-inset-bottom))] z-[41] px-3 pb-2 min-[900px]:hidden"
     >
       <div className="mx-auto flex max-w-xl items-center gap-2.5 rounded-2xl border border-emerald-900/10 bg-white/95 p-2.5 shadow-[0_18px_45px_-18px_rgba(2,44,34,0.5)] backdrop-blur-xl">
         <LogoMark className="h-10 w-10 shrink-0" />

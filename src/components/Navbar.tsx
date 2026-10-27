@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { ArrowRight, ChevronDown, LayoutGrid } from 'lucide-react';
 import { toolCategories } from '../data/toolCategories';
+import { PlatformMark } from './BrandIcons';
 
 const PANEL_ID = 'header-category-panel';
 
@@ -13,6 +14,7 @@ const PANEL_ID = 'header-category-panel';
 export const Navbar: React.FC = () => {
   const [openKey, setOpenKey] = useState<string | null>(null);
   const navRef = useRef<HTMLElement | null>(null);
+  const triggerRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const closeTimer = useRef<number | null>(null);
   const { pathname } = useLocation();
 
@@ -27,7 +29,10 @@ export const Navbar: React.FC = () => {
     if (!openCategory) return;
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpenKey(null);
+      if (event.key !== 'Escape') return;
+      setOpenKey(null);
+      // Return focus to the trigger so keyboard users keep their place.
+      triggerRefs.current[openCategory.key]?.focus({ preventScroll: true });
     };
     const onPointerDown = (event: PointerEvent) => {
       if (!navRef.current?.contains(event.target as Node)) setOpenKey(null);
@@ -102,7 +107,6 @@ export const Navbar: React.FC = () => {
       </NavLink>
 
       {toolCategories.map((category) => {
-        const Icon = category.icon;
         const isOpen = openKey === category.key;
         const isActive = category.tools.some((tool) => tool.to === pathname);
 
@@ -116,6 +120,9 @@ export const Navbar: React.FC = () => {
             }}
           >
             <button
+              ref={(node) => {
+                triggerRefs.current[category.key] = node;
+              }}
               type="button"
               aria-expanded={isOpen}
               aria-controls={isOpen ? PANEL_ID : undefined}
@@ -125,12 +132,7 @@ export const Navbar: React.FC = () => {
                 isOpen || isActive ? 'text-emerald-700' : 'text-slate-600 hover:text-emerald-700'
               }`}
             >
-              <Icon
-                className={`h-4 w-4 ${
-                  isOpen || isActive ? 'text-emerald-600' : 'text-slate-400 group-hover:text-emerald-600'
-                }`}
-                aria-hidden="true"
-              />
+              <PlatformMark platform={category.key} className="h-5 w-5" />
               <span>{category.label}</span>
               <span
                 className={`rounded-full px-1.5 py-0.5 text-[9.5px] font-bold transition-colors ${
@@ -163,15 +165,13 @@ export const Navbar: React.FC = () => {
           role="group"
           aria-label={`${openCategory.label} tools`}
           style={{ maxHeight: 'calc(100dvh - 8.5rem)' }}
-          className="fixed left-1/2 top-[6.8125rem] z-[55] w-[min(920px,calc(100vw-2.5rem))] -translate-x-1/2 overflow-y-auto overscroll-contain rounded-2xl border border-slate-200 bg-white p-2 shadow-2xl shadow-slate-900/20"
+          className="menu-in fixed left-1/2 top-[6.8125rem] z-[55] w-[min(920px,calc(100vw-2.5rem))] -translate-x-1/2 overflow-y-auto overscroll-contain rounded-2xl border border-slate-200 bg-white p-2 shadow-2xl shadow-slate-900/20"
         >
           <div
             className={`flex flex-wrap items-center justify-between gap-3 rounded-xl bg-gradient-to-r px-4 py-3 text-white ${openCategory.tone.panel}`}
           >
             <div className="flex min-w-0 items-center gap-2.5">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-white/15 ring-1 ring-white/20">
-                <openCategory.icon className="h-4 w-4" aria-hidden="true" />
-              </span>
+              <PlatformMark platform={openCategory.key} className="h-9 w-9" />
               <div className="min-w-0">
                 <p className="text-sm font-extrabold">{openCategory.label}</p>
                 <p className="truncate text-[11px] font-medium text-white/75">
