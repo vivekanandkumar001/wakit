@@ -8,6 +8,19 @@ import { StatusSplitterPage } from './pages/StatusSplitterPage';
 import { DirectMessagePage } from './pages/DirectMessagePage';
 import { QRGeneratorPage } from './pages/QRGeneratorPage';
 import { AudioCompressorPage } from './pages/AudioCompressorPage';
+import { SocialToolsHubPage } from './pages/SocialToolsHubPage';
+import { WhatsAppStickerMakerPage } from './pages/WhatsAppStickerMakerPage';
+import { WhatsAppChatAnalyzerPage } from './pages/WhatsAppChatAnalyzerPage';
+import { WhatsAppCatalogMakerPage } from './pages/WhatsAppCatalogMakerPage';
+import { WhatsAppMediaCompressorPage } from './pages/WhatsAppMediaCompressorPage';
+import { InstagramGridPlannerPage } from './pages/InstagramGridPlannerPage';
+import { InstagramCarouselSplitterPage } from './pages/InstagramCarouselSplitterPage';
+import { InstagramCaptionStudioPage } from './pages/InstagramCaptionStudioPage';
+import { InstagramReelsCoverMakerPage } from './pages/InstagramReelsCoverMakerPage';
+import { FacebookCoverEventKitPage } from './pages/FacebookCoverEventKitPage';
+import { FacebookAdMockupPage } from './pages/FacebookAdMockupPage';
+import { FacebookMarketplaceListingPage } from './pages/FacebookMarketplaceListingPage';
+import { SocialBatchResizerPage } from './pages/SocialBatchResizerPage';
 import { AboutPage } from './pages/AboutPage';
 import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
 import { TermsPage } from './pages/TermsPage';
@@ -49,6 +62,25 @@ export const App: React.FC = () => {
           <Route path="/direct-chat-without-saving-number" element={<DirectMessagePage />} />
           <Route path="/whatsapp-qr-code-generator" element={<QRGeneratorPage />} />
           <Route path="/whatsapp-audio-compressor" element={<AudioCompressorPage />} />
+
+          {/* Creator Studio */}
+          <Route path="/social-tools" element={<SocialToolsHubPage />} />
+
+          <Route path="/whatsapp-sticker-maker" element={<WhatsAppStickerMakerPage />} />
+          <Route path="/whatsapp-chat-analyzer" element={<WhatsAppChatAnalyzerPage />} />
+          <Route path="/whatsapp-catalog-maker" element={<WhatsAppCatalogMakerPage />} />
+          <Route path="/whatsapp-media-compressor" element={<WhatsAppMediaCompressorPage />} />
+
+          <Route path="/instagram-grid-planner" element={<InstagramGridPlannerPage />} />
+          <Route path="/instagram-carousel-splitter" element={<InstagramCarouselSplitterPage />} />
+          <Route path="/instagram-caption-studio" element={<InstagramCaptionStudioPage />} />
+          <Route path="/instagram-reels-cover-maker" element={<InstagramReelsCoverMakerPage />} />
+
+          <Route path="/facebook-cover-event-kit" element={<FacebookCoverEventKitPage />} />
+          <Route path="/facebook-ad-mockup" element={<FacebookAdMockupPage />} />
+          <Route path="/facebook-marketplace-listing" element={<FacebookMarketplaceListingPage />} />
+
+          <Route path="/social-batch-resizer" element={<SocialBatchResizerPage />} />
 
           {/* Legacy aliases (kept for backlinks; canonicals point to the routes above) */}
           <Route path="/split-video-for-whatsapp-status" element={<StatusSplitterPage />} />

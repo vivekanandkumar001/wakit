@@ -24,7 +24,7 @@ function formatUpdated(iso: string): string {
 
 export const SITE = {
   name: 'WaKit',
-  tagline: 'Private WhatsApp tools in your browser',
+  tagline: 'Private creator tools in your browser',
   supportEmail: 'support@progeni.live',
   origin: (envOrigin || DEFAULT_ORIGIN).replace(/\/+$/, ''),
   updated: envUpdated || buildDate,

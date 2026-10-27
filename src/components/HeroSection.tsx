@@ -18,7 +18,7 @@ const trustPoints = [
 ];
 
 const stats = [
-  { value: '4', label: 'Browser tools' },
+  { value: '16', label: 'Browser tools' },
   { value: '0', label: 'Files uploaded' },
   { value: '100%', label: 'On-device' },
   { value: '₹0', label: 'Free forever' },
@@ -48,7 +48,7 @@ export const HeroSection: React.FC = () => {
           className="animate-fade-up mt-6 text-[2.5rem] font-extrabold leading-[1.05] tracking-[-0.035em] text-slate-900 sm:text-6xl lg:text-7xl"
           style={{ animationDelay: '80ms' }}
         >
-          Private WhatsApp tools,{' '}
+          Private social media tools,{' '}
           <span className="mt-1 block text-gradient-emerald">right in your browser</span>
         </h1>
 
@@ -57,8 +57,9 @@ export const HeroSection: React.FC = () => {
           style={{ animationDelay: '160ms' }}
         >
           Split long videos into 30-second status clips, message unsaved numbers, build
-          scan-to-chat QR codes and compress audio — all processed locally with WebAssembly.
-          No uploads, no accounts, no waiting.
+          scan-to-chat QR codes, compress chat media and plan your next Instagram or Facebook
+          post — all processed locally with Canvas and WebAssembly. No uploads, no accounts,
+          no waiting.
         </p>
 
         <div
@@ -70,9 +71,9 @@ export const HeroSection: React.FC = () => {
             Explore the toolkit
             <ArrowDown className="h-4 w-4 transition-transform duration-200 group-hover:translate-y-0.5" aria-hidden="true" />
           </a>
-          <Link to="/about" className="btn-secondary w-full px-6 py-3.5 text-sm sm:w-auto">
-            <ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden="true" />
-            How privacy works
+          <Link to="/social-tools" className="btn-secondary w-full px-6 py-3.5 text-sm sm:w-auto">
+            <Sparkles className="h-4 w-4 text-emerald-600" aria-hidden="true" />
+            Open Creator Studio
           </Link>
         </div>
 

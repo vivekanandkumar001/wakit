@@ -1,8 +1,8 @@
-# WaKit — Free Private WhatsApp Utilities in Your Browser
+# WaKit — Free Private Creator & Messaging Tools in Your Browser
 
-> WaKit (https://wakit.progeni.live) is a fast, 100% client-side web utility suite for WhatsApp tasks. All processing runs locally inside the user's browser using HTML5 Canvas, the Web Crypto API, and WebAssembly (FFmpeg compiled to Wasm). Files, videos, audio recordings, phone numbers, and messages are never uploaded to a WaKit server.
+> WaKit (https://wakit.progeni.live) is a fast, 100% client-side web utility suite for social content and messaging tasks. All processing runs locally inside the user's browser using HTML5 Canvas, the Web Crypto API, and WebAssembly (FFmpeg compiled to Wasm). Files, videos, audio recordings, photos, phone numbers, and messages are never uploaded to a WaKit server.
 
-Last updated: 2026-10-25
+Last updated: 2026-10-27
 Canonical home: https://wakit.progeni.live/
 Publisher: Progeni (https://progeni.live)
 Contact: support@progeni.live
@@ -13,7 +13,7 @@ Full model guide: https://wakit.progeni.live/llms-full.txt
 
 - Processing model: 100% client-side; no media upload endpoint and no account required.
 - Price: free, no signup, no watermark, no usage limit.
-- Best for: WhatsApp status clips, wa.me links, QR codes, and audio files above the 16 MB chat attachment cap.
+- Best for: WhatsApp status clips, wa.me links, QR codes, audio files above the 16 MB chat attachment cap, sticker packs, chat exports, catalogs, image batches, and Instagram/Facebook creative previews.
 - Platforms: modern desktop and mobile browsers with WebAssembly support (Chrome, Edge, Safari, Firefox).
 - Not affiliated with WhatsApp LLC or Meta Platforms, Inc.
 
@@ -44,6 +44,23 @@ Full model guide: https://wakit.progeni.live/llms-full.txt
 - Output formats: universal MP3 or WhatsApp-native OPUS/OGG.
 - Technical detail: the source file is mounted read-only in FFmpeg's virtual filesystem, so it is not copied into RAM first. FFmpeg WebAssembly runs in a Web Worker so the interface stays responsive.
 
+## Creator Studio tools
+
+All 12 tools live under https://wakit.progeni.live/social-tools and run on the same local-only model.
+
+- WhatsApp Sticker Maker — /whatsapp-sticker-maker — converts photos into 512px WebP stickers and exports a .wastickers-style ZIP pack.
+- WhatsApp Chat Analyzer — /whatsapp-chat-analyzer — parses an exported .txt chat locally to show messages, active people, media counts, and links.
+- WhatsApp Catalog Maker — /whatsapp-catalog-maker — builds a business catalog PDF with product entries and a scan-to-chat QR.
+- WhatsApp Media Compressor — /whatsapp-media-compressor — batch-compresses photos, videos (FFmpeg WebAssembly), and PDF/DOCX documents.
+- Instagram Grid Planner — /instagram-grid-planner — previews a nine-post Instagram feed and exports the grid plan as a PNG.
+- Instagram Carousel Splitter — /instagram-carousel-splitter — slices a tall image into 1080×1350 carousel slides and downloads a ZIP.
+- Instagram Caption Studio — /instagram-caption-studio — formats captions with Unicode bold/italic, counts characters, and generates hashtags and hooks.
+- Instagram Reels Cover Maker — /instagram-reels-cover-maker — designs a 1080×1920 Reels cover with text placement and a safe-zone guide.
+- Facebook Cover & Event Kit — /facebook-cover-event-kit — exports a 1920×1005 cover poster with event details and a WhatsApp QR.
+- Facebook Ad Mockup Maker — /facebook-ad-mockup — renders and downloads feed, story, and marketplace ad previews on Canvas.
+- Facebook Marketplace Listing Kit — /facebook-marketplace-listing — writes a listing file and a 1200×1200 product photo into a ZIP.
+- Social Batch Resizer — /social-batch-resizer — resizes up to 12 images to eight platform presets and includes UTM/QR link tools.
+
 ## Common questions
 
 - Are my files uploaded? No. Media stays on the device and is processed by WebAssembly locally.
@@ -59,6 +76,19 @@ Full model guide: https://wakit.progeni.live/llms-full.txt
 - /direct-chat-without-saving-number — wa.me direct chat link builder
 - /whatsapp-qr-code-generator — WhatsApp, Wi-Fi, and payment QR codes
 - /whatsapp-audio-compressor — 3 GB audio compressor with 16 MB output target
+- /social-tools — Creator Studio hub for all 12 social tools
+- /whatsapp-sticker-maker — 512px sticker packs
+- /whatsapp-chat-analyzer — local chat export analysis
+- /whatsapp-catalog-maker — catalog PDF with chat QR
+- /whatsapp-media-compressor — photo, video, and document compression
+- /instagram-grid-planner — nine-post feed preview
+- /instagram-carousel-splitter — 1080×1350 carousel slides
+- /instagram-caption-studio — caption formatter and hashtag generator
+- /instagram-reels-cover-maker — 1080×1920 Reels covers
+- /facebook-cover-event-kit — cover poster and event kit
+- /facebook-ad-mockup — feed, story, and marketplace ad previews
+- /facebook-marketplace-listing — listing file and product photo
+- /social-batch-resizer — batch resize with UTM and QR tools
 - /about — architecture and privacy approach
 - /privacy-policy — data handling and advertising disclosure
 - /terms — acceptable use and trademark disclaimer

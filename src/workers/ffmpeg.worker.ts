@@ -32,7 +32,7 @@ async function getFFmpeg(onProgress: (ratio: number, text: string) => void) {
 }
 
 self.onmessage = async (e: MessageEvent) => {
-  const { id, command, file, fileData, fileName, segmentTime, bitrate, format } = e.data;
+  const { id, command, file, fileData, fileName, segmentTime, bitrate, format, height, crf } = e.data;
 
   const postProgress = (ratio: number, statusText: string) => {
     self.postMessage({ id, type: 'PROGRESS', ratio, statusText });
@@ -112,6 +112,84 @@ self.onmessage = async (e: MessageEvent) => {
         );
       } finally {
         // Strict cleanup inside finally block
+        for (const f of filesToDelete) {
+          try {
+            await ff.deleteFile(f);
+          } catch {
+            // ignore deletion errors
+          }
+        }
+      }
+    } else if (command === 'COMPRESS_VIDEO') {
+      const outputVirtualName = `output_${Date.now()}.mp4`;
+      const mountPoint = `/wakit_video_input_${Date.now()}`;
+      const filesToDelete: string[] = [outputVirtualName];
+
+      try {
+        if (!(file instanceof Blob)) {
+          throw new Error('Video file was not transferred to the worker.');
+        }
+
+        postProgress(5, 'Mounting video directly from disk (no RAM copy)...');
+        await ff.createDir(mountPoint);
+        await ff.mount(
+          FFFSType.WORKERFS,
+          { blobs: [{ name: inputVirtualName, data: file }] },
+          mountPoint
+        );
+
+        const inputPath = `${mountPoint}/${inputVirtualName}`;
+        const targetHeight = Math.max(360, Math.min(1080, Number(height) || 720));
+        const quality = Math.max(20, Math.min(35, Number(crf) || 28));
+        postProgress(15, `Compressing video to ${targetHeight}p…`);
+        await ff.exec([
+          '-i',
+          inputPath,
+          '-vf',
+          `scale=-2:${targetHeight}`,
+          '-c:v',
+          'libx264',
+          '-preset',
+          'veryfast',
+          '-crf',
+          String(quality),
+          '-c:a',
+          'aac',
+          '-b:a',
+          '96k',
+          '-movflags',
+          '+faststart',
+          outputVirtualName,
+        ]);
+
+        postProgress(90, 'Reading compressed video output...');
+        const data = (await ff.readFile(outputVirtualName)) as Uint8Array;
+        const baseName = fileName.substring(0, fileName.lastIndexOf('.')) || 'video';
+        const outFilename = `${baseName}_wakit_${targetHeight}p.mp4`;
+
+        postProgress(100, 'Video compression finished!');
+        (self.postMessage as (message: any, transfer: Transferable[]) => void)(
+          {
+            id,
+            type: 'SUCCESS_COMPRESS',
+            buffer: data.buffer as ArrayBuffer,
+            size: data.byteLength,
+            filename: outFilename,
+            mimeType: 'video/mp4',
+          },
+          [data.buffer as ArrayBuffer]
+        );
+      } finally {
+        try {
+          await ff.unmount(mountPoint);
+        } catch {
+          // ignore if mount never happened
+        }
+        try {
+          await ff.deleteDir(mountPoint);
+        } catch {
+          // ignore if directory was never created
+        }
         for (const f of filesToDelete) {
           try {
             await ff.deleteFile(f);

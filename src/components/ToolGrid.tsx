@@ -330,7 +330,8 @@ export const ToolGrid: React.FC = () => {
             The toolkit
           </span>
           <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
-            Four tools. <span className="text-gradient-emerald">Zero uploads.</span>
+            WhatsApp essentials.{' '}
+            <span className="text-gradient-emerald">Zero uploads.</span>
           </h2>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-600">
             Everything below runs inside this tab. Your files stay on your device from the first

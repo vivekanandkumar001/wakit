@@ -15,9 +15,10 @@ export const Footer: React.FC = () => {
           <div className="space-y-4 lg:col-span-2">
             <Logo compact />
             <p className="max-w-md text-xs leading-relaxed text-slate-600">
-              A 100% client-side, zero-upload WhatsApp toolkit. Video slicing, direct message
-              links, QR generation and audio compression all run locally in your browser using
-              WebAssembly and HTML5.
+              A 100% client-side, zero-upload social toolkit. Status video slicing, direct
+              message links, QR tools, audio compression, sticker packs, feed planning and
+              cover design all run locally in your browser using Canvas, WebAssembly and
+              HTML5.
             </p>
             <div className="flex flex-wrap items-center gap-2 pt-1">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-[11px] font-bold text-emerald-700">

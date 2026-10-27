@@ -1,20 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
-import { toolNavItems } from './navItems';
+import { toolNavItems, type NavItem } from './navItems';
 
 interface RelatedToolsProps {
   /** Route of the current page, so it is not recommended to itself. */
   currentPath: string;
   title?: string;
+  /** Optional tool pool, e.g. the Creator Studio tools on new pages. */
+  items?: NavItem[];
+  /** Maximum cards to show. Defaults to all matching items. */
+  limit?: number;
 }
 
-/** Internal-link block: every tool page links to the other three. */
+/** Internal-link block for tool discovery and crawlable cross-linking. */
 export const RelatedTools: React.FC<RelatedToolsProps> = ({
   currentPath,
   title = 'Related free tools',
+  items = toolNavItems,
+  limit,
 }) => {
-  const related = toolNavItems.filter((item) => item.to !== '/' && item.to !== currentPath);
+  const related = items
+    .filter((item) => item.to !== '/' && item.to !== currentPath)
+    .slice(0, limit ?? items.length);
 
   return (
     <section aria-labelledby="related-tools-heading" className="my-10 space-y-4">

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="wakitTile" x1="34" y1="20" x2="486" y2="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#064e3b"/>
+      <stop offset="52%" stop-color="#047857"/>
+      <stop offset="100%" stop-color="#0f766e"/>
+    </linearGradient>
+    <radialGradient id="wakitGlow" cx="104" cy="72" r="416" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6ee7b7" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#6ee7b7" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#wakitTile)"/>
+  <rect width="512" height="512" fill="url(#wakitGlow)"/>
+  <path d="M-96 464 400 -40" stroke="#a7f3d0" stroke-opacity="0.1" stroke-width="112"/>
+  <path d="M110.4 164 184.8 347.2 256 221.6 327.2 347.2 401.6 164" fill="none" stroke="#ffffff" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M404 59.2c5.84 24.24 17.36 35.76 41.6 41.6-24.24 5.84-35.76 17.36-41.6 41.6-5.84-24.24-17.36-35.76-41.6-41.6 24.24-5.84 35.76-17.36 41.6-41.6Z" fill="#fbbf24"/>
+</svg>

@@ -4,7 +4,7 @@ import { toolNavItems } from './navItems';
 
 export const Navbar: React.FC = () => {
   return (
-    <nav aria-label="WhatsApp tools" className="hidden items-center gap-0.5 lg:flex">
+    <nav aria-label="Primary" className="hidden items-center gap-0.5 lg:flex">
       {toolNavItems.map((item) => {
         const Icon = item.icon;
         return (

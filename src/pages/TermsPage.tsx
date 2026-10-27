@@ -9,7 +9,7 @@ export const TermsPage: React.FC = () => {
     <div className="mx-auto max-w-4xl space-y-8">
       <SEOHead
         title="Terms of Service | WaKit"
-        description="The terms that apply when you use WaKit's free browser-based WhatsApp utilities, including acceptable use, liability limits and trademark attribution."
+        description="The terms that apply when you use WaKit's free browser-based creator and messaging tools, including acceptable use, liability limits and trademark attribution."
         canonicalPath="/terms"
         breadcrumbs={[{ name: 'Terms of Service' }]}
       />

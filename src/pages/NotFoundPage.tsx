@@ -9,7 +9,7 @@ export const NotFoundPage: React.FC = () => {
     <div className="mx-auto max-w-2xl py-14 text-center">
       <SEOHead
         title="Page Not Found | WaKit"
-        description="The page you requested could not be found. Return to the WaKit home page to use our free WhatsApp utilities."
+        description="The page you requested could not be found. Return to the WaKit home page to use our free private creator and messaging tools."
         canonicalPath="/404"
         noindex
       />

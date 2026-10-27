@@ -239,6 +239,85 @@ export function useFFmpeg() {
     [getWorker, registerBlobUrl]
   );
 
+  // Compress a normal video upload to a smaller MP4 in a dedicated worker.
+  const compressVideo = useCallback(
+    async (
+      file: File,
+      targetHeight: 480 | 720 | 1080 = 720,
+      crf = 28
+    ): Promise<CompressionResult> => {
+      const cap = checkBrowserCapabilities();
+      capabilityRef.current = cap;
+
+      if (!file.type.startsWith('video/')) {
+        const errorMsg = 'Please choose a valid video file (MP4, MOV or WebM).';
+        setError(errorMsg);
+        throw new Error(errorMsg);
+      }
+
+      const maxBytes = cap.maxFileSizeMB * 1024 * 1024;
+      if (file.size > maxBytes) {
+        const fileMB = (file.size / (1024 * 1024)).toFixed(1);
+        const errorMsg = `Video size (${fileMB} MB) exceeds the ${cap.maxFileSizeMB} MB browser safety limit.`;
+        setError(errorMsg);
+        throw new Error(errorMsg);
+      }
+
+      setIsProcessing(true);
+      setProgress(0);
+      setError(null);
+      setStatusText('Mounting video in the Web Worker...');
+
+      const worker = getWorker();
+      const id = `task_video_${Date.now()}`;
+
+      return new Promise<CompressionResult>((resolve, reject) => {
+        const handleMessage = (e: MessageEvent) => {
+          if (e.data.id !== id) return;
+
+          if (e.data.type === 'PROGRESS') {
+            if (e.data.ratio >= 0) setProgress(e.data.ratio);
+            setStatusText(e.data.statusText || 'Compressing video...');
+          } else if (e.data.type === 'SUCCESS_COMPRESS') {
+            worker.removeEventListener('message', handleMessage);
+            setIsProcessing(false);
+            setProgress(100);
+            setStatusText('Video compression completed!');
+
+            const { buffer, size, filename, mimeType } = e.data;
+            const blob = new Blob([buffer], { type: mimeType });
+            const url = registerBlobUrl(URL.createObjectURL(blob));
+
+            resolve({
+              url,
+              blob,
+              size,
+              originalSize: file.size,
+              filename,
+            });
+          } else if (e.data.type === 'ERROR') {
+            worker.removeEventListener('message', handleMessage);
+            setIsProcessing(false);
+            const errStr = e.data.error || 'Video compression failed.';
+            setError(errStr);
+            reject(new Error(errStr));
+          }
+        };
+
+        worker.addEventListener('message', handleMessage);
+        worker.postMessage({
+          id,
+          command: 'COMPRESS_VIDEO',
+          file,
+          fileName: file.name,
+          height: targetHeight,
+          crf,
+        });
+      });
+    },
+    [getWorker, registerBlobUrl]
+  );
+
   return {
     capabilities: capabilityRef.current,
     isProcessing,
@@ -247,6 +326,7 @@ export function useFFmpeg() {
     error,
     splitVideo,
     compressAudio,
+    compressVideo,
     revokeBlobUrl,
   };
 }

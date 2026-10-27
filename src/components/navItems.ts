@@ -4,6 +4,7 @@ import {
   Send,
   QrCode,
   Mic,
+  Sparkles,
   Info,
   Mail,
   ShieldCheck,
@@ -53,6 +54,13 @@ export const toolNavItems: NavItem[] = [
     description: 'Shrink audio under the 16MB WhatsApp limit',
     badge: '< 16MB',
     icon: Mic,
+  },
+  {
+    to: '/social-tools',
+    label: 'Creator Studio',
+    description: 'Stickers, feed planning, covers and 12 social tools',
+    badge: '12 tools',
+    icon: Sparkles,
   },
 ];
 
