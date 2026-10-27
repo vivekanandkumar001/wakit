@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#064e3b" />
+    <meta name="robots" content="noindex, follow" />
+    <title>Offline — WaKit</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <style>
+      :root {
+        color-scheme: light;
+        --emerald-900: #022c22;
+        --emerald-800: #064e3b;
+        --emerald-700: #047857;
+        --ink: #0f172a;
+        --muted: #475569;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        padding-bottom: max(24px, env(safe-area-inset-bottom));
+        background:
+          radial-gradient(circle at 50% -10%, rgba(16, 185, 129, 0.18), transparent 60%),
+          #f6faf8;
+        color: var(--ink);
+        font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+        text-align: center;
+      }
+      main {
+        width: 100%;
+        max-width: 420px;
+        padding: 32px 24px;
+        border: 1px solid #e2e8f0;
+        border-radius: 28px;
+        background: #ffffff;
+        box-shadow: 0 24px 60px -30px rgba(2, 44, 34, 0.35);
+      }
+      .mark {
+        width: 56px;
+        height: 56px;
+        margin: 0 auto 18px;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, var(--emerald-800), #0f766e);
+        color: #ffffff;
+      }
+      .mark svg { width: 30px; height: 30px; }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 22px;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+      }
+      p {
+        margin: 0 0 18px;
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--muted);
+      }
+      .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 46px;
+        padding: 0 18px;
+        border-radius: 14px;
+        font-size: 14px;
+        font-weight: 700;
+        text-decoration: none;
+      }
+      .primary {
+        color: #ffffff;
+        background: linear-gradient(135deg, var(--emerald-700), #0f766e);
+        box-shadow: 0 12px 26px -14px rgba(5, 150, 105, 0.7);
+      }
+      .secondary {
+        color: #334155;
+        background: #ffffff;
+        border: 1px solid #cbd5e1;
+      }
+      .note {
+        margin: 18px 0 0;
+        font-size: 11px;
+        color: #64748b;
+      }
+      @media (min-width: 420px) {
+        .actions { flex-direction: row; }
+        .actions a { flex: 1; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 6.5 9 15l3-5 3 5 6-8.5" />
+        </svg>
+      </div>
+      <h1>You're offline</h1>
+      <p>
+        WaKit needs one online visit to cache the app shell. Reconnect and reload — after that,
+        the installed app opens even without a network for most tools.
+      </p>
+      <div class="actions">
+        <a class="primary" href="/" onclick="location.reload(); return false;">Retry</a>
+        <a class="secondary" href="/app">Open install guide</a>
+      </div>
+      <p class="note">Your files never left this device.</p>
+    </main>
+  </body>
+</html>

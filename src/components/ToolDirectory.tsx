@@ -142,7 +142,7 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
         </span>
 
         {tool.popular ? (
-          <span className="inline-flex items-center gap-1 text-[9px] font-extrabold uppercase tracking-[0.1em] text-amber-600">
+          <span className="inline-flex items-center gap-1 text-[9px] font-extrabold uppercase tracking-[0.1em] text-amber-700">
             <Sparkles className="h-3 w-3" aria-hidden="true" />
             Popular
           </span>
@@ -233,7 +233,7 @@ export const ToolDirectory: React.FC = () => {
                 {option === 'All' ? 'All tools' : option}
                 <span
                   className={`rounded-full px-1.5 py-0.5 text-[9px] font-extrabold ${
-                    active ? 'bg-white/15 text-white' : 'bg-slate-100 text-slate-500'
+                    active ? 'bg-emerald-800 text-white' : 'bg-slate-100 text-slate-500'
                   }`}
                 >
                   {filterCounts[option]}

@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
+import { InstallAppBanner } from './components/InstallAppBanner';
 
 import { HomePage } from './pages/HomePage';
 import { StatusSplitterPage } from './pages/StatusSplitterPage';
@@ -22,6 +23,7 @@ import { FacebookAdMockupPage } from './pages/FacebookAdMockupPage';
 import { FacebookMarketplaceListingPage } from './pages/FacebookMarketplaceListingPage';
 import { SocialBatchResizerPage } from './pages/SocialBatchResizerPage';
 import { AboutPage } from './pages/AboutPage';
+import { AppDownloadPage } from './pages/AppDownloadPage';
 import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
 import { TermsPage } from './pages/TermsPage';
 import { ContactPage } from './pages/ContactPage';
@@ -95,6 +97,8 @@ export const App: React.FC = () => {
           <Route path="/audio-compressor" element={<AudioCompressorPage />} />
 
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/app" element={<AppDownloadPage />} />
+          <Route path="/download" element={<AppDownloadPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/contact" element={<ContactPage />} />
@@ -102,6 +106,8 @@ export const App: React.FC = () => {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
+
+      <InstallAppBanner />
 
       <Footer />
     </div>

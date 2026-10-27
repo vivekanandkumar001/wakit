@@ -8,11 +8,15 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#064e3b" />
     <meta name="msapplication-TileColor" content="#064e3b" />
     <meta name="application-name" content="WaKit" />
     <meta name="color-scheme" content="light" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="WaKit" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
     <title>WaKit — 16 Free Private Social Media Tools for WhatsApp, Instagram &amp; Facebook</title>
     <meta
@@ -42,6 +46,16 @@
         window.addEventListener('error', showBootError, true);
         window.addEventListener('unhandledrejection', showBootError);
         window.setTimeout(showBootError, 15000);
+      })();
+
+      /* Capture Chrome's install prompt before React mounts so the custom
+         "Install app" buttons can replay it later. */
+      (function () {
+        window.addEventListener('beforeinstallprompt', function (event) {
+          event.preventDefault();
+          window.__wakitInstallPrompt = event;
+          window.dispatchEvent(new CustomEvent('wakit:install-available'));
+        });
       })();
     </script>
     <style>

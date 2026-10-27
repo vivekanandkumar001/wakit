@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { ArrowUpRight, Lock, Menu, ShieldCheck, Sparkles, X } from 'lucide-react';
+import { ArrowUpRight, Download, Lock, Menu, ShieldCheck, Smartphone, Sparkles, X } from 'lucide-react';
 import { Navbar } from './Navbar';
 import { secondaryNavItems, toolNavItems } from './navItems';
 import { socialToolNavItems } from '../data/socialTools';
@@ -59,6 +59,25 @@ export const Header: React.FC = () => {
                 <ShieldCheck className="h-3.5 w-3.5 text-emerald-300" aria-hidden="true" />
                 100% on-device
               </span>
+
+              <NavLink
+                to="/app"
+                aria-label="Get app — install WaKit on your phone"
+                title="Install WaKit on your phone — no app store needed"
+                className="hidden items-center gap-1.5 rounded-xl border border-white/20 bg-white/10 px-3 py-2 text-[11.5px] font-bold text-white transition-colors hover:border-white/40 hover:bg-white/20 min-[900px]:inline-flex"
+              >
+                <Smartphone className="h-4 w-4 text-emerald-200" aria-hidden="true" />
+                Get app
+              </NavLink>
+
+              <NavLink
+                to="/app"
+                aria-label="Install the WaKit app"
+                title="Install WaKit on your phone"
+                className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-white/20 bg-white/10 text-white transition-colors hover:border-white/40 hover:bg-white/20 min-[900px]:hidden"
+              >
+                <Download className="h-5 w-5" aria-hidden="true" />
+              </NavLink>
 
               <NavLink
                 to="/social-tools"
@@ -258,6 +277,23 @@ export const Header: React.FC = () => {
               })}
             </div>
           </div>
+
+          <NavLink
+            to="/app"
+            onClick={() => setMenuOpen(false)}
+            className="mt-3 flex items-center gap-3 rounded-2xl bg-[linear-gradient(115deg,#022c22_0%,#065f46_100%)] px-3 py-3 text-white shadow-sm"
+          >
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-white/15 ring-1 ring-white/20">
+              <Download className="h-4 w-4 text-amber-300" aria-hidden="true" />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-sm font-bold">Install the WaKit app</span>
+              <span className="mt-0.5 block text-[10.5px] font-medium text-emerald-100/80">
+                Home-screen icon · offline shell · still 0 uploads
+              </span>
+            </span>
+            <ArrowUpRight className="h-4 w-4 shrink-0 text-emerald-200" aria-hidden="true" />
+          </NavLink>
 
           <div className="mt-3 border-t border-slate-200 pt-3">
             <div className="grid grid-cols-3 gap-1.5">

@@ -11,3 +11,13 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </BrowserRouter>
   </React.StrictMode>
 );
+
+// Installable app shell: production only, so Vite's dev server never serves
+// stale cached modules. Registration waits for the first paint.
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {
+      /* Offline support is a progressive enhancement. */
+    });
+  });
+}

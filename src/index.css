@@ -62,6 +62,19 @@
   }
 }
 
+/* iOS Safari zooms the whole page when a focused form control renders below
+   16px. Touch devices cannot opt out, so force a 16px minimum there only —
+   desktop keeps the compact type scale. */
+@supports (-webkit-touch-callout: none) {
+  @media (max-width: 767px) {
+    input:not([type='checkbox']):not([type='radio']):not([type='range']),
+    select,
+    textarea {
+      font-size: 16px !important;
+    }
+  }
+}
+
 /* ------------------------------------------------------------------ */
 /* Background layers                                                   */
 /* ------------------------------------------------------------------ */

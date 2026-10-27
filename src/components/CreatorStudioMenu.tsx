@@ -83,10 +83,9 @@ export const CreatorStudioMenu: React.FC = () => {
         aria-haspopup="true"
         aria-expanded={open}
         aria-controls={panelId}
-        aria-label="Creator Studio — 12 private social tools"
         title="12 browser-only tools for WhatsApp, Instagram and Facebook"
         className={`group relative flex h-11 items-center gap-1.5 whitespace-nowrap px-2.5 text-[12.5px] font-bold transition-colors duration-200 ${
-          isActive || open ? 'text-emerald-700' : 'text-emerald-700/90 hover:text-emerald-900'
+          isActive || open ? 'text-emerald-700' : 'text-emerald-700 hover:text-emerald-900'
         }`}
       >
         <Sparkles className="h-4 w-4 text-amber-500" aria-hidden="true" />

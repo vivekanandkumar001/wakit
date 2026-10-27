@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Cpu, Heart, Lock, Shield } from 'lucide-react';
+import { ArrowUpRight, Cpu, Download, Heart, Lock, Shield } from 'lucide-react';
 import { FooterLinks } from './FooterLinks';
 import { Logo } from './Logo';
 
@@ -31,6 +31,15 @@ export const Footer: React.FC = () => {
                 <Shield className="h-3.5 w-3.5 text-emerald-600" aria-hidden="true" /> Zero uploads
               </span>
             </div>
+
+            <Link
+              to="/app"
+              className="inline-flex items-center gap-2 rounded-xl bg-[linear-gradient(115deg,#022c22_0%,#065f46_100%)] px-3.5 py-2.5 text-xs font-bold text-white shadow-sm transition-transform hover:-translate-y-0.5"
+            >
+              <Download className="h-4 w-4 text-amber-300" aria-hidden="true" />
+              Install the WaKit app
+              <ArrowUpRight className="h-3.5 w-3.5 text-emerald-200" aria-hidden="true" />
+            </Link>
           </div>
 
           {/* Keyword-rich internal cross-linking (all 4 tool landing routes) */}

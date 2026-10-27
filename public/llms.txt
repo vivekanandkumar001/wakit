@@ -65,13 +65,14 @@ All 12 tools live under https://wakit.progeni.live/social-tools and run on the s
 
 - Are my files uploaded? No. Media stays on the device and is processed by WebAssembly locally.
 - Is there a file-size limit? The audio compressor accepts source files up to 3 GB. Processing time and success depend on available browser memory; mobile devices work best with files under 150 MB. WhatsApp itself caps chat attachments at 16 MB.
-- Do I need to install anything? No. The tools run in the browser with no extension or app.
+- Do I need to install anything? No. The tools run in the browser with no extension required. Installing the optional PWA from /app only adds a home-screen icon and cached app shell; it does not change the zero-upload model.
 - Does the status splitter reduce quality? It uses stream copy when the input codecs are compatible, which avoids re-encoding and preserves the original video quality.
 - Can I use these tools commercially? Yes, for lawful content. Do not upload copyrighted video you do not own or send spam.
 
 ## Site map for agents
 
 - / — tool directory and overview
+- /app — install WaKit as a home-screen app (Android, iPhone, desktop)
 - /whatsapp-status-splitter — 30-second status video splitter
 - /direct-chat-without-saving-number — wa.me direct chat link builder
 - /whatsapp-qr-code-generator — WhatsApp, Wi-Fi, and payment QR codes

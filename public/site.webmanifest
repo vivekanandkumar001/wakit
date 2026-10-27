@@ -1,12 +1,19 @@
 {
+  "id": "/?source=pwa",
   "name": "WaKit — Private Creator Tools",
   "short_name": "WaKit",
-  "description": "Private browser tools for social content, stickers, covers, listings and campaigns.",
-  "start_url": "/",
+  "description": "Install WaKit for one-tap access to 16 private WhatsApp, Instagram and Facebook tools. No uploads, no signup, no app store.",
+  "start_url": "/?source=pwa",
   "scope": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "any",
+  "lang": "en",
+  "dir": "ltr",
   "background_color": "#f6faf8",
   "theme_color": "#064e3b",
+  "categories": ["utilities", "productivity", "photo", "social"],
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "/icon-192.png",
@@ -25,6 +32,45 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "WaKit tool directory and private creator tools"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Status Splitter",
+      "short_name": "Status Split",
+      "description": "Cut a video into exact 30-second WhatsApp status clips",
+      "url": "/whatsapp-status-splitter?source=shortcut",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Direct Chat",
+      "short_name": "Direct Chat",
+      "description": "Message a WhatsApp number without saving it",
+      "url": "/direct-chat-without-saving-number?source=shortcut",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "QR Builder",
+      "short_name": "QR Builder",
+      "description": "Create scan-to-chat and payment QR codes",
+      "url": "/whatsapp-qr-code-generator?source=shortcut",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Creator Studio",
+      "short_name": "Studio",
+      "description": "Open the 12-tool Creator Studio hub",
+      "url": "/social-tools?source=shortcut",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }

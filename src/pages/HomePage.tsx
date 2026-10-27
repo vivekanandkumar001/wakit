@@ -1,5 +1,6 @@
 import React from 'react';
 import { HeroSection } from '../components/HeroSection';
+import { AppPromo } from '../components/AppPromo';
 import { ToolDirectory } from '../components/ToolDirectory';
 import { ToolGrid } from '../components/ToolGrid';
 import { TrustSection } from '../components/TrustSection';
@@ -21,6 +22,8 @@ export const HomePage: React.FC = () => {
         <HeroSection />
 
         <ToolDirectory />
+
+        <AppPromo />
 
         <ToolGrid />
 
