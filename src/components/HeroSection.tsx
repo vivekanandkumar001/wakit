@@ -98,7 +98,7 @@ export const HeroSection: React.FC = () => {
             </div>
 
             <h1
-              className="animate-fade-up mt-5 text-[2.45rem] font-extrabold leading-[1.02] tracking-[-0.04em] text-slate-900 sm:text-6xl xl:text-[4.05rem]"
+              className="animate-fade-up mt-5 text-[2.45rem] font-extrabold leading-[1.02] tracking-[-0.04em] text-slate-900 sm:text-5xl lg:text-[3.25rem] xl:text-[3.5rem] 2xl:text-[3.75rem]"
               style={{ animationDelay: '80ms' }}
             >
               Every social tool you need.{' '}

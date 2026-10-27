@@ -50,7 +50,7 @@ export const Header: React.FC = () => {
           <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-amber-300/40 to-transparent" />
         </div>
 
-        <div className="relative flex w-full flex-col gap-2.5 px-5 py-2.5 md:h-16 md:flex-row md:items-center md:gap-3 md:py-0">
+        <div className="relative mx-auto flex w-full max-w-[1200px] flex-col gap-2.5 px-5 py-2.5 md:h-16 md:flex-row md:items-center md:gap-3 md:py-0">
           <div className="flex items-center justify-between gap-3 md:contents">
             <Logo tone="light" />
 
@@ -94,7 +94,7 @@ export const Header: React.FC = () => {
 
       {/* Category bar: keeps every primary destination visible on desktop */}
       <div className="hidden border-b border-slate-200 bg-white/95 shadow-[0_1px_0_rgba(15,23,42,0.03)] min-[900px]:block">
-        <div className="flex h-11 w-full items-center justify-between gap-4 px-5">
+        <div className="mx-auto flex h-11 w-full max-w-[1200px] items-center justify-between gap-4 px-5">
           <Navbar />
 
           <div className="flex shrink-0 items-center gap-4">

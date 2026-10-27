@@ -79,7 +79,7 @@ export const CreatorStudioMenu: React.FC = () => {
     >
       <button
         type="button"
-        onClick={() => setOpen((value) => !value)}
+        onClick={openMenu}
         aria-haspopup="true"
         aria-expanded={open}
         aria-controls={panelId}
@@ -117,7 +117,7 @@ export const CreatorStudioMenu: React.FC = () => {
         <div
           id={panelId}
           // Viewport-fixed, pinned directly under the 64px brand bar + 45px category bar.
-          className="fixed left-5 right-5 top-[6.8125rem] z-[55] max-h-[calc(100dvh-7.5rem)] overflow-y-auto overscroll-contain rounded-2xl border border-slate-200 bg-white p-2 shadow-2xl shadow-slate-900/20"
+          className="fixed left-1/2 top-[6.8125rem] z-[55] w-[min(1160px,calc(100vw-2.5rem))] -translate-x-1/2 max-h-[calc(100dvh-7.5rem)] overflow-y-auto overscroll-contain rounded-2xl border border-slate-200 bg-white p-2 shadow-2xl shadow-slate-900/20"
         >
           <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-[linear-gradient(100deg,#022c22,#065f46)] px-4 py-3 text-white">
             <div className="flex items-center gap-2.5">
