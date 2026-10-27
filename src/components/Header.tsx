@@ -2,16 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { ArrowUpRight, Download, Lock, Menu, ShieldCheck, Smartphone, Sparkles, X } from 'lucide-react';
 import { Navbar } from './Navbar';
-import { secondaryNavItems, toolNavItems } from './navItems';
-import { socialToolNavItems } from '../data/socialTools';
+import { secondaryNavItems } from './navItems';
+import { toolCategories, totalToolCount } from '../data/toolCategories';
 import { ToolSearch } from './ToolSearch';
 import { Logo } from './Logo';
-
-const popularLinks = [
-  { to: '/whatsapp-sticker-maker', label: 'Sticker Maker' },
-  { to: '/instagram-grid-planner', label: 'Grid Planner' },
-  { to: '/whatsapp-media-compressor', label: 'Media Compressor' },
-];
 
 export const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -117,21 +111,6 @@ export const Header: React.FC = () => {
           <Navbar />
 
           <div className="flex shrink-0 items-center gap-4">
-            <div className="hidden items-center gap-3 2xl:flex">
-              <span className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-slate-400">
-                Popular
-              </span>
-              {popularLinks.map((link) => (
-                <NavLink
-                  key={link.to}
-                  to={link.to}
-                  className="text-[11px] font-semibold text-slate-600 transition-colors hover:text-emerald-700"
-                >
-                  {link.label}
-                </NavLink>
-              ))}
-            </div>
-
             <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-bold text-emerald-700 ring-1 ring-emerald-200">
               <Lock className="h-3 w-3" aria-hidden="true" />
               0 uploads
@@ -170,7 +149,7 @@ export const Header: React.FC = () => {
               <div>
                 <p className="text-sm font-bold text-slate-900">WaKit toolkit</p>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">
-                  16 tools · zero uploads
+                  {totalToolCount} tools · zero uploads
                 </p>
               </div>
             </div>
@@ -184,99 +163,66 @@ export const Header: React.FC = () => {
             </button>
           </div>
 
-          <div className="space-y-1.5">
-            {toolNavItems
-              .filter((item) => item.to !== '/social-tools')
-              .map((item) => {
-                const Icon = item.icon;
-                return (
-                  <NavLink
-                    key={item.to}
-                    to={item.to}
-                    end={item.to === '/'}
-                    onClick={() => setMenuOpen(false)}
-                    className={({ isActive }) =>
-                      `flex items-center gap-3 rounded-2xl border px-3 py-2.5 transition-colors ${
-                        isActive
-                          ? 'border-emerald-200 bg-emerald-50'
-                          : 'border-transparent hover:border-slate-200 hover:bg-slate-50'
-                      }`
-                    }
-                  >
-                    {({ isActive }) => (
-                      <>
-                        <span
-                          className={`grid h-9 w-9 shrink-0 place-items-center rounded-xl ring-1 ${
-                            isActive
-                              ? 'bg-white text-emerald-600 ring-emerald-200'
-                              : 'bg-slate-50 text-slate-500 ring-slate-200'
-                          }`}
+          <div className="space-y-3">
+            {toolCategories.map((category) => {
+              const CategoryIcon = category.icon;
+              return (
+                <section key={category.key} aria-labelledby={`drawer-${category.key}`}>
+                  <div className="flex items-center gap-2 px-1 pb-1.5">
+                    <span
+                      className={`grid h-6 w-6 shrink-0 place-items-center rounded-md ring-1 ${category.tone.tile}`}
+                    >
+                      <CategoryIcon className="h-3.5 w-3.5" aria-hidden="true" />
+                    </span>
+                    <h3
+                      id={`drawer-${category.key}`}
+                      className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-500"
+                    >
+                      {category.label}
+                    </h3>
+                    <span className="ml-auto text-[10px] font-semibold text-slate-400">
+                      {category.tools.length} tools
+                    </span>
+                  </div>
+
+                  <div className={category.tools.length === 1 ? 'grid gap-1' : 'grid grid-cols-2 gap-1'}>
+                    {category.tools.map((tool) => {
+                      const ToolIcon = tool.icon;
+                      return (
+                        <NavLink
+                          key={tool.to}
+                          to={tool.to}
+                          onClick={() => setMenuOpen(false)}
+                          title={tool.description}
+                          className={({ isActive }) =>
+                            `flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-[11px] font-semibold ring-1 transition-colors ${
+                              isActive
+                                ? 'bg-emerald-50 text-emerald-700 ring-emerald-300'
+                                : 'bg-slate-50/80 text-slate-700 ring-slate-200 hover:bg-white hover:text-emerald-700 hover:ring-emerald-200'
+                            }`
+                          }
                         >
-                          <Icon className="h-4 w-4" aria-hidden="true" />
-                        </span>
-                        <span className="min-w-0 flex-1">
-                          <span className="flex items-center gap-2">
-                            <span className="text-sm font-semibold text-slate-900">{item.label}</span>
-                            <span className="badge">{item.badge}</span>
-                          </span>
-                          <span className="mt-0.5 block truncate text-[11px] text-slate-500">
-                            {item.description}
-                          </span>
-                        </span>
-                        <ArrowUpRight className="h-4 w-4 shrink-0 text-slate-400" aria-hidden="true" />
-                      </>
-                    )}
-                  </NavLink>
-                );
-              })}
+                          <ToolIcon className="h-3.5 w-3.5 shrink-0 text-slate-400" aria-hidden="true" />
+                          <span className="truncate">{tool.label}</span>
+                        </NavLink>
+                      );
+                    })}
+                  </div>
+                </section>
+              );
+            })}
           </div>
 
-          <div className="mt-3 rounded-2xl border border-emerald-200 bg-emerald-50/60 p-2.5">
-            <div className="flex items-center justify-between gap-2 px-1 pb-2">
-              <div className="flex items-center gap-2">
-                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-emerald-600 text-white">
-                  <Sparkles className="h-4 w-4 text-amber-300" aria-hidden="true" />
-                </span>
-                <div>
-                  <p className="text-sm font-bold text-slate-900">Creator Studio</p>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-emerald-700">
-                    12 browser-only tools
-                  </p>
-                </div>
-              </div>
-              <NavLink
-                to="/social-tools"
-                onClick={() => setMenuOpen(false)}
-                className="inline-flex shrink-0 items-center gap-1 rounded-lg bg-white px-2 py-1 text-[10px] font-bold text-emerald-700 ring-1 ring-emerald-200"
-              >
-                Hub
-                <ArrowUpRight className="h-3 w-3" aria-hidden="true" />
-              </NavLink>
-            </div>
-            <div className="grid grid-cols-2 gap-1">
-              {socialToolNavItems.map((tool) => {
-                const Icon = tool.icon;
-                return (
-                  <NavLink
-                    key={tool.to}
-                    to={tool.to}
-                    onClick={() => setMenuOpen(false)}
-                    title={tool.description}
-                    className={({ isActive }) =>
-                      `flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-[11px] font-semibold ring-1 transition-colors ${
-                        isActive
-                          ? 'bg-white text-emerald-700 ring-emerald-300'
-                          : 'bg-white/80 text-slate-700 ring-slate-200 hover:text-emerald-700 hover:ring-emerald-200'
-                      }`
-                    }
-                  >
-                    <Icon className="h-3.5 w-3.5 shrink-0 text-slate-400" aria-hidden="true" />
-                    <span className="truncate">{tool.label}</span>
-                  </NavLink>
-                );
-              })}
-            </div>
-          </div>
+          <NavLink
+            to="/social-tools"
+            onClick={() => setMenuOpen(false)}
+            className="mt-3 flex items-center gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2.5 text-[11.5px] font-bold text-amber-900 transition-colors hover:bg-amber-100"
+          >
+            <Sparkles className="h-4 w-4 text-amber-600" aria-hidden="true" />
+            Creator Studio hub
+            <span className="ml-auto text-[10px] font-semibold text-amber-700">12 social tools</span>
+            <ArrowUpRight className="h-3.5 w-3.5 text-amber-700" aria-hidden="true" />
+          </NavLink>
 
           <NavLink
             to="/app"
